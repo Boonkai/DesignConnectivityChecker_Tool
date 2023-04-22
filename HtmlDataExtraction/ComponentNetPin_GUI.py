@@ -20,12 +20,12 @@ import Background_GUI_Tool
 
 class NetPin_Gui:
     def __init__(self):
-        self.BackGui_root = Background_GUI_Tool.BackGui_root
-        self.Netpin_root = self.BackGui_root
+        # self.BackGui_root = Background_GUI_Tool.BackGui_root
+        # self.Netpin_root = self.BackGui_root
 
         #----------------------tkinder GUI: NET PIN--------------------------------#
         self.NetPin_frame = LabelFrame(Background_GUI_Tool.tab1,text= "Net Pin Report Generator ",padx=65, pady=10,labelanchor='n')
-        self.NetPin_frame.grid(padx=50,pady=10,row=0,column=1)
+        self.NetPin_frame.grid(padx=50,pady=10,row=0,column=0)
 
         # create a label for the input field
         self.NetPin_input_label = Label(self.NetPin_frame, text="Component Pin File:")

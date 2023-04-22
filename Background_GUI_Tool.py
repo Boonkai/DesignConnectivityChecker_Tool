@@ -1,26 +1,24 @@
 from tkinter import *
-from tkinter import filedialog
 from tkinter import ttk
-from bs4 import BeautifulSoup
-import xlsxwriter
 import xml.etree.ElementTree as ET
 from datetime import datetime
-import re
 import pandas as pd
 import openpyxl
 from openpyxl.utils import get_column_letter
 from tkinter import *
 from HtmlDataExtraction.ComponentNetPin_GUI import NetPin_Gui
+from HtmlDataExtraction.Netlist_GUI import Netlist_Gui
+from HtmlDataExtraction.BOM_GUI import BOM_Gui
+from HtmlDataExtraction.LenWidLayer_GUI import LenWidLaper_Gui
 
 BackGui_root = Tk()
-
 #---------------------Create the Notebook widget------------------------#
 notebook = ttk.Notebook(BackGui_root)
 
 # Create the first tab
 tab1 = ttk.Frame(notebook)
 notebook.add(tab1, text='HTML Data Extraction')
-notebook.grid()
+notebook.grid(columnspan=2)
 
 # Create the second tab
 tab2 = ttk.Frame(notebook)
@@ -38,6 +36,9 @@ notebook.add(tab4, text='Vlookup Table')
 notebook.grid()
 
 NetPin_Gui_obj = NetPin_Gui()
+Netlist_Gui_obj = Netlist_Gui()
+BOM_Gui_obj = BOM_Gui()
+LenWidLayer_Gui_obj = LenWidLaper_Gui()
 
 class Background_GUI:
     def __init__(self) -> None:
@@ -68,16 +69,22 @@ def export_report():
     sheet4 = workbook.create_sheet('NetWidth')
 
     NetPin_Gui_obj.NetPinOutputData()
-
-    # self.NetlistOutputData()
-    # self.BomOutputData()
-    # self.LenWidLayerOutputData()
+    Netlist_Gui_obj.NetlistOutputData()
+    BOM_Gui_obj.BomOutputData()
+    LenWidLayer_Gui_obj.LenWidLayerOutputData()
 
     # Save the workbook
     workbook.save(y)
 
     # DataConcat_Execute()
 
+def hidebackground():
+    BackGui_root.withdraw()
+
 #-------------------Create the export button--------------------------#
 export_button = Button(BackGui_root, text="Generate Report", command=export_report)
-export_button.grid(row=4,column=0,columnspan=6)
+export_button.grid(row=4,column=0)
+
+#-------------------Hide, Show,Exit Button-------------------------------#
+presshide = Button(BackGui_root, text="Close Development Tool",command=hidebackground)
+presshide.grid(row=4,column=1)
