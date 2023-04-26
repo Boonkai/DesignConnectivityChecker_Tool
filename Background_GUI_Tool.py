@@ -10,6 +10,7 @@ from HtmlDataExtraction.ComponentNetPin_GUI import NetPin_Gui
 from HtmlDataExtraction.Netlist_GUI import Netlist_Gui
 from HtmlDataExtraction.BOM_GUI import BOM_Gui
 from HtmlDataExtraction.LenWidLayer_GUI import LenWidLaper_Gui
+from DataConcatenation.DataConcat_GUI import DataConcat_Gui
 
 BackGui_root = Tk()
 #---------------------Create the Notebook widget------------------------#
@@ -39,6 +40,7 @@ NetPin_Gui_obj = NetPin_Gui()
 Netlist_Gui_obj = Netlist_Gui()
 BOM_Gui_obj = BOM_Gui()
 LenWidLayer_Gui_obj = LenWidLaper_Gui()
+DataConcat_Gui_obj = DataConcat_Gui()
 
 class Background_GUI:
     def __init__(self) -> None:
@@ -76,7 +78,7 @@ def export_report():
     # Save the workbook
     workbook.save(y)
 
-    # DataConcat_Execute()
+    DataConcat_Gui_obj.DataConcat_Execute()
 
 def hidebackground():
     BackGui_root.withdraw()
