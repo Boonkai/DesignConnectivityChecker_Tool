@@ -11,6 +11,7 @@ from HtmlDataExtraction.Netlist_GUI import Netlist_Gui
 from HtmlDataExtraction.BOM_GUI import BOM_Gui
 from HtmlDataExtraction.LenWidLayer_GUI import LenWidLaper_Gui
 from DataConcatenation.DataConcat_GUI import DataConcat_Gui
+from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 
 BackGui_root = Tk()
 #---------------------Create the Notebook widget------------------------#
@@ -41,6 +42,7 @@ Netlist_Gui_obj = Netlist_Gui()
 BOM_Gui_obj = BOM_Gui()
 LenWidLayer_Gui_obj = LenWidLaper_Gui()
 DataConcat_Gui_obj = DataConcat_Gui()
+RefDesignator_Gui_obj = RefDesignator_Gui()
 
 class Background_GUI:
     def __init__(self) -> None:
@@ -69,6 +71,7 @@ def export_report():
     sheet2 = workbook.create_sheet('Netlist')
     sheet3 = workbook.create_sheet('BOM')
     sheet4 = workbook.create_sheet('NetWidth')
+    sheet5 = workbook.create_sheet('DDR_14L')
 
     NetPin_Gui_obj.NetPinOutputData()
     Netlist_Gui_obj.NetlistOutputData()
