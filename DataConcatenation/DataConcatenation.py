@@ -18,7 +18,7 @@ class DataConcatenation:
         self.col_2 = col_2
         self.sheet1_name = sheet1_name
         self.sheet2_name = sheet2_name
-        self.col_insert = col_insert
+        self.col_insert = col_insert.upper()
         self.col_insert_start_row  = col_insert_start_row  # start from the specific row to exclude the header row
         self.concat_symbol = concat_symbol
         self.header = header

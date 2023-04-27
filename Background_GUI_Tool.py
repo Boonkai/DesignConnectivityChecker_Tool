@@ -82,6 +82,7 @@ def export_report():
     workbook.save(y)
 
     DataConcat_Gui_obj.DataConcat_Execute()
+    RefDesignator_Gui_obj.Run_RefDesign_Concat()
 
 def hidebackground():
     BackGui_root.withdraw()
