@@ -29,7 +29,7 @@ notebook.grid()
 
 # Create the third tab
 tab3 = ttk.Frame(notebook)
-notebook.add(tab3, text='CPU REFDES')
+notebook.add(tab3, text='REFDES')
 notebook.grid()
 
 # Create the fourth tab

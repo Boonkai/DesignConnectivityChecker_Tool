@@ -1,5 +1,6 @@
 import Background_GUI_Tool
 from tkinter import * 
+from DataConcatenation.DataConcatenation import DataConcatenation
 
 class RefDesignator_Gui:
     def __init__(self):
@@ -72,18 +73,20 @@ class RefDesignator_Gui:
 
         self.CUP_Ref_defult_button_widgets = []
         self.CPU_Ref_input_entry_widgets = []
-        self.CPU_Ref_Vlookup_col_entry_widgets = []
         self.CPU_Ref_header_entry_widgets = []
-        self.simbol_ref_drop_list = []
+        self.symbol_ref_drop_list = []
         self.Ref_design_check_button_widgets = []
         self.CPU_col_insert_entry_list = []
         self.CPU_col_insert_entry_widgets = []
+        self.CPU_col_lookup_entry_list = []
+        self.CPU_col_lookup_entry_widgets = []
+        self.CPU_col_StartRow_entry_list = []
+        self.CPU_col_StartRow_entry_widgets = []
 
         for num,Ref_frame in enumerate(self.REFDES_Frame_List):
             Label(Ref_frame,text='CPU0 Ref:').grid(row=0,column=0,sticky="w")
-            Label(Ref_frame,text='Simbol').grid(row=1,column=0,sticky="w")
-            Label(Ref_frame,text='Vlookup col').grid(row=2,column=0,sticky="w")
-            Label(Ref_frame,text='Header').grid(row=3,column=0,sticky="w")
+            Label(Ref_frame,text='Symbol').grid(row=1,column=0,sticky="w")
+            Label(Ref_frame,text='Header').grid(row=2,column=0,sticky="w")
             Label(Ref_frame,text='Set To Default').grid(row=4,column=0,sticky="w")
 
             self.CUP_Ref_defult_button = Button(Ref_frame,text="Default",command=lambda Button_select=num: self.test123(Button_select))
@@ -95,34 +98,36 @@ class RefDesignator_Gui:
             self.CPU_Ref_input_entry.grid(row=0, column=1)
             self.CPU_Ref_input_entry_widgets.append(self.CPU_Ref_input_entry)
 
-            self.CPU_Ref_Vlookup_col_entry = Entry(Ref_frame,width=5,background='white',fg="black",borderwidth=3)
-            self.CPU_Ref_Vlookup_col_entry.grid(row=2, column=1)
-            self.CPU_Ref_Vlookup_col_entry_widgets.append(self.CPU_Ref_Vlookup_col_entry)
-
             self.CPU_Ref_header_entry = Entry(Ref_frame,width=5,background='white',fg="black",borderwidth=3)
-            self.CPU_Ref_header_entry.grid(row=3, column=1)
+            self.CPU_Ref_header_entry.grid(row=2, column=1)
             self.CPU_Ref_header_entry_widgets.append(self.CPU_Ref_header_entry)
 
-            self.simbol_ref_options = [ ".", 
+            self.symbol_ref_options = [ ".", 
                     "|"]
                 
             #Drop Down Boxes
-            self.Simbol_ref_clicked = StringVar()
-            self.Simbol_ref_clicked.set(self.simbol_ref_options[0])
-            self.simbol_ref_drop_list.append(self.Simbol_ref_clicked)
+            self.Symbol_ref_clicked = StringVar()
+            self.Symbol_ref_clicked.set(self.symbol_ref_options[0])
+            self.symbol_ref_drop_list.append(self.Symbol_ref_clicked)
 
-            self.simbol_drop = OptionMenu(Ref_frame ,self.Simbol_ref_clicked,*self.simbol_ref_options)
-            self.simbol_drop.grid(row=1,column=1)
+            self.symbol_drop = OptionMenu(Ref_frame ,self.Symbol_ref_clicked,*self.symbol_ref_options)
+            self.symbol_drop.grid(row=1,column=1)
 
             for i in range(0,9):
                 empty_col = Label(Ref_frame)
-                empty_col.grid(row=i,column=3,sticky='w',padx=20,pady=5)
+                empty_col.grid(row=i,column=3,sticky='w',padx=10,pady=5)
 
-            self.Sheet_ref_Label = Label(Ref_frame ,text="Sheet Name")
-            self.Sheet_ref_Label.grid(row=0,column=4,sticky='w',padx=5,pady=5)
+            self.Sheet_Name_Label = Label(Ref_frame ,text="Sheet Name")
+            self.Sheet_Name_Label.grid(row=0,column=4,sticky='w',padx=5,pady=5)
 
-            self.Sheet_ref_Label = Label(Ref_frame ,text="Column Insert")
-            self.Sheet_ref_Label.grid(row=0,column=5,sticky='w',padx=5,pady=5)
+            self.Sheet_lookup_col_label = Label(Ref_frame ,text="Column Lookup",wraplength=50)
+            self.Sheet_lookup_col_label.grid(row=0,column=5,sticky='w',padx=5,pady=5)
+
+            self.Sheet_StartRow_col_label = Label(Ref_frame ,text="Start Row\nInsert")
+            self.Sheet_StartRow_col_label.grid(row=0,column=6,sticky='w',padx=5,pady=5)
+
+            self.Sheet_col_insert_Label = Label(Ref_frame ,text="Column Insert",wraplength=50)
+            self.Sheet_col_insert_Label.grid(row=0,column=7,sticky='w',padx=5,pady=5)
 
             # Create a list of tuples that contains the text and values of the check buttons
             self.Ref_design_check_options = [("DDR_14L", "NetPin_option1"), 
@@ -149,14 +154,26 @@ class RefDesignator_Gui:
                 self.Ref_design_check_button_widgets.append(self.Ref_design_vars)
 
             for i in range(0,9):
-                self.CPU_col_insert_entry = Entry(Ref_frame,width=5,background='white',fg="black",borderwidth=3)
-                self.CPU_col_insert_entry.grid(row=i+1, column=5)
+                self.CPU_col_lookup_entry = Entry(Ref_frame,width=4,background='white',fg="black",borderwidth=3)
+                self.CPU_col_lookup_entry.grid(row=i+1, column=5)
+                self.CPU_col_lookup_entry_list.append(self.CPU_col_lookup_entry)
+
+                self.CPU_col_StartRow_entry = Entry(Ref_frame,width=4,background='white',fg="black",borderwidth=3)
+                self.CPU_col_StartRow_entry.grid(row=i+1, column=6)
+                self.CPU_col_StartRow_entry_list.append(self.CPU_col_StartRow_entry)
+
+                self.CPU_col_insert_entry = Entry(Ref_frame,width=4,background='white',fg="black",borderwidth=3)
+                self.CPU_col_insert_entry.grid(row=i+1, column=7)
                 self.CPU_col_insert_entry_list.append(self.CPU_col_insert_entry)
 
+            self.CPU_col_lookup_entry_widgets.append(self.CPU_col_lookup_entry_list)
+            self.CPU_col_StartRow_entry_widgets.append(self.CPU_col_StartRow_entry_list)
             self.CPU_col_insert_entry_widgets.append(self.CPU_col_insert_entry_list)
             
             # print(CPU_col_insert_entry_widgets)
             #clear/empty the list to avoid existing value continue append into CPU_col_insert_entry_widgets
+            self.CPU_col_lookup_entry_list = []
+            self.CPU_col_StartRow_entry_list = []
             self.CPU_col_insert_entry_list = []
 
         #------------------Layer Stackup------------------------#
@@ -177,7 +194,6 @@ class RefDesignator_Gui:
 
             self.fourteen_layer_entry = Entry(self.fourteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
             self.fourteen_layer_entry.grid(row=fourtheen_layer,column=1)
-
         for sixteen_layer in range(1,17):
             Label(self.sixteen_layer_Frame,text="Layer "+ str(sixteen_layer )).grid(row=sixteen_layer,column=0)
 
@@ -206,19 +222,25 @@ class RefDesignator_Gui:
         self.frame.update_idletasks()
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
+    # def RefDesign_Execute(self,Button_slect):
+
     def test123(self,Button_select):
+        # if Button_select ==0:
+        #     DataConcatenation(col1)
         if Button_select ==0:
-            print(self.CPU_Ref_input_entry_widgets[0].get())
-            print(self.CPU_col_insert_entry_widgets[0][0].get()) 
-            print(self.CPU_col_insert_entry_widgets[1][0].get()) 
-            print(self.CPU_col_insert_entry_widgets[3][8].get())      
-            print(self.CPU_Ref_Vlookup_col_entry_widgets[0].get())
-            print(self.CPU_Ref_header_entry_widgets[0].get())
-            print(self.simbol_ref_drop_list[0].get())
-            print(self.Ref_design_check_button_widgets[0][0].get())
+            # print(self.CPU_Ref_input_entry_widgets[0].get())
+            # print(self.CPU_col_insert_entry_widgets[0][0].get()) 
+            # print(self.CPU_col_insert_entry_widgets[1][0].get()) 
+            # print(self.CPU_col_insert_entry_widgets[3][8].get())      
+            # print(self.CPU_Ref_header_entry_widgets[0].get())
+            # print(self.symbol_ref_drop_list[0].get())
+            # print(self.Ref_design_check_button_widgets[0][0].get())
             print(self.CPU_col_insert_entry_widgets[0][0].get())
             print(self.CPU_col_insert_entry_widgets[1][0].get())
-
+            print(self.CPU_col_lookup_entry_widgets[0][0].get())
+            print(self.CPU_col_lookup_entry_widgets[2][6].get())
+            print(self.CPU_col_StartRow_entry_widgets[0][0].get())
+            print(self.CPU_col_StartRow_entry_widgets[2][6].get())
         if Button_select== 1:
             print(self.CPU_Ref_input_entry_widgets[1].get())
         if Button_select == 2:

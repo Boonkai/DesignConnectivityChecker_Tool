@@ -11,7 +11,7 @@ class DataConcat_Gui:
         self.concat_label = [("label1","Sheet 1"),
                         ("labe2","column"),
                         ("labe3"," "),
-                        ("labe4","Simbol"),
+                        ("labe4","Symbol"),
                         ("labe5"," "),
                         ("labe6","Sheet 2"),
                         ("labe7","Column"),
@@ -28,7 +28,7 @@ class DataConcat_Gui:
         self.col2_entry_widgets =[]
         self.col_insert_entry_widgets = []
         self.header_entry_widgets =[]
-        self.simbol_drop_list = []
+        self.symbol_drop_list = []
         self.Sheet1_drop_list = []
         self.Sheet2_drop_list = []
         self.col_insert_drop_list = []
@@ -57,16 +57,16 @@ class DataConcat_Gui:
             self.DataConcat_plus1_label = Label(self.DataConcat_frame, text="+",font= ('TkDefaultFont', 25))
             self.DataConcat_plus1_label.grid(row=j,column=2)
 
-            self.simbol_options = [ ".", 
+            self.symbol_options = [ ".", 
                     "|"]
                 
             #Drop Down Boxes
-            self.Simbol_clicked = StringVar()
-            self.Simbol_clicked.set(self.simbol_options[0])
-            self.simbol_drop_list.append(self.Simbol_clicked)
+            self.Symbol_clicked = StringVar()
+            self.Symbol_clicked.set(self.symbol_options[0])
+            self.symbol_drop_list.append(self.Symbol_clicked)
 
-            self.simbol_drop = OptionMenu(self.DataConcat_frame,self.Simbol_clicked,*self.simbol_options)
-            self.simbol_drop.grid(row=j,column=3)
+            self.symbol_drop = OptionMenu(self.DataConcat_frame,self.Symbol_clicked,*self.symbol_options)
+            self.symbol_drop.grid(row=j,column=3)
 
             self.DataConcat_plus2_label = Label(self.DataConcat_frame, text="+",font= ('TkDefaultFont', 25))
             self.DataConcat_plus2_label.grid(row=j,column=4)
@@ -148,7 +148,7 @@ class DataConcat_Gui:
         for i in range(0,10):
             self.Sheet1_drop_list[i].set(self.Sheet1_options[0])
             self.col1_entry_widgets[i].delete(0,END)
-            self.simbol_drop_list[i].set(self.simbol_options[0])
+            self.symbol_drop_list[i].set(self.symbol_options[0])
             self.Sheet2_drop_list[i].set(self.Sheet2_options[0])
             self.col2_entry_widgets[i].delete(0,END)
             self.col_insert_entry_widgets[i].delete(0,END)
@@ -158,7 +158,7 @@ class DataConcat_Gui:
         #Set Pin_Net data concate to dafault:
         self.Sheet1_drop_list[0].set(self.Sheet1_options[0])
         self.col1_entry_widgets[0].insert(0,"A")
-        self.simbol_drop_list[0].set(self.simbol_options[0])
+        self.symbol_drop_list[0].set(self.symbol_options[0])
         self.Sheet2_drop_list[0].set(self.Sheet2_options[0])
         self.col2_entry_widgets[0].insert(0,"B")
         self.col_insert_entry_widgets[0].insert(0,"C")
@@ -167,7 +167,7 @@ class DataConcat_Gui:
         #Set NetWidth Helper1 data concate to dafault:
         self.Sheet1_drop_list[1].set(self.Sheet1_options[3])
         self.col1_entry_widgets[1].insert(0,"A")
-        self.simbol_drop_list[1].set(self.simbol_options[1])
+        self.symbol_drop_list[1].set(self.symbol_options[1])
         self.Sheet2_drop_list[1].set(self.Sheet2_options[3])
         self.col2_entry_widgets[1].insert(0,"B")
         self.col_insert_entry_widgets[1].insert(0,"C")
@@ -177,7 +177,7 @@ class DataConcat_Gui:
     #Set NetWidth Helper1 data concate to dafault:
         self.Sheet1_drop_list[2].set(self.Sheet1_options[3])
         self.col1_entry_widgets[2].insert(0,"C")
-        self.simbol_drop_list[2].set(self.simbol_options[1])
+        self.symbol_drop_list[2].set(self.symbol_options[1])
         self.Sheet2_drop_list[2].set(self.Sheet2_options[3])
         self.col2_entry_widgets[2].insert(0,"E")
         self.col_insert_entry_widgets[2].insert(0,"D")
@@ -188,7 +188,7 @@ class DataConcat_Gui:
         for i in range(0,10):
             self.Sheet1_drop_list[i].set(self.Sheet1_options[0])
             self.col1_entry_widgets[i].delete(0,END)
-            self.simbol_drop_list[i].set(self.simbol_options[0])
+            self.symbol_drop_list[i].set(self.symbol_options[0])
             self.Sheet2_drop_list[i].set(self.Sheet2_options[0])
             self.col2_entry_widgets[i].delete(0,END)
             self.col_insert_entry_widgets[i].delete(0,END)
@@ -205,7 +205,7 @@ class DataConcat_Gui:
                                         sheet1_name=str(self.Sheet1_drop_list[i].get()),
                                         sheet2_name=str(self.Sheet2_drop_list[i].get()),
                                         col_insert=str(self.col_insert_entry_widgets[i].get()),
-                                        concat_symbol=self.simbol_drop_list[i].get(),
+                                        concat_symbol=self.symbol_drop_list[i].get(),
                                         col_insert_sheet_name= self.col_insert_drop_list[i].get(),
                                         header=self.header_entry_widgets[i].get()).data_concat()
                     else:

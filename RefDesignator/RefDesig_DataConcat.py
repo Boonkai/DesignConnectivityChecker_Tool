@@ -1,28 +1,23 @@
 import openpyxl
-from datetime import datetime
 import Background_GUI_Tool
 
 class DataConcatenation:
     def __init__(self, 
-                 col_1= None,
-                 col_2=None,
-                 sheet1_name=None,
-                 sheet2_name=None,
-                 col_insert_sheet_name= None,
-                 col_insert=None,
-                 col_insert_start_row = None,
+                 Ref_value = None,
                  concat_symbol=None,
+                 Insert_sheet_name = None,
+                 col_insert=None,
+                 col_lookup = None,
+                 col_insert_start_row = None,
                  header = None):
         
-        self.col_1 = col_1
-        self.col_2 = col_2
-        self.sheet1_name = sheet1_name
-        self.sheet2_name = sheet2_name
+        self.Ref_value = Ref_value
+        self.col_lookup = col_lookup
+        self.concat_symbol = concat_symbol
+        self.Insert_sheet_name = Insert_sheet_name
         self.col_insert = col_insert
         self.col_insert_start_row  = col_insert_start_row  # start from the specific row to exclude the header row
-        self.concat_symbol = concat_symbol
         self.header = header
-        self.col_insert_sheet_name = col_insert_sheet_name
 
     def data_concat(self):
         # Load the Excel file
