@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import filedialog
 from HtmlDataExtraction import DataExtracT_Export
 import Background_GUI_Tool
 
@@ -19,10 +18,6 @@ class Netlist_Gui:
         self.Netlist_input_entry = Entry(self.Netlist_frame,width=70,background='white',fg="black",borderwidth=3)
         self.Netlist_input_entry.grid(row=0, column=1,columnspan=6)
 
-        # create a button to launch the file browser
-        self.Netlist_file_path_label = Label(self.Netlist_frame, text="")
-        self.Netlist_browser_button = Button(self.Netlist_frame, text="Browse", command=self.Netlist_browse_file)
-        self.Netlist_browser_button.grid(row=0, column=8)
 
         self.Netlist_Extractlable = Label(self.Netlist_frame,text="Extract:").grid(row=1,column=0)
 
@@ -53,22 +48,10 @@ class Netlist_Gui:
         self.Netlist_vars[0].set("Netlist_option1")
         self.Netlist_vars[1].set("Netlist_option2")
 
-
-    def Netlist_browse_file(self):
-        # Netlist Report File input:
-        self.Netlist_file_path = filedialog.askopenfilename(initialdir="/Users/yeamboonkai/Desktop/AMD_Project/Input", 
-                                            title="Select a File", 
-                                            filetypes=(("htm", "*.htm"), ("All files", "*.*")))
-        self.Netlist_input_entry.delete(0, END)
-        self.Netlist_input_entry.insert(0, self.Netlist_file_path)
-
-        # Update Netlist directory path label
-        self.Netlist_file_path_label.config(text=self.Netlist_file_path)
-
     def NetlistOutputData(self):
         #-------------------------Netlist Output Data------------------------------#
         # Get Netlist input file paths
-        self.Netlist_input_file_path = self.Netlist_file_path_label.cget("text")
+        self.Netlist_input_file_path = self.Netlist_input_entry.get()
 
         self.Netlist_Extract_Obj = DataExtracT_Export.DataExtraction(self.Netlist_input_file_path,col_select = self.Netlist_vars)
         self.Netlist_Extract_Obj.HTML_Data_Extract()

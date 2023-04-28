@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import filedialog
 from HtmlDataExtraction import DataExtracT_Export
 import Background_GUI_Tool
 
@@ -16,11 +15,6 @@ class LenWidLaper_Gui:
         # create an entry widget for the input field
         self.LenWidLayer_input_entry = Entry(self.LenWidLayer_frame,width=70,background='white',fg="black",borderwidth=3)
         self.LenWidLayer_input_entry.grid(row=0, column=1,columnspan=6)
-
-        # create a button to launch the file browser
-        self.LenWidLayer_file_path_label = Label(self.LenWidLayer_frame, text="")
-        self.LenWidLayer_browser_button = Button(self.LenWidLayer_frame, text="Browse", command=self.LenWidLayer_browse_file)
-        self.LenWidLayer_browser_button.grid(row=0, column=8)
 
         self.LenWidLayer_Extractlable = Label(self.LenWidLayer_frame,text="Extract:").grid(row=2,column=0)
 
@@ -60,22 +54,10 @@ class LenWidLaper_Gui:
         self.LenWidLayer_vars[3].set("LenWidLayer_option4")
         self.LenWidLayer_vars[4].set("LenWidLayer_option5")
 
-
-    def LenWidLayer_browse_file(self):
-        # LenWidLayer Report File input:
-        self.LenWidLayer_file_path = filedialog.askopenfilename(initialdir="/Users/yeamboonkai/Desktop/AMD_Project/Input", 
-                                            title="Select a File", 
-                                            filetypes=(("htm", "*.htm"), ("All files", "*.*")))
-        self.LenWidLayer_input_entry.delete(0, END)
-        self.LenWidLayer_input_entry.insert(0, self.LenWidLayer_file_path)
-
-        # Update Netlist directory path label
-        self.LenWidLayer_file_path_label.config(text=self.LenWidLayer_file_path)
-
     def LenWidLayerOutputData(self):
         #--------------------------LenWidLayer Output Data--------------------------------#
         # Get LenWidLayer input file paths
-        self.LenWidLayer_input_file_path = self.LenWidLayer_file_path_label.cget("text")
+        self.LenWidLayer_input_file_path = self.LenWidLayer_input_entry.get()
 
         self.LenWidLayer_Extract_Obj =DataExtracT_Export.DataExtraction(self.LenWidLayer_input_file_path,col_select = self.LenWidLayer_vars)
         self.LenWidLayer_Extract_Obj.HTML_Data_Extract()

@@ -45,52 +45,54 @@ DataConcat_Gui_obj = DataConcat_Gui()
 RefDesignator_Gui_obj = RefDesignator_Gui()
 
 class Background_GUI:
-    def __init__(self) -> None:
+    def __init__(self):
         BackGui_root.title("Development Tool")
         BackGui_root.protocol("WM_DELETE_WINDOW",BackGui_root.withdraw)
 
         BackGui_root.withdraw()
 
-def export_report():
-    Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
-    global y
-    # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
-    y =str(Date_Time)+'.'+'xlsx'
+    def export_report(self):
+        Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
+        global y
+        # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
+        y =str(Date_Time)+'.'+'xlsx'
 
-    global wb ,sheet1, sheet2,sheet3,sheet4
+        global wb ,sheet1, sheet2,sheet3,sheet4 ,sheet5
 
-    # Create a new workbook
-    workbook = openpyxl.Workbook()
+        # Create a new workbook
+        workbook = openpyxl.Workbook()
 
-    # Remove the default Sheet
-    default_sheet = workbook['Sheet']
-    workbook.remove(default_sheet)
+        # Remove the default Sheet
+        default_sheet = workbook['Sheet']
+        workbook.remove(default_sheet)
 
-    # Create a new sheet
-    sheet1 = workbook.create_sheet('Pin_Net')
-    sheet2 = workbook.create_sheet('Netlist')
-    sheet3 = workbook.create_sheet('BOM')
-    sheet4 = workbook.create_sheet('NetWidth')
-    sheet5 = workbook.create_sheet('DDR_14L')
+        # Create a new sheet
+        sheet1 = workbook.create_sheet('Pin_Net')
+        sheet2 = workbook.create_sheet('Netlist')
+        sheet3 = workbook.create_sheet('BOM')
+        sheet4 = workbook.create_sheet('NetWidth')
+        sheet5 = workbook.create_sheet('DDR_14L')
 
-    NetPin_Gui_obj.NetPinOutputData()
-    Netlist_Gui_obj.NetlistOutputData()
-    BOM_Gui_obj.BomOutputData()
-    LenWidLayer_Gui_obj.LenWidLayerOutputData()
+        NetPin_Gui_obj.NetPinOutputData()
+        Netlist_Gui_obj.NetlistOutputData()
+        BOM_Gui_obj.BomOutputData()
+        LenWidLayer_Gui_obj.LenWidLayerOutputData()
 
-    # Save the workbook
-    workbook.save(y)
+        # Save the workbook
+        workbook.save(y)
 
-    DataConcat_Gui_obj.DataConcat_Execute()
-    RefDesignator_Gui_obj.Run_RefDesign_Concat()
+        DataConcat_Gui_obj.DataConcat_Execute()
+        RefDesignator_Gui_obj.Run_RefDesign_Concat()
 
-def hidebackground():
-    BackGui_root.withdraw()
+    def hidebackground(self):
+        BackGui_root.withdraw()
+
+background = Background_GUI()
 
 #-------------------Create the export button--------------------------#
-export_button = Button(BackGui_root, text="Generate Report", command=export_report)
+export_button = Button(BackGui_root, text="Generate Report", command=background.export_report)
 export_button.grid(row=4,column=0)
 
 #-------------------Hide, Show,Exit Button-------------------------------#
-presshide = Button(BackGui_root, text="Close Development Tool",command=hidebackground)
+presshide = Button(BackGui_root, text="Close Development Tool",command= background.hidebackground)
 presshide.grid(row=4,column=1)

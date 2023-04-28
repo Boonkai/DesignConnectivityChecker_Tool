@@ -85,7 +85,7 @@ class RefDesignator_Gui:
         self.CPU_col_StartRow_entry_widgets = []
 
         for num,Ref_frame in enumerate(self.REFDES_Frame_List):
-            Label(Ref_frame,text='CPU0 Ref:').grid(row=0,column=0,sticky="w")
+            Label(Ref_frame,text='Ref Value:').grid(row=0,column=0,sticky="w")
             Label(Ref_frame,text='Symbol').grid(row=1,column=0,sticky="w")
             Label(Ref_frame,text='Header').grid(row=2,column=0,sticky="w")
             Label(Ref_frame,text='Set To Default').grid(row=4,column=0,sticky="w")

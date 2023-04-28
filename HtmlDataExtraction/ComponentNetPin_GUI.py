@@ -12,17 +12,11 @@
 # ParentDir = path.parent
 
 from tkinter import *
-from tkinter import ttk
-from tkinter import filedialog
 from HtmlDataExtraction import DataExtracT_Export
 import Background_GUI_Tool
-# import Export_report
 
 class NetPin_Gui:
     def __init__(self):
-        # self.BackGui_root = Background_GUI_Tool.BackGui_root
-        # self.Netpin_root = self.BackGui_root
-
         #----------------------tkinder GUI: NET PIN--------------------------------#
         self.NetPin_frame = LabelFrame(Background_GUI_Tool.tab1,text= "Net Pin Report Generator ",padx=65, pady=10,labelanchor='n')
         self.NetPin_frame.grid(padx=50,pady=10,row=0,column=0)
@@ -34,11 +28,6 @@ class NetPin_Gui:
         # create an entry widget for the input field
         self.NetPin_input_entry = Entry(self.NetPin_frame,width=70,background='white',fg="black",borderwidth=3)
         self.NetPin_input_entry.grid(row=0, column=1,columnspan=6)
-
-        # create a button to launch the file browser
-        self.NetPin_file_path_label = Label(self.NetPin_frame, text="")
-        self.NetPin_browser_button = Button(self.NetPin_frame, text="Browse", command=self.NetPin_browse_file)
-        self.NetPin_browser_button.grid(row=0, column=8)
 
         Label(self.NetPin_frame,text="Extract:").grid(row=1,column=0)
 
@@ -82,22 +71,10 @@ class NetPin_Gui:
         self.NetPin_vars[5].set("NetPin_option6")
 
 
-    # create a function to open the file browser and select a file
-    def NetPin_browse_file(self):
-        # Component Pin Report File input:
-        self.NetPin_file_path = filedialog.askopenfilename(initialdir="/Users/yeamboonkai/Desktop/AMD_Project/Input", 
-                                            title="Select a File", 
-                                            filetypes=(("htm", "*.htm"), ("All files", "*.*")))
-        self.NetPin_input_entry.delete(0, END)
-        self.NetPin_input_entry.insert(0, self.NetPin_file_path)
-
-        # Update NetPin directory path label
-        self.NetPin_file_path_label.config(text=self.NetPin_file_path)
-
     def NetPinOutputData(self):
         #--------------------------NetPin Output Data--------------------------------#
         # Get NetPin input file paths
-        NetPin_input_file_path = self.NetPin_file_path_label.cget("text")
+        NetPin_input_file_path = self.NetPin_input_entry.get()
 
         Netpin_Extract_Obj = DataExtracT_Export.DataExtraction(NetPin_input_file_path,col_select = self.NetPin_vars)
         Netpin_Extract_Obj.HTML_Data_Extract()
