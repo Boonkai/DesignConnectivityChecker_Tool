@@ -1,5 +1,7 @@
 import openpyxl
 import Background_GUI_Tool
+from openpyxl.styles import Border, Side
+from openpyxl.styles import Alignment
 
 class RefDesig_Concat:
     def __init__(self, 
@@ -21,13 +23,23 @@ class RefDesig_Concat:
 
     def data_concat(self):
         # Load the Excel file
-        workbook = openpyxl.load_workbook("2023-04-27 123135.xlsx")
-        # workbook = openpyxl.load_workbook(Background_GUI_Tool.y)
+        # workbook = openpyxl.load_workbook("2023-04-27 123135.xlsx")
+        workbook = openpyxl.load_workbook(Background_GUI_Tool.y)
 
         # Select the worksheet
         df1 = workbook[self.Insert_sheet_name]
 
         end_row = df1.max_row
+
+        # Set the border for each cell
+        self.border = Border(left=Side(border_style='thin', color='000000'),
+                        right=Side(border_style='thin', color='000000'),
+                        top=Side(border_style='thin', color='000000'),
+                        bottom=Side(border_style='thin', color='000000'))
+        
+        # set the alignment of the cell to center
+        self.center_alignment = Alignment(horizontal='center', vertical='center')
+
 
         # print(self.col_insert)
         if len(self.col_insert) >=2:
@@ -40,14 +52,22 @@ class RefDesig_Concat:
 
         if self.header != None:
             df1.cell(self.col_insert_start_row-1, column=col_header_insert).value = self.header
+
+            # Set Alignment and border for header cell
+            df1.cell(self.col_insert_start_row-1, column=col_header_insert).alignment =self.center_alignment
+            df1.cell(self.col_insert_start_row-1, column=col_header_insert).border = self.border
+
         else:
             pass
-
 
         for row in range(self.col_insert_start_row, end_row+1):
             lookup_value = df1[self.col_lookup + str(row)].value
             combined_value = str(self.Ref_value) + self.concat_symbol + str(lookup_value) # combine the two column values with a space in between
             df1[self.col_insert + str(row)].value = combined_value # write the combined value to the third column (column C)    
+            
+            # Set Alignment and border for each cell
+            df1[self.col_insert + str(row)].alignment = self.center_alignment
+            df1[self.col_insert + str(row)].border = self.border
 
-        # workbook.save(Background_GUI_Tool.y)
-        workbook.save("2023-04-27 123135.xlsx")
+        workbook.save(Background_GUI_Tool.y)
+        # workbook.save("2023-04-27 123135.xlsx")

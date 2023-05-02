@@ -1,6 +1,9 @@
 import Background_GUI_Tool
 from tkinter import *
 from RefDesignator.RefDesign_DataConcat import RefDesig_Concat
+from RefDesignator import SourceFile_browse
+InterfaceMmy_Src_file = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/RefDesignator/Interface.xlsx"
+
 
 class RefDesignator_Gui:
     def __init__(self):
@@ -16,9 +19,6 @@ class RefDesignator_Gui:
 
         self.RefDesignator = LabelFrame(self.frame, text="Reference Designator",labelanchor='n')
         self.RefDesignator.grid(padx=80,pady=10,row=0,column=0,columnspan=3)
-
-        self.SourceFile_Frame = LabelFrame(self.RefDesignator, text="Interface Memory Source File",labelanchor='n')
-        self.SourceFile_Frame.grid(padx=10,pady=10,row=0,column=0,columnspan=3)
 
         self.REFDES_Frame_List = []
 
@@ -38,23 +38,30 @@ class RefDesignator_Gui:
         self.Clk_Buff_Frame.grid(padx=10,pady=10,row=2,column=2,sticky="e")
         self.REFDES_Frame_List.append(self.Clk_Buff_Frame)
 
-        Label(self.SourceFile_Frame,text='Interface Source File:').grid(row=0,column=0)
+        #--------------------------Interface Memory Source File--------------------------------#
+        self.SourceFile_Frame = LabelFrame(self.RefDesignator, text="Interface Memory Source File",labelanchor='n')
+        self.SourceFile_Frame.grid(padx=10,pady=10,row=0,column=0,columnspan=3)
+
+        Label(self.SourceFile_Frame,text='Interface Memory Source File:').grid(row=0,column=0)
         Label(self.SourceFile_Frame,text='Sheet Tab:').grid(row=1,column=0)
 
         # create an entry widget for the input field
         self.SourceFile_input_entry = Entry(self.SourceFile_Frame,width=70,background='white',fg="black",borderwidth=3)
         self.SourceFile_input_entry.grid(row=0, column=1,columnspan=9)
 
+        self.SourceFile_input_entry.delete(0,END) 
+        self.SourceFile_input_entry.insert(0,InterfaceMmy_Src_file)
+
         # Create a list of tuples that contains the text and values of the check buttons
-        self.SourceFile_check_options = [("DDR_14L", "SourceFile_option1"), 
-                        ("DDR_16L", "SourceFile_option2"),
-                        ("DDR_18L", "SourceFile_option3"),
-                        ("XGMI_PCIe", "SourceFile_option4"),
-                        ("PCIE", "SourceFile_option5"),
-                        ("MISC_SCL", "SourceFile_option6"),
-                        ("MISC_LCL", "SourceFile_option7"),
-                        ("USB", "SourceFile_option8"),
-                        ("CLK", "SourceFile_option9")]
+        self.SourceFile_check_options = [("DDR_14L", "DDR_14L"), 
+                        ("DDR_16L", "DDR_16L"),
+                        ("DDR_18L", "DDR_18L"),
+                        ("XGMI_PCIe", "XGMI_PCIe"),
+                        ("PCIE", "PCIE"),
+                        ("MISC_SCL", "MISC_SCL"),
+                        ("MISC_LCL", "MISC_LCL"),
+                        ("USB", "USB"),
+                        ("CLK", "CLK")]
 
         # Create a list of IntVar variables to store the selected check button values
         self.SourceFile_vars = []
@@ -68,8 +75,10 @@ class RefDesignator_Gui:
             self.SourceFile_check_button.grid(row=1, column=i+1,sticky="w")
             self.SourceFile_check_button.deselect()
 
-        self.SourceFile_browser_button = Button(self.SourceFile_Frame, text="Browse")
+        self.SourceFile_browser_button = Button(self.SourceFile_Frame, text="Browse",command=self.RefDesign_Src_file_output)
         self.SourceFile_browser_button.grid(row=0, column=10)
+
+         #-------------------------------------------------------------------------------------#
 
         self.CUP_Ref_defult_button_widgets = []
         self.CPU_Ref_input_entry_widgets = []
@@ -228,12 +237,22 @@ class RefDesignator_Gui:
         self.frame.update_idletasks()
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-
         #Configure to default when object is initialise:
         self.CUP0_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         self.CUP1_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         self.UsbHub_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         self.ClkBuff_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+
+    def RefDesign_Src_file_output(self):
+        self.src_file_output = SourceFile_browse.RefDesign_browse_file()
+
+        self.SourceFile_input_entry.delete(0,END) 
+        self.SourceFile_input_entry.insert(0,self.src_file_output)
+
+        # SourceFile_browse.copy_tab(self.src_file_output,Background_GUI_Tool.y,self.SourceFile_vars)
+
+    def copy_InterfaceMmy_data_to_dst(self):
+        SourceFile_browse.copy_tab(self.SourceFile_input_entry.get(),Background_GUI_Tool.y,self.SourceFile_vars)
 
     def Clear_Button(self,Button_select):
         self.CPU_Ref_input_entry_widgets[Button_select].delete(0,END)

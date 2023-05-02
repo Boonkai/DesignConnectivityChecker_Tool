@@ -1,10 +1,7 @@
 from tkinter import *
 from tkinter import ttk
-import xml.etree.ElementTree as ET
 from datetime import datetime
-import pandas as pd
 import openpyxl
-from openpyxl.utils import get_column_letter
 from tkinter import *
 from HtmlDataExtraction.ComponentNetPin_GUI import NetPin_Gui
 from HtmlDataExtraction.Netlist_GUI import Netlist_Gui
@@ -12,6 +9,7 @@ from HtmlDataExtraction.BOM_GUI import BOM_Gui
 from HtmlDataExtraction.LenWidLayer_GUI import LenWidLaper_Gui
 from DataConcatenation.DataConcat_GUI import DataConcat_Gui
 from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
+from tkinter import messagebox
 
 BackGui_root = Tk()
 #---------------------Create the Notebook widget------------------------#
@@ -52,37 +50,50 @@ class Background_GUI:
         BackGui_root.withdraw()
 
     def export_report(self):
-        Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
-        global y
-        # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
-        y =str(Date_Time)+'.'+'xlsx'
+        input_check = {}
+        input_check["Netpin"] = NetPin_Gui_obj.NetPin_input_entry.get()
+        input_check["Netlist"] = Netlist_Gui_obj.Netlist_input_entry.get()
+        input_check["BOM"] = BOM_Gui_obj.BOM_input_entry.get()
+        input_check["Layer Stackup"] = LenWidLayer_Gui_obj.LenWidLayer_input_entry.get()
+        if all(value for value in input_check.values()):
+            # load workbook
+            #----------------Create New Report Workbook---------------#
+            Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
+            global y
+            # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
+            y =str(Date_Time)+'.'+'xlsx'
 
-        global wb ,sheet1, sheet2,sheet3,sheet4 ,sheet5
+            global sheet1, sheet2,sheet3,sheet4,workbook
 
-        # Create a new workbook
-        workbook = openpyxl.Workbook()
+            # Create a new workbook
+            workbook = openpyxl.Workbook()
 
-        # Remove the default Sheet
-        default_sheet = workbook['Sheet']
-        workbook.remove(default_sheet)
+            # Remove the default Sheet
+            default_sheet = workbook['Sheet']
+            workbook.remove(default_sheet)
 
-        # Create a new sheet
-        sheet1 = workbook.create_sheet('Pin_Net')
-        sheet2 = workbook.create_sheet('Netlist')
-        sheet3 = workbook.create_sheet('BOM')
-        sheet4 = workbook.create_sheet('NetWidth')
-        sheet5 = workbook.create_sheet('DDR_14L')
+            # Create a new sheet
+            sheet1 = workbook.create_sheet('Pin_Net')
+            sheet2 = workbook.create_sheet('Netlist')
+            sheet3 = workbook.create_sheet('BOM')
+            sheet4 = workbook.create_sheet('NetWidth')
+            #---------------------------------------------------------#
 
-        NetPin_Gui_obj.NetPinOutputData()
-        Netlist_Gui_obj.NetlistOutputData()
-        BOM_Gui_obj.BomOutputData()
-        LenWidLayer_Gui_obj.LenWidLayerOutputData()
+            NetPin_Gui_obj.NetPinOutputData()
+            Netlist_Gui_obj.NetlistOutputData()
+            BOM_Gui_obj.BomOutputData()
+            LenWidLayer_Gui_obj.LenWidLayerOutputData()
 
-        # Save the workbook
-        workbook.save(y)
+            # Save the workbook
+            workbook.save(y)
 
-        DataConcat_Gui_obj.DataConcat_Execute()
-        RefDesignator_Gui_obj.Run_RefDesign_Concat()
+            DataConcat_Gui_obj.DataConcat_Execute()
+            RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
+            RefDesignator_Gui_obj.Run_RefDesign_Concat()
+        else:
+            for key, val in input_check.items():
+                if not val:
+                     messagebox.showinfo("Popup!", "The "+ key + " file input cannot be empty\nPlease select " +key+ " html file")
 
     def hidebackground(self):
         BackGui_root.withdraw()
