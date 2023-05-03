@@ -18,7 +18,7 @@ class RefDesignator_Gui:
 
 
         self.RefDesignator = LabelFrame(self.frame, text="Reference Designator",labelanchor='n')
-        self.RefDesignator.grid(padx=80,pady=10,row=0,column=0,columnspan=3)
+        self.RefDesignator.grid(padx=80,pady=10,row=0,column=0,columnspan=5)
 
         self.REFDES_Frame_List = []
 
@@ -65,6 +65,7 @@ class RefDesignator_Gui:
 
         # Create a list of IntVar variables to store the selected check button values
         self.SourceFile_vars = []
+        self.SrcFile_MemIntf_Chkbox_Btn = []
         for self.option in self.SourceFile_check_options:
             var = StringVar()
             self.SourceFile_vars.append(var)
@@ -74,6 +75,7 @@ class RefDesignator_Gui:
             self.SourceFile_check_button = Checkbutton(self.SourceFile_Frame , text=text, variable=self.SourceFile_vars[i], onvalue=value, offvalue=0)
             self.SourceFile_check_button.grid(row=1, column=i+1,sticky="w")
             self.SourceFile_check_button.deselect()
+            self.SrcFile_MemIntf_Chkbox_Btn.append(self.SourceFile_check_button)
 
         self.SourceFile_browser_button = Button(self.SourceFile_Frame, text="Browse",command=self.RefDesign_Src_file_output)
         self.SourceFile_browser_button.grid(row=0, column=10)
@@ -185,7 +187,7 @@ class RefDesignator_Gui:
             self.CPU_col_insert_entry_widgets.append(self.CPU_col_insert_entry_list)
             
             # print(CPU_col_insert_entry_widgets)
-            #clear/empty the list to avoid existing value continue append into CPU_col_insert_entry_widgets
+            # clear/empty the list to avoid existing value continue append into CPU_col_insert_entry_widgets
             self.CPU_col_lookup_entry_list = []
             self.CPU_col_StartRow_entry_list = []
             self.CPU_col_insert_entry_list = []
@@ -221,6 +223,68 @@ class RefDesignator_Gui:
             self.eighteen_layer_entry = Entry(self.eighteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
             self.eighteen_layer_entry.grid(row=eighteen_layer ,column=1)
 
+        #-------------------------------Breakout/Bus Channel Width GUI---------------------------------------#
+        self.RefDsn_BO_Chnl_width = LabelFrame(self.frame,text="Breakout width",labelanchor="n")
+        self.RefDsn_BO_Chnl_width.grid(column=1,row=1,padx=20)
+
+        self.RefDsn_Bus_Chnl_width = LabelFrame(self.frame,text="Bus Channel Width",labelanchor="n")
+        self.RefDsn_Bus_Chnl_width.grid(column=2,row=1)
+
+        Label(self.RefDsn_BO_Chnl_width,text="DQ").grid(row=0,column=1,padx=5)
+        Label(self.RefDsn_BO_Chnl_width,text="DQS").grid(row=0,column=2,padx=5)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel A").grid(row=1,column=0,padx=10)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel B").grid(row=2,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel C").grid(row=3,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel D").grid(row=4,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel E").grid(row=5,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel F").grid(row=6,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel G").grid(row=7,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel H").grid(row=8,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel I").grid(row=9,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel J").grid(row=10,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel K").grid(row=11,column=0)
+        Label(self.RefDsn_BO_Chnl_width,text="Channel L").grid(row=12,column=0)
+
+        self.RefDsn_BO_Chnl_width_DQ_entry_list = []
+        for bo_dq_row in range(0,12):
+            self.RefDsn_BO_Chnl_width_DQ_entry = Entry(self.RefDsn_BO_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
+            self.RefDsn_BO_Chnl_width_DQ_entry.grid(row=bo_dq_row+1,column=1,pady=5,padx=5)
+            self.RefDsn_BO_Chnl_width_DQ_entry_list.append(self.RefDsn_BO_Chnl_width_DQ_entry)
+
+        self.RefDsn_BO_Chnl_width_DQS_entry_list = []
+        for bo_dqS_row in range(0,12):
+            self.RefDsn_BO_Chnl_width_DQS_entry = Entry(self.RefDsn_BO_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
+            self.RefDsn_BO_Chnl_width_DQS_entry.grid(row=bo_dqS_row+1,column=2,pady=5,padx=5)
+            self.RefDsn_BO_Chnl_width_DQS_entry_list.append(self.RefDsn_BO_Chnl_width_DQS_entry)
+
+        Label(self.RefDsn_Bus_Chnl_width,text="DQ").grid(row=0,column=1,padx=5)
+        Label(self.RefDsn_Bus_Chnl_width,text="DQS").grid(row=0,column=2,padx=5)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel A").grid(row=1,column=0,padx=10)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel B").grid(row=2,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel C").grid(row=3,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel D").grid(row=4,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel E").grid(row=5,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel F").grid(row=6,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel G").grid(row=7,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel H").grid(row=8,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel I").grid(row=9,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel J").grid(row=10,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel K").grid(row=11,column=0)
+        Label(self.RefDsn_Bus_Chnl_width,text="Channel L").grid(row=12,column=0)
+
+        self.RefDsn_Bus_Chnl_width_DQ_entry_list = []
+        for bus_dq_row in range(0,12):
+            self.RefDsn_Bus_Chnl_width_DQ_entry = Entry(self.RefDsn_Bus_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
+            self.RefDsn_Bus_Chnl_width_DQ_entry.grid(row=bus_dq_row+1,column=1,pady=5,padx=5)
+            self.RefDsn_Bus_Chnl_width_DQ_entry_list.append(self.RefDsn_Bus_Chnl_width_DQ_entry)
+
+        self.RefDsn_Bus_Chnl_width_DQS_entry_list = []
+        for bus_dqS_row in range(0,12):
+            self.RefDsn_Bus_Chnl_width_DQS_entry = Entry(self.RefDsn_Bus_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
+            self.RefDsn_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
+            self.RefDsn_Bus_Chnl_width_DQS_entry_list.append(self.RefDsn_Bus_Chnl_width_DQS_entry)
+            
+        #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
         self.scrollbar = Scrollbar(Background_GUI_Tool.tab3, orient="vertical", command=self.canvas.yview)
         self.scrollbar.grid(row=0, column=1, sticky="ns")
@@ -277,11 +341,11 @@ class RefDesignator_Gui:
         for i in range(0,4):
             if self.CPU_Ref_input_entry_widgets[i].get() or self.CPU_Ref_header_entry_widgets[i].get():
                 for j in range(0,9):
-                    # print((self.Ref_design_check_button_widgets[3][j]).get())
-                    if (self.Ref_design_check_button_widgets[i][j].get() and 
-                        self.CPU_col_insert_entry_widgets[i][j].get() and
-                        self.CPU_col_lookup_entry_widgets[i][j].get() and
-                        self.CPU_col_StartRow_entry_widgets[i][j].get()):
+                    # print((self.Ref_design_check_button_widgets[i][j]).get())
+                    if (self.Ref_design_check_button_widgets[i][j].get() != "0" and 
+                        self.CPU_col_insert_entry_widgets[i][j].get() != "0" and
+                        self.CPU_col_lookup_entry_widgets[i][j].get()!= "0"  and
+                        self.CPU_col_StartRow_entry_widgets[i][j].get()!= "0" ):
                             RefDesig_Concat(Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
                                             concat_symbol=self.symbol_ref_drop_list[i].get(),
                                             Insert_sheet_name=self.Ref_design_check_button_widgets[i][j].get(),
