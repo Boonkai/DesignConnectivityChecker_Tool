@@ -1,4 +1,3 @@
-import Background_GUI_Tool
 from tkinter import *
 from RefDesignator.RefDesign_DataConcat import RefDesig_Concat
 from RefDesignator import SourceFile_browse
@@ -6,10 +5,12 @@ InterfaceMmy_Src_file = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Desi
 
 
 class RefDesignator_Gui:
-    def __init__(self):
+    def __init__(self,rootframe, filename):
+        self.rootframe = rootframe
+        self.filename = filename
         #-------------------tkinder GUI: Reference Designator-------------------------#
         # Create a Canvas widget to hold the frame and scrollbar
-        self.canvas = Canvas(Background_GUI_Tool.tab3)
+        self.canvas = Canvas(self.rootframe)
         self.canvas.grid(row=0, column=0, sticky="nsew")
 
         # Create a frame to hold the label and button
@@ -54,14 +55,14 @@ class RefDesignator_Gui:
 
         # Create a list of tuples that contains the text and values of the check buttons
         self.SourceFile_check_options = [("DDR_14L", "DDR_14L"), 
-                        ("DDR_16L", "DDR_16L"),
-                        ("DDR_18L", "DDR_18L"),
-                        ("XGMI_PCIe", "XGMI_PCIe"),
-                        ("PCIE", "PCIE"),
-                        ("MISC_SCL", "MISC_SCL"),
-                        ("MISC_LCL", "MISC_LCL"),
-                        ("USB", "USB"),
-                        ("CLK", "CLK")]
+                                        ("DDR_16L", "DDR_16L"),
+                                        ("DDR_18L", "DDR_18L"),
+                                        ("XGMI", "XGMI"),
+                                        ("PCIE", "PCIE"),
+                                        ("SATA", "SATA"),
+                                        ("MISC", "MISC"),
+                                        ("USB", "USB"),
+                                        ("CLK", "CLK")]
 
         # Create a list of IntVar variables to store the selected check button values
         self.SourceFile_vars = []
@@ -143,29 +144,29 @@ class RefDesignator_Gui:
             self.Sheet_col_insert_Label = Label(Ref_frame ,text="Column Insert",wraplength=50)
             self.Sheet_col_insert_Label.grid(row=0,column=7,sticky='w',padx=5,pady=5)
 
-            # Create a list of tuples that contains the text and values of the check buttons
-            self.Ref_design_check_options = [("DDR_14L", "DDR_14L"), 
-                            ("DDR_16L", "DDR_16L"),
-                            ("DDR_18L", "DDR_18L"),
-                            ("XGMI_PCIe", "XGMI_PCIe"),
-                            ("PCIE", "PCIE"),
-                            ("MISC_SCL", "MISC_SCL"),
-                            ("MISC_LCL", "MISC_LCL"),
-                            ("USB", "USB"),
-                            ("CLK", "CLK")]
+            # # Create a list of tuples that contains the text and values of the check buttons
+            # self.Ref_design_check_options = [("DDR_14L", "DDR_14L"), 
+            #                 ("DDR_16L", "DDR_16L"),
+            #                 ("DDR_18L", "DDR_18L"),
+            #                 ("XGMI", "XGMI"),
+            #                 ("PCIE", "PCIE"),
+            #                 ("SATA", "SATA"),
+            #                 ("MISC", "MISC"),
+            #                 ("USB", "USB"),
+            #                 ("CLK", "CLK")]
 
-            # Create a list of IntVar variables to store the selected check button values
-            self.Ref_design_vars = []
-            for self.option in self.Ref_design_check_options:
-                var = StringVar()
-                self.Ref_design_vars.append(var)
+            # # Create a list of IntVar variables to store the selected check button values
+            # self.Ref_design_vars = []
+            # for self.option in self.Ref_design_check_options:
+            #     var = StringVar()
+            #     self.Ref_design_vars.append(var)
 
             # Use a for loop to create the check buttons
-            for i, (text, value) in enumerate(self.Ref_design_check_options):
-                self.Ref_design_check_button = Checkbutton(Ref_frame , text=text, variable=self.Ref_design_vars[i], onvalue=value, offvalue=0)
+            for i, (text, value) in enumerate(self.SourceFile_check_options):
+                self.Ref_design_check_button = Checkbutton(Ref_frame , text=text, variable=self.SourceFile_vars[i], onvalue=value, offvalue=0)
                 self.Ref_design_check_button.grid(row=i+1, column=4,sticky="w")
                 self.Ref_design_check_button.deselect()
-                self.Ref_design_check_button_list.append(self.Ref_design_vars[i])
+                self.Ref_design_check_button_list.append(self.SourceFile_vars[i])
 
             self.Ref_design_check_button_widgets.append(self.Ref_design_check_button_list)
 
@@ -286,13 +287,13 @@ class RefDesignator_Gui:
             
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
-        self.scrollbar = Scrollbar(Background_GUI_Tool.tab3, orient="vertical", command=self.canvas.yview)
+        self.scrollbar = Scrollbar(self.rootframe, orient="vertical", command=self.canvas.yview)
         self.scrollbar.grid(row=0, column=1, sticky="ns")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
         # Configure the canvas and frame to resize with the root window
-        Background_GUI_Tool.tab3.grid_rowconfigure(0, weight=1)
-        Background_GUI_Tool.tab3.grid_columnconfigure(0, weight=1)
+        self.rootframe.grid_rowconfigure(0, weight=1)
+        self.rootframe.grid_columnconfigure(0, weight=1)
 
         # Add the frame to the canvas
         self.canvas.create_window((0, 0), window=self.frame, anchor="nw")
@@ -302,10 +303,10 @@ class RefDesignator_Gui:
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
         #Configure to default when object is initialise:
-        self.CUP0_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
-        self.CUP1_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
-        self.UsbHub_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
-        self.ClkBuff_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+        self.CUP0_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+        self.CUP1_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+        self.UsbHub_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+        self.ClkBuff_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
 
     def RefDesign_Src_file_output(self):
         self.src_file_output = SourceFile_browse.RefDesign_browse_file()
@@ -316,26 +317,24 @@ class RefDesignator_Gui:
         # SourceFile_browse.copy_tab(self.src_file_output,Background_GUI_Tool.y,self.SourceFile_vars)
 
     def copy_InterfaceMmy_data_to_dst(self):
-        SourceFile_browse.copy_tab(self.SourceFile_input_entry.get(),Background_GUI_Tool.y,self.SourceFile_vars)
+        SourceFile_browse.copy_tab(self.SourceFile_input_entry.get(),self.filename,self.SourceFile_vars)
 
     def Clear_Button(self,Button_select):
-        self.CPU_Ref_input_entry_widgets[Button_select].delete(0,END)
-        self.CPU_Ref_header_entry_widgets[Button_select].delete(0,END)
         for j in range(0,9):
-            self.Ref_design_check_button_widgets[Button_select][j].set(0)
             self.CPU_col_insert_entry_widgets[Button_select][j].delete(0,END)
             self.CPU_col_lookup_entry_widgets[Button_select][j].delete(0,END)
             self.CPU_col_StartRow_entry_widgets[Button_select][j].delete(0,END)
 
     def Default_Button(self,Button_select):
+        self.Clear_Button(Button_select)
         if Button_select == 0:
-            self.CUP0_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+            self.CUP0_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         if Button_select == 1:
-            self.CUP1_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+            self.CUP1_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         if Button_select == 2:
-            self.UsbHub_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+            self.UsbHub_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
         if Button_select == 3:
-                self.ClkBuff_Default(SheetName=True,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
+                self.ClkBuff_Default(SheetName=False,Col_Lookup=True,StartRowInsert=True,Col_Insert=True)
 
     def Run_RefDesign_Concat(self):
         for i in range(0,4):
@@ -346,7 +345,8 @@ class RefDesignator_Gui:
                         self.CPU_col_insert_entry_widgets[i][j].get() != "0" and
                         self.CPU_col_lookup_entry_widgets[i][j].get()!= "0"  and
                         self.CPU_col_StartRow_entry_widgets[i][j].get()!= "0" ):
-                            RefDesig_Concat(Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
+                            RefDesig_Concat(filename= self.filename,
+                                            Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
                                             concat_symbol=self.symbol_ref_drop_list[i].get(),
                                             Insert_sheet_name=self.Ref_design_check_button_widgets[i][j].get(),
                                             col_insert=self.CPU_col_insert_entry_widgets[i][j].get(),
@@ -365,10 +365,10 @@ class RefDesignator_Gui:
             self.Ref_design_check_button_widgets[0][0].set("DDR_14L")
             self.Ref_design_check_button_widgets[0][1].set("DDR_16L")
             self.Ref_design_check_button_widgets[0][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[0][3].set("XGMI_PCIe")
+            self.Ref_design_check_button_widgets[0][3].set("XGMI")
             self.Ref_design_check_button_widgets[0][4].set("PCIE")
-            self.Ref_design_check_button_widgets[0][5].set("MISC_SCL")
-            self.Ref_design_check_button_widgets[0][6].set("MISC_LCL")
+            self.Ref_design_check_button_widgets[0][5].set("SATA")
+            self.Ref_design_check_button_widgets[0][6].set("MISC")
             self.Ref_design_check_button_widgets[0][7].set("USB")
             self.Ref_design_check_button_widgets[0][8].set("CLK")
 
@@ -415,10 +415,10 @@ class RefDesignator_Gui:
             self.Ref_design_check_button_widgets[1][0].set("DDR_14L")
             self.Ref_design_check_button_widgets[1][1].set("DDR_16L")
             self.Ref_design_check_button_widgets[1][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[1][3].set("XGMI_PCIe")
+            self.Ref_design_check_button_widgets[1][3].set("XGMI")
             self.Ref_design_check_button_widgets[1][4].set("PCIE")
-            self.Ref_design_check_button_widgets[1][5].set("MISC_SCL")
-            self.Ref_design_check_button_widgets[1][6].set("MISC_LCL")
+            self.Ref_design_check_button_widgets[1][5].set("SATA")
+            self.Ref_design_check_button_widgets[1][6].set("MISC")
             self.Ref_design_check_button_widgets[1][7].set("USB")
             self.Ref_design_check_button_widgets[1][8].set("CLK")
 
@@ -449,15 +449,15 @@ class RefDesignator_Gui:
 
         if Col_Insert == True:
             # --------------4. Configure Default Column Insert-------------------------
-            self.CPU_col_insert_entry_widgets[1][0].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][1].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][2].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][3].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][4].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][5].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][6].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][7].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[1][8].insert(0,"K")
+            self.CPU_col_insert_entry_widgets[1][0].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][1].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][2].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][3].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][4].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][5].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][6].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][7].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][8].insert(0,"L")
 
     def UsbHub_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
@@ -465,10 +465,10 @@ class RefDesignator_Gui:
             self.Ref_design_check_button_widgets[2][0].set("DDR_14L")
             self.Ref_design_check_button_widgets[2][1].set("DDR_16L")
             self.Ref_design_check_button_widgets[2][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[2][3].set("XGMI_PCIe")
+            self.Ref_design_check_button_widgets[2][3].set("XGMI")
             self.Ref_design_check_button_widgets[2][4].set("PCIE")
-            self.Ref_design_check_button_widgets[2][5].set("MISC_SCL")
-            self.Ref_design_check_button_widgets[2][6].set("MISC_LCL")
+            self.Ref_design_check_button_widgets[2][5].set("SATA")
+            self.Ref_design_check_button_widgets[2][6].set("MISC")
             self.Ref_design_check_button_widgets[2][7].set("USB")
             self.Ref_design_check_button_widgets[2][8].set("CLK")
 
@@ -499,15 +499,15 @@ class RefDesignator_Gui:
 
         if Col_Insert == True:
             # --------------4. Configure Default Column Insert-------------------------
-            self.CPU_col_insert_entry_widgets[2][0].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][1].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][2].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][3].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][4].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][5].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][6].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][7].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[2][8].insert(0,"K")
+            self.CPU_col_insert_entry_widgets[2][0].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][1].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][2].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][3].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][4].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][5].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][6].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][7].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[2][8].insert(0,"M")
 
     def ClkBuff_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
@@ -515,10 +515,10 @@ class RefDesignator_Gui:
             self.Ref_design_check_button_widgets[3][0].set("DDR_14L")
             self.Ref_design_check_button_widgets[3][1].set("DDR_16L")
             self.Ref_design_check_button_widgets[3][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[3][3].set("XGMI_PCIe")
+            self.Ref_design_check_button_widgets[3][3].set("XGMI")
             self.Ref_design_check_button_widgets[3][4].set("PCIE")
-            self.Ref_design_check_button_widgets[3][5].set("MISC_SCL")
-            self.Ref_design_check_button_widgets[3][6].set("MISC_LCL")
+            self.Ref_design_check_button_widgets[3][5].set("SATA")
+            self.Ref_design_check_button_widgets[3][6].set("MISC")
             self.Ref_design_check_button_widgets[3][7].set("USB")
             self.Ref_design_check_button_widgets[3][8].set("CLK")
 
@@ -549,15 +549,15 @@ class RefDesignator_Gui:
 
         if Col_Insert == True:
             # --------------4. Configure Default Column Insert-------------------------
-            self.CPU_col_insert_entry_widgets[3][0].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][1].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][2].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][3].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][4].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][5].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][6].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][7].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[3][8].insert(0,"K")
+            self.CPU_col_insert_entry_widgets[3][0].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][1].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][2].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][3].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][4].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][5].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][6].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][7].insert(0,"O")
+            self.CPU_col_insert_entry_widgets[3][8].insert(0,"O")
         
 
 # if __name__ =='__main__':

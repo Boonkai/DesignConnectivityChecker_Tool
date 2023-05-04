@@ -3,9 +3,11 @@ from HtmlDataExtraction import DataExtracT_Export
 import Background_GUI_Tool
 
 class LenWidLaper_Gui:
-    def __init__(self):
+    def __init__(self,rootframe,sheet):
+        self.rootframe = rootframe
+        self.sheet = sheet
         #----------------------tkinder GUI: Length Width Layer--------------------------------#
-        self.LenWidLayer_frame = LabelFrame(Background_GUI_Tool.tab1,text= "Length Width Layer Report Generator",padx=50, pady=10,labelanchor='n')
+        self.LenWidLayer_frame = LabelFrame(self.rootframe,text= "Length Width Layer Report Generator",padx=50, pady=10,labelanchor='n')
         self.LenWidLayer_frame.grid(padx=20,pady=10,row=3,column=0)
 
         # create a label for the input field
@@ -63,11 +65,11 @@ class LenWidLaper_Gui:
         self.LenWidLayer_Extract_Obj.HTML_Data_Extract()
 
         LenWidLayer_dict = {}
-        LenWidLayer_dict["LenWidLayer_option1"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_NetName,Background_GUI_Tool.sheet4,int(0)
-        LenWidLayer_dict["LenWidLayer_option2"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LayerName,Background_GUI_Tool.sheet4,int(4)
-        LenWidLayer_dict["LenWidLayer_option3"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_TotalLength,Background_GUI_Tool.sheet4,int(5)
-        LenWidLayer_dict["LenWidLayer_option4"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LineWidth,Background_GUI_Tool.sheet4,int(1)
-        LenWidLayer_dict["LenWidLayer_option5"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LenATwidth,Background_GUI_Tool.sheet4,int(6)
+        LenWidLayer_dict["LenWidLayer_option1"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_NetName,self.sheet,int(0)
+        LenWidLayer_dict["LenWidLayer_option2"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LayerName,self.sheet,int(4)
+        LenWidLayer_dict["LenWidLayer_option3"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_TotalLength,self.sheet,int(5)
+        LenWidLayer_dict["LenWidLayer_option4"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LineWidth,self.sheet,int(1)
+        LenWidLayer_dict["LenWidLayer_option5"] = self.LenWidLayer_Extract_Obj.col_data_TraceLenWid_LenATwidth,self.sheet,int(6)
 
 
         for key,value in LenWidLayer_dict.items():

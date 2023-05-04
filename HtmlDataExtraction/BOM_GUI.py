@@ -1,11 +1,12 @@
 from tkinter import *
 from HtmlDataExtraction import DataExtracT_Export
-import Background_GUI_Tool
 
 class BOM_Gui:
-    def __init__(self):
+    def __init__(self,rootframe,sheet):
+        self.rootframe = rootframe
+        self.sheet = sheet
         #----------------------tkinder GUI: BOM--------------------------------#
-        self.BOM_frame = LabelFrame(Background_GUI_Tool.tab1,text= "BOM Report Generator",padx=83, pady=10,labelanchor='n')
+        self.BOM_frame = LabelFrame(self.rootframe,text= "BOM Report Generator",padx=83, pady=10,labelanchor='n')
         self.BOM_frame.grid(padx=30,pady=10,row=2,column=0)
 
         # create a label for the input field
@@ -66,12 +67,12 @@ class BOM_Gui:
         self.BOM_Extract_Obj.HTML_Data_Extract()
 
         BOM_dict = {}
-        BOM_dict["BOM_option1"] = self.BOM_Extract_Obj.col_data_BOM_SymName,Background_GUI_Tool.sheet3,int(0)
-        BOM_dict["BOM_option2"] = self.BOM_Extract_Obj.col_data_BOM_CompDeviceTyp,Background_GUI_Tool.sheet3,int(1)
-        BOM_dict["BOM_option3"] = self.BOM_Extract_Obj.col_data_BOM_CompValue,Background_GUI_Tool.sheet3,int(2)
-        BOM_dict["BOM_option4"] = self.BOM_Extract_Obj.col_data_BOM_CompTol,Background_GUI_Tool.sheet3,int(3)
-        BOM_dict["BOM_option5"] = self.BOM_Extract_Obj.col_data_BOM_CompClass,Background_GUI_Tool.sheet3,int(4)
-        BOM_dict["BOM_option6"] = self.BOM_Extract_Obj.col_data_BOM_REFDES,Background_GUI_Tool.sheet3,int(5)
+        BOM_dict["BOM_option1"] = self.BOM_Extract_Obj.col_data_BOM_SymName,self.sheet,int(0)
+        BOM_dict["BOM_option2"] = self.BOM_Extract_Obj.col_data_BOM_CompDeviceTyp,self.sheet,int(1)
+        BOM_dict["BOM_option3"] = self.BOM_Extract_Obj.col_data_BOM_CompValue,self.sheet,int(2)
+        BOM_dict["BOM_option4"] = self.BOM_Extract_Obj.col_data_BOM_CompTol,self.sheet,int(3)
+        BOM_dict["BOM_option5"] = self.BOM_Extract_Obj.col_data_BOM_CompClass,self.sheet,int(4)
+        BOM_dict["BOM_option6"] = self.BOM_Extract_Obj.col_data_BOM_REFDES,self.sheet,int(5)
 
 
         for key,value in BOM_dict.items():

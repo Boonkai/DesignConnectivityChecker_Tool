@@ -13,12 +13,13 @@
 
 from tkinter import *
 from HtmlDataExtraction import DataExtracT_Export
-import Background_GUI_Tool
 
 class NetPin_Gui:
-    def __init__(self):
+    def __init__(self,rootframe,sheet):
+        self.rootframe = rootframe
+        self.sheet = sheet
         #----------------------tkinder GUI: NET PIN--------------------------------#
-        self.NetPin_frame = LabelFrame(Background_GUI_Tool.tab1,text= "Net Pin Report Generator ",padx=65, pady=10,labelanchor='n')
+        self.NetPin_frame = LabelFrame(self.rootframe,text= "Net Pin Report Generator ",padx=65, pady=10,labelanchor='n')
         self.NetPin_frame.grid(padx=50,pady=10,row=0,column=0)
 
         # create a label for the input field
@@ -80,12 +81,12 @@ class NetPin_Gui:
         Netpin_Extract_Obj.HTML_Data_Extract()
 
         NetPin_dict = {}
-        NetPin_dict["NetPin_option1"] = Netpin_Extract_Obj.col_data_ComponentPin_REFDES,Background_GUI_Tool.sheet1,int(0)
-        NetPin_dict["NetPin_option2"] = Netpin_Extract_Obj.col_data_ComponentPin_PinNumber,Background_GUI_Tool.sheet1,int(1)
-        NetPin_dict["NetPin_option3"] = Netpin_Extract_Obj.col_data_ComponentPin_CompDeviceTyp,Background_GUI_Tool.sheet1,int(4)
-        NetPin_dict["NetPin_option4"] = Netpin_Extract_Obj.col_data_ComponentPin_PinTyp,Background_GUI_Tool.sheet1,int(5)
-        NetPin_dict["NetPin_option5"] = Netpin_Extract_Obj.col_data_ComponentPin_PinName,Background_GUI_Tool.sheet1,int(6)
-        NetPin_dict["NetPin_option6"] = Netpin_Extract_Obj.col_data_ComponentPin_NetName,Background_GUI_Tool.sheet1,int(3)
+        NetPin_dict["NetPin_option1"] = Netpin_Extract_Obj.col_data_ComponentPin_REFDES,self.sheet,int(0)
+        NetPin_dict["NetPin_option2"] = Netpin_Extract_Obj.col_data_ComponentPin_PinNumber,self.sheet,int(1)
+        NetPin_dict["NetPin_option3"] = Netpin_Extract_Obj.col_data_ComponentPin_CompDeviceTyp,self.sheet,int(4)
+        NetPin_dict["NetPin_option4"] = Netpin_Extract_Obj.col_data_ComponentPin_PinTyp,self.sheet,int(5)
+        NetPin_dict["NetPin_option5"] = Netpin_Extract_Obj.col_data_ComponentPin_PinName,self.sheet,int(6)
+        NetPin_dict["NetPin_option6"] = Netpin_Extract_Obj.col_data_ComponentPin_NetName,self.sheet,int(3)
 
 
         for key,value in NetPin_dict.items():

@@ -1,13 +1,11 @@
 from tkinter import *
 from HtmlDataExtraction import DataExtracT_Export
-import Background_GUI_Tool
 
 class Netlist_Gui:
-    def __init__(self):
-        # self.BackGui_root = Background_GUI_Tool.BackGui_root
-        # self.Netlist_root = self.BackGui_root
-
-        self.Netlist_frame = LabelFrame(Background_GUI_Tool.tab1,text= "Netlist Report Generator",padx=88, pady=10,labelanchor='n')
+    def __init__(self,rootframe,sheet):
+        self.rootframe = rootframe
+        self.sheet = sheet
+        self.Netlist_frame = LabelFrame(self.rootframe,text= "Netlist Report Generator",padx=88, pady=10,labelanchor='n')
         self.Netlist_frame.grid(padx=50,pady=10,row=1,column=0)
 
         # create a label for the input field
@@ -57,9 +55,9 @@ class Netlist_Gui:
         self.Netlist_Extract_Obj.HTML_Data_Extract()
 
         Netlist_dict = {}
-        Netlist_dict["Netlist_option1"] = self.Netlist_Extract_Obj.col_data_Netlist_NetName,Background_GUI_Tool.sheet2,int(0)
-        Netlist_dict["Netlist_option2"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_1st_data,Background_GUI_Tool.sheet2,int(1)
-        Netlist_dict["Netlist_option2_2nd_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_2nd_data,Background_GUI_Tool.sheet2,int(2) 
+        Netlist_dict["Netlist_option1"] = self.Netlist_Extract_Obj.col_data_Netlist_NetName,self.sheet,int(0)
+        Netlist_dict["Netlist_option2"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_1st_data,self.sheet,int(1)
+        Netlist_dict["Netlist_option2_2nd_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_2nd_data,self.sheet,int(2) 
 
 
         for key,value in Netlist_dict.items():

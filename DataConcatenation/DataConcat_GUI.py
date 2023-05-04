@@ -1,11 +1,12 @@
 from tkinter import *
 from DataConcatenation.DataConcatenation import DataConcatenation
-import Background_GUI_Tool
 
 class DataConcat_Gui:
-    def __init__(self):
+    def __init__(self,rootframe, filename):
+        self.rootframe = rootframe
+        self.filename = filename
         #-------------------Data Concat--------------------------------------#
-        self.DataConcat_frame = LabelFrame(Background_GUI_Tool.tab2,text= "Concatenation",padx=10, pady=10,labelanchor='n')
+        self.DataConcat_frame = LabelFrame(self.rootframe,text= "Concatenation",padx=10, pady=10,labelanchor='n')
         self.DataConcat_frame.grid(padx=30,pady=10,row=0,column=0,columnspan=3,rowspan=2)
 
         self.concat_label = [("label1","Sheet 1"),
@@ -119,7 +120,7 @@ class DataConcat_Gui:
             self.header_entry.grid(row=j, column=10,padx=10,pady=10)
             self.header_entry_widgets.append(self.header_entry)
 
-        self.DataConcat_info_frame =LabelFrame(Background_GUI_Tool.tab2,text= "NOTE",padx=32, pady=10,labelanchor='n',width=10)
+        self.DataConcat_info_frame =LabelFrame(self.rootframe,text= "NOTE",padx=32, pady=10,labelanchor='n',width=10)
         self.DataConcat_info_frame.grid(row=1,column=4)
 
         self.DataConcat_list =["1. Column text input can be lower or upper case e.g: \"A\" or \"a\"\n",
@@ -132,13 +133,13 @@ class DataConcat_Gui:
         self.DataConcat_info_label = Label(self.DataConcat_info_frame,text=self.DataConcat_text,bd=1,justify='left',wraplength=300)
         self.DataConcat_info_label.grid()
 
-        self.Test = Button(Background_GUI_Tool.tab2,text="test")
+        self.Test = Button(self.rootframe,text="test")
         self.Test.grid(row=12,column=0)
 
-        self.Concat_default_Button = Button(Background_GUI_Tool.tab2, text="Default",command=self.dataConcat_default)
+        self.Concat_default_Button = Button(self.rootframe, text="Default",command=self.dataConcat_default)
         self.Concat_default_Button.grid(row=12,column=1)
 
-        self.Concat_clear_Button = Button(Background_GUI_Tool.tab2, text="Clear",command=self.dataConcat_clear)
+        self.Concat_clear_Button = Button(self.rootframe, text="Clear",command=self.dataConcat_clear)
         self.Concat_clear_Button.grid(row=12,column=2)
 
         # Automatic call Data Concat when first launch the GUI APPs
@@ -200,7 +201,8 @@ class DataConcat_Gui:
             if self.col1_entry_widgets[i].get():
                 if self.col2_entry_widgets[i].get():
                     if self.col_insert_entry_widgets[i].get():
-                        DataConcatenation(col_1=str(self.col1_entry_widgets[i].get()),
+                        DataConcatenation(filename= self.filename,
+                                        col_1=str(self.col1_entry_widgets[i].get()),
                                         col_2=str(self.col2_entry_widgets[i].get()),
                                         sheet1_name=str(self.Sheet1_drop_list[i].get()),
                                         sheet2_name=str(self.Sheet2_drop_list[i].get()),

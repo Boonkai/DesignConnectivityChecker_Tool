@@ -1,9 +1,9 @@
 import openpyxl
-from datetime import datetime
 import Background_GUI_Tool
 
 class DataConcatenation:
     def __init__(self, 
+                 filename,
                  col_1= None,
                  col_2=None,
                  sheet1_name=None,
@@ -13,7 +13,7 @@ class DataConcatenation:
                  col_insert_start_row = None,
                  concat_symbol=None,
                  header = None):
-        
+        self.filename =filename
         self.col_1 = col_1
         self.col_2 = col_2
         self.sheet1_name = sheet1_name
@@ -27,7 +27,7 @@ class DataConcatenation:
     def data_concat(self):
         # Load the Excel file
         # workbook = openpyxl.load_workbook("2023-04-13 171628.xlsx")
-        workbook = openpyxl.load_workbook(Background_GUI_Tool.y)
+        workbook = openpyxl.load_workbook(self.filename)
 
         # Select the worksheet
         df1 = workbook[self.sheet1_name]
@@ -66,4 +66,4 @@ class DataConcatenation:
             else:
                 df3[self.col_insert + str(row)].value = combined_value # write the combined value to the third column (column C)    
 
-        workbook.save(Background_GUI_Tool.y)
+        workbook.save(self.filename)
