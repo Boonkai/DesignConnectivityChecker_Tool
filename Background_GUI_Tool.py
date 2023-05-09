@@ -9,6 +9,7 @@ from HtmlDataExtraction.LenWidLayer_GUI import LenWidLaper_Gui
 from DataConcatenation.DataConcat_GUI import DataConcat_Gui
 from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 from tkinter import messagebox
+from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 
 class Background_GUI:
     def __init__(self):
@@ -44,7 +45,7 @@ class Background_GUI:
         #----------------Create New Report Workbook---------------#
         Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
         # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
-        self.fileanme =str(Date_Time)+'.'+'xlsx'
+        self.fileName =str(Date_Time)+'.'+'xlsx'
 
         # Create a new workbook
         self.workbook = openpyxl.Workbook()
@@ -58,15 +59,19 @@ class Background_GUI:
         self.sheet2 = self.workbook.create_sheet('Netlist')
         self.sheet3 = self. workbook.create_sheet('BOM')
         self.sheet4 = self.workbook.create_sheet('NetWidth')
+        self.sheet5 = self.workbook.create_sheet('Layer_Stackup')
+
         #---------------------------------------------------------#
         self.NetPin_Gui_obj = NetPin_Gui(self.tab1,self.sheet1)
         self.Netlist_Gui_obj = Netlist_Gui(self.tab1,self.sheet2)
         self.BOM_Gui_obj = BOM_Gui(self.tab1,self.sheet3)
         self.LenWidLayer_Gui_obj = LenWidLaper_Gui(self.tab1,self.sheet4)
-        self.DataConcat_Gui_obj = DataConcat_Gui(self.tab2,self.fileanme)
-        self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileanme)
+        self.LayerStackup_Gui_obj = LyrStack_Gui(self.tab1,self.sheet5)
+        self.DataConcat_Gui_obj = DataConcat_Gui(self.tab2,self.fileName)
+        self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileName)
 
         #-------------------Create the export button--------------------------#
+        self.export_count =  0
         export_button = Button(self.BackGui_root,text="Generate Report", command=self.export_report)
         export_button.grid(row=4,column=0)
 
@@ -75,20 +80,58 @@ class Background_GUI:
         presshide.grid(row=4,column=1)
 
     def export_report(self):
+        if self.export_count == 0:
+            pass
+        else:
+            #----------------Re-Create A New Report Workbook for 2nd times button click---------------#
+            Date_Time = datetime.now().strftime('%Y-%m-%d %H%M%S')
+            self.New_fileName =str(Date_Time)+'.'+'xlsx'
+
+            # Create a new workbook
+            self.workbook = openpyxl.Workbook()
+
+            # Remove the default Sheet
+            default_sheet = self.workbook['Sheet']
+            self.workbook.remove(default_sheet)
+
+            # Create a new sheet
+            self.New_sheet1 = self.workbook.create_sheet('Pin_Net')
+            self.New_sheet2 = self.workbook.create_sheet('Netlist')
+            self.New_sheet3 = self. workbook.create_sheet('BOM')
+            self.New_sheet4 = self.workbook.create_sheet('NetWidth')
+            self.New_sheet5 = self.workbook.create_sheet('Layer_Stackup')
+
+            # Update object's attribute of the new file created:
+            self.NetPin_Gui_obj.sheet = self.New_sheet1
+            self.Netlist_Gui_obj.sheet =self.New_sheet2
+            self.BOM_Gui_obj.sheet = self.New_sheet3
+            self.LenWidLayer_Gui_obj.sheet = self.New_sheet4
+            self.LayerStackup_Gui_obj.sheet = self.New_sheet5
+            self.DataConcat_Gui_obj.fileName = self.New_fileName
+            self.RefDesignator_Gui_obj.fileName = self.New_fileName
+
+        # print(self.export_count, "click count check")
+
         self.input_check = {}
         self.input_check["Netpin"] = self.NetPin_Gui_obj.NetPin_input_entry.get()
         self.input_check["Netlist"] = self.Netlist_Gui_obj.Netlist_input_entry.get()
         self.input_check["BOM"] = self.BOM_Gui_obj.BOM_input_entry.get()
-        self.input_check["Layer Stackup"] = self.LenWidLayer_Gui_obj.LenWidLayer_input_entry.get()
+        self.input_check["NetWidth"] = self.LenWidLayer_Gui_obj.LenWidLayer_input_entry.get()
+        self.input_check["Layer Stackup"] = self.LayerStackup_Gui_obj.LyrStack_input_entry.get()
         if all(value for value in self.input_check.values()):
 
             self.NetPin_Gui_obj.NetPinOutputData()
             self.Netlist_Gui_obj.NetlistOutputData()
             self.BOM_Gui_obj.BomOutputData()
             self.LenWidLayer_Gui_obj.LenWidLayerOutputData()
+            self.LayerStackup_Gui_obj.LyrStackupOutputData()
 
-            # Save the workbook
-            self.workbook.save(self.fileanme)
+            if self.export_count == 0:
+                # Save the workbook
+                self.workbook.save(self.fileName)
+            else:
+                # Save the workbook
+                self.workbook.save(self.New_fileName)
 
             self.DataConcat_Gui_obj.DataConcat_Execute()
             self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
@@ -96,7 +139,9 @@ class Background_GUI:
         else:
             for key, val in self.input_check.items():
                 if not val:
-                     messagebox.showinfo("Popup!", "The "+ key + " file input cannot be empty\nPlease select " +key+ " html file")
+                    messagebox.showinfo("Popup!", "The "+ key + " file input cannot be empty\nPlease select " +key+ " html file")
+
+        self.export_count = self.export_count +1
 
     def hidebackground(self):
         self.BackGui_root.withdraw()

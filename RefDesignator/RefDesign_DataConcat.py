@@ -5,7 +5,7 @@ from openpyxl.styles import Alignment
 
 class RefDesig_Concat:
     def __init__(self, 
-                 filename,
+                 fileName,
                  Ref_value = None,
                  concat_symbol=None,
                  Insert_sheet_name = None,
@@ -14,7 +14,7 @@ class RefDesig_Concat:
                  col_insert_start_row = None,
                  header = None):
         
-        self.filename =filename
+        self.fileName =fileName
         self.Ref_value = Ref_value
         self.col_lookup = col_lookup
         self.concat_symbol = concat_symbol
@@ -26,7 +26,7 @@ class RefDesig_Concat:
     def data_concat(self):
         # Load the Excel file
         # workbook = openpyxl.load_workbook("2023-04-27 123135.xlsx")
-        workbook = openpyxl.load_workbook(self.filename)
+        workbook = openpyxl.load_workbook(self.fileName)
 
         # Select the worksheet
         df1 = workbook[self.Insert_sheet_name]
@@ -71,5 +71,5 @@ class RefDesig_Concat:
             df1[self.col_insert + str(row)].alignment = self.center_alignment
             df1[self.col_insert + str(row)].border = self.border
 
-        workbook.save(self.filename)
+        workbook.save(self.fileName)
         # workbook.save("2023-04-27 123135.xlsx")

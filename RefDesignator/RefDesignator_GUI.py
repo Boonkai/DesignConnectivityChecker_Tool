@@ -5,9 +5,9 @@ InterfaceMmy_Src_file = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Desi
 
 
 class RefDesignator_Gui:
-    def __init__(self,rootframe, filename):
+    def __init__(self,rootframe, fileName):
         self.rootframe = rootframe
-        self.filename = filename
+        self.fileName= fileName
         #-------------------tkinder GUI: Reference Designator-------------------------#
         # Create a Canvas widget to hold the frame and scrollbar
         self.canvas = Canvas(self.rootframe)
@@ -54,9 +54,7 @@ class RefDesignator_Gui:
         self.SourceFile_input_entry.insert(0,InterfaceMmy_Src_file)
 
         # Create a list of tuples that contains the text and values of the check buttons
-        self.SourceFile_check_options = [("DDR_14L", "DDR_14L"), 
-                                        ("DDR_16L", "DDR_16L"),
-                                        ("DDR_18L", "DDR_18L"),
+        self.SourceFile_check_options = [("MEMORY", "MEMORY"),
                                         ("XGMI", "XGMI"),
                                         ("PCIE", "PCIE"),
                                         ("SATA", "SATA"),
@@ -128,7 +126,7 @@ class RefDesignator_Gui:
             self.symbol_drop = OptionMenu(Ref_frame ,self.Symbol_ref_clicked,*self.symbol_ref_options)
             self.symbol_drop.grid(row=1,column=1)
 
-            for i in range(0,9):
+            for i in range(0,7):
                 empty_col = Label(Ref_frame)
                 empty_col.grid(row=i,column=3,sticky='w',padx=10,pady=5)
 
@@ -170,7 +168,7 @@ class RefDesignator_Gui:
 
             self.Ref_design_check_button_widgets.append(self.Ref_design_check_button_list)
 
-            for i in range(0,9):
+            for i in range(0,7):
                 self.CPU_col_lookup_entry = Entry(Ref_frame,width=4,background='white',fg="black",borderwidth=3)
                 self.CPU_col_lookup_entry.grid(row=i+1, column=5)
                 self.CPU_col_lookup_entry_list.append(self.CPU_col_lookup_entry)
@@ -317,10 +315,10 @@ class RefDesignator_Gui:
         # SourceFile_browse.copy_tab(self.src_file_output,Background_GUI_Tool.y,self.SourceFile_vars)
 
     def copy_InterfaceMmy_data_to_dst(self):
-        SourceFile_browse.copy_tab(self.SourceFile_input_entry.get(),self.filename,self.SourceFile_vars)
+        SourceFile_browse.copy_tab(self.SourceFile_input_entry.get(),self.fileName,self.SourceFile_vars)
 
     def Clear_Button(self,Button_select):
-        for j in range(0,9):
+        for j in range(0,7):
             self.CPU_col_insert_entry_widgets[Button_select][j].delete(0,END)
             self.CPU_col_lookup_entry_widgets[Button_select][j].delete(0,END)
             self.CPU_col_StartRow_entry_widgets[Button_select][j].delete(0,END)
@@ -339,13 +337,13 @@ class RefDesignator_Gui:
     def Run_RefDesign_Concat(self):
         for i in range(0,4):
             if self.CPU_Ref_input_entry_widgets[i].get() or self.CPU_Ref_header_entry_widgets[i].get():
-                for j in range(0,9):
+                for j in range(0,7):
                     # print((self.Ref_design_check_button_widgets[i][j]).get())
                     if (self.Ref_design_check_button_widgets[i][j].get() != "0" and 
                         self.CPU_col_insert_entry_widgets[i][j].get() != "0" and
                         self.CPU_col_lookup_entry_widgets[i][j].get()!= "0"  and
                         self.CPU_col_StartRow_entry_widgets[i][j].get()!= "0" ):
-                            RefDesig_Concat(filename= self.filename,
+                            RefDesig_Concat(fileName = self.fileName,
                                             Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
                                             concat_symbol=self.symbol_ref_drop_list[i].get(),
                                             Insert_sheet_name=self.Ref_design_check_button_widgets[i][j].get(),
@@ -362,15 +360,13 @@ class RefDesignator_Gui:
     def CUP0_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
             # -----------------1. Configure Default Sheet Name--------------------------
-            self.Ref_design_check_button_widgets[0][0].set("DDR_14L")
-            self.Ref_design_check_button_widgets[0][1].set("DDR_16L")
-            self.Ref_design_check_button_widgets[0][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[0][3].set("XGMI")
-            self.Ref_design_check_button_widgets[0][4].set("PCIE")
-            self.Ref_design_check_button_widgets[0][5].set("SATA")
-            self.Ref_design_check_button_widgets[0][6].set("MISC")
-            self.Ref_design_check_button_widgets[0][7].set("USB")
-            self.Ref_design_check_button_widgets[0][8].set("CLK")
+            self.Ref_design_check_button_widgets[0][0].set("MEMORY")
+            self.Ref_design_check_button_widgets[0][1].set("XGMI")
+            self.Ref_design_check_button_widgets[0][2].set("PCIE")
+            self.Ref_design_check_button_widgets[0][3].set("SATA")
+            self.Ref_design_check_button_widgets[0][4].set("MISC")
+            self.Ref_design_check_button_widgets[0][5].set("USB")
+            self.Ref_design_check_button_widgets[0][6].set("CLK")
 
         if Col_Lookup == True:
             # -------------------2. Configure Default Column Lookup input-------------------
@@ -381,8 +377,6 @@ class RefDesignator_Gui:
             self.CPU_col_lookup_entry_widgets[0][4].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[0][5].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[0][6].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[0][7].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[0][8].insert(0,"C")
 
         if StartRowInsert == True:
             # --------------3. Configure Default Start Row Insert------------------------
@@ -393,8 +387,6 @@ class RefDesignator_Gui:
             self.CPU_col_StartRow_entry_widgets[0][4].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[0][5].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[0][6].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[0][7].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[0][8].insert(0,"3")
 
 
         if Col_Insert == True:
@@ -406,21 +398,17 @@ class RefDesignator_Gui:
             self.CPU_col_insert_entry_widgets[0][4].insert(0,"K")
             self.CPU_col_insert_entry_widgets[0][5].insert(0,"K")
             self.CPU_col_insert_entry_widgets[0][6].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][7].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][8].insert(0,"K")
-
+            
     def CUP1_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
             # -----------------1. Configure Default Sheet Name--------------------------
-            self.Ref_design_check_button_widgets[1][0].set("DDR_14L")
-            self.Ref_design_check_button_widgets[1][1].set("DDR_16L")
-            self.Ref_design_check_button_widgets[1][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[1][3].set("XGMI")
-            self.Ref_design_check_button_widgets[1][4].set("PCIE")
-            self.Ref_design_check_button_widgets[1][5].set("SATA")
-            self.Ref_design_check_button_widgets[1][6].set("MISC")
-            self.Ref_design_check_button_widgets[1][7].set("USB")
-            self.Ref_design_check_button_widgets[1][8].set("CLK")
+            self.Ref_design_check_button_widgets[1][0].set("MEMORY")
+            self.Ref_design_check_button_widgets[1][1].set("XGMI")
+            self.Ref_design_check_button_widgets[1][2].set("PCIE")
+            self.Ref_design_check_button_widgets[1][3].set("SATA")
+            self.Ref_design_check_button_widgets[1][4].set("MISC")
+            self.Ref_design_check_button_widgets[1][5].set("USB")
+            self.Ref_design_check_button_widgets[1][6].set("CLK")
 
         if Col_Lookup == True:
             # -------------------2. Configure Default Column Lookup input-------------------
@@ -431,8 +419,6 @@ class RefDesignator_Gui:
             self.CPU_col_lookup_entry_widgets[1][4].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[1][5].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[1][6].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[1][7].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[1][8].insert(0,"C")
 
         if StartRowInsert == True:
             # --------------3. Configure Default Start Row Insert------------------------
@@ -443,8 +429,6 @@ class RefDesignator_Gui:
             self.CPU_col_StartRow_entry_widgets[1][4].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[1][5].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[1][6].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[1][7].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[1][8].insert(0,"3")
 
 
         if Col_Insert == True:
@@ -456,21 +440,17 @@ class RefDesignator_Gui:
             self.CPU_col_insert_entry_widgets[1][4].insert(0,"L")
             self.CPU_col_insert_entry_widgets[1][5].insert(0,"L")
             self.CPU_col_insert_entry_widgets[1][6].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][7].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][8].insert(0,"L")
 
     def UsbHub_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
             # -----------------1. Configure Default Sheet Name--------------------------
-            self.Ref_design_check_button_widgets[2][0].set("DDR_14L")
-            self.Ref_design_check_button_widgets[2][1].set("DDR_16L")
-            self.Ref_design_check_button_widgets[2][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[2][3].set("XGMI")
-            self.Ref_design_check_button_widgets[2][4].set("PCIE")
-            self.Ref_design_check_button_widgets[2][5].set("SATA")
-            self.Ref_design_check_button_widgets[2][6].set("MISC")
-            self.Ref_design_check_button_widgets[2][7].set("USB")
-            self.Ref_design_check_button_widgets[2][8].set("CLK")
+            self.Ref_design_check_button_widgets[2][0].set("MEMORY")
+            self.Ref_design_check_button_widgets[2][1].set("XGMI")
+            self.Ref_design_check_button_widgets[2][2].set("PCIE")
+            self.Ref_design_check_button_widgets[2][3].set("SATA")
+            self.Ref_design_check_button_widgets[2][4].set("MISC")
+            self.Ref_design_check_button_widgets[2][5].set("USB")
+            self.Ref_design_check_button_widgets[2][6].set("CLK")
 
         if Col_Lookup == True:
             # -------------------2. Configure Default Column Lookup input-------------------
@@ -481,8 +461,6 @@ class RefDesignator_Gui:
             self.CPU_col_lookup_entry_widgets[2][4].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[2][5].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[2][6].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[2][7].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[2][8].insert(0,"C")
 
         if StartRowInsert == True:
             # --------------3. Configure Default Start Row Insert------------------------
@@ -493,8 +471,6 @@ class RefDesignator_Gui:
             self.CPU_col_StartRow_entry_widgets[2][4].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[2][5].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[2][6].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[2][7].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[2][8].insert(0,"3")
 
 
         if Col_Insert == True:
@@ -506,21 +482,17 @@ class RefDesignator_Gui:
             self.CPU_col_insert_entry_widgets[2][4].insert(0,"M")
             self.CPU_col_insert_entry_widgets[2][5].insert(0,"M")
             self.CPU_col_insert_entry_widgets[2][6].insert(0,"M")
-            self.CPU_col_insert_entry_widgets[2][7].insert(0,"M")
-            self.CPU_col_insert_entry_widgets[2][8].insert(0,"M")
 
     def ClkBuff_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:
             # -----------------1. Configure Default Sheet Name--------------------------
-            self.Ref_design_check_button_widgets[3][0].set("DDR_14L")
-            self.Ref_design_check_button_widgets[3][1].set("DDR_16L")
-            self.Ref_design_check_button_widgets[3][2].set("DDR_18L")
-            self.Ref_design_check_button_widgets[3][3].set("XGMI")
-            self.Ref_design_check_button_widgets[3][4].set("PCIE")
-            self.Ref_design_check_button_widgets[3][5].set("SATA")
-            self.Ref_design_check_button_widgets[3][6].set("MISC")
-            self.Ref_design_check_button_widgets[3][7].set("USB")
-            self.Ref_design_check_button_widgets[3][8].set("CLK")
+            self.Ref_design_check_button_widgets[3][0].set("MEMORY")
+            self.Ref_design_check_button_widgets[3][1].set("XGMI")
+            self.Ref_design_check_button_widgets[3][2].set("PCIE")
+            self.Ref_design_check_button_widgets[3][3].set("SATA")
+            self.Ref_design_check_button_widgets[3][4].set("MISC")
+            self.Ref_design_check_button_widgets[3][5].set("USB")
+            self.Ref_design_check_button_widgets[3][6].set("CLK")
 
         if Col_Lookup == True:
             # -------------------2. Configure Default Column Lookup input-------------------
@@ -531,8 +503,6 @@ class RefDesignator_Gui:
             self.CPU_col_lookup_entry_widgets[3][4].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[3][5].insert(0,"C")
             self.CPU_col_lookup_entry_widgets[3][6].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[3][7].insert(0,"C")
-            self.CPU_col_lookup_entry_widgets[3][8].insert(0,"C")
 
         if StartRowInsert == True:
             # --------------3. Configure Default Start Row Insert------------------------
@@ -543,8 +513,6 @@ class RefDesignator_Gui:
             self.CPU_col_StartRow_entry_widgets[3][4].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[3][5].insert(0,"3")
             self.CPU_col_StartRow_entry_widgets[3][6].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[3][7].insert(0,"3")
-            self.CPU_col_StartRow_entry_widgets[3][8].insert(0,"3")
 
 
         if Col_Insert == True:
@@ -556,8 +524,6 @@ class RefDesignator_Gui:
             self.CPU_col_insert_entry_widgets[3][4].insert(0,"O")
             self.CPU_col_insert_entry_widgets[3][5].insert(0,"O")
             self.CPU_col_insert_entry_widgets[3][6].insert(0,"O")
-            self.CPU_col_insert_entry_widgets[3][7].insert(0,"O")
-            self.CPU_col_insert_entry_widgets[3][8].insert(0,"O")
         
 
 # if __name__ =='__main__':

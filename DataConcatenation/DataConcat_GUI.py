@@ -2,9 +2,9 @@ from tkinter import *
 from DataConcatenation.DataConcatenation import DataConcatenation
 
 class DataConcat_Gui:
-    def __init__(self,rootframe, filename):
+    def __init__(self,rootframe, fileName):
         self.rootframe = rootframe
-        self.filename = filename
+        self.fileName = fileName
         #-------------------Data Concat--------------------------------------#
         self.DataConcat_frame = LabelFrame(self.rootframe,text= "Concatenation",padx=10, pady=10,labelanchor='n')
         self.DataConcat_frame.grid(padx=30,pady=10,row=0,column=0,columnspan=3,rowspan=2)
@@ -201,7 +201,7 @@ class DataConcat_Gui:
             if self.col1_entry_widgets[i].get():
                 if self.col2_entry_widgets[i].get():
                     if self.col_insert_entry_widgets[i].get():
-                        DataConcatenation(filename= self.filename,
+                        DataConcatenation(fileName = self.fileName,
                                         col_1=str(self.col1_entry_widgets[i].get()),
                                         col_2=str(self.col2_entry_widgets[i].get()),
                                         sheet1_name=str(self.Sheet1_drop_list[i].get()),

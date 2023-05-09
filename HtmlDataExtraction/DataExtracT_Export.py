@@ -1,17 +1,16 @@
 from bs4 import BeautifulSoup
-import xml.etree.ElementTree as ET
-from datetime import datetime
 import re
 import Background_GUI_Tool
-import pandas as pd
 import openpyxl
-from openpyxl.utils import get_column_letter
+from openpyxl.styles import Border, Side
+from openpyxl.styles import Alignment
 
 # Files declaration:
 NetPin_file = "Component_Pin_Report.htm"
 Netlist_file = "Netlist.htm"
 BOM_file = "BOM.htm"
 LenWidLayer_file = "Etch_Length_Width_Layer.htm"
+LayerStack_file = "Layer_Stackup report.htm"
 
 
 class DataExtraction:
@@ -58,6 +57,12 @@ class DataExtraction:
         self.col_data_TraceLenWid_TotalLength = []
         self.col_data_TraceLenWid_LineWidth = []
         self.col_data_TraceLenWid_LenATwidth = []
+
+        #Layer Stackup
+        self.col_layer_stackup_SubName = []
+        self.col_layer_stackup_Type = []
+        self.col_layer_stackup_Material = []
+        self.col_layer_stackup_Thickness = []
 
 
     def HTML_Data_Extract(self):
@@ -164,7 +169,29 @@ class DataExtraction:
                             self.col_data_TraceLenWid_LenATwidth.append(columns[4].text.strip())
                         else:
                             m = float(columns[4].text.strip())
-                            self.col_data_TraceLenWid_LenATwidth.append(m)  
+                            self.col_data_TraceLenWid_LenATwidth.append(m) 
+
+        #layer Stackup Report data extract:
+        if LayerStack_file in self.file:
+            for row in table.find_all("tr"):
+                columns = row.find_all("td")
+                for i in self.col_select:
+                    if i.get() == "LyrStack_option1":
+                        self.col_layer_stackup_SubName.append(columns[0].text.strip())
+                    if i.get() == "LyrStack_option2":
+                        self.col_layer_stackup_Type.append(columns[1].text.strip())
+                    if i.get() == "LyrStack_option3":
+                        self.col_layer_stackup_Material.append(columns[2].text.strip())
+                    if i.get() == "LyrStack_option4":
+                        # Using "Regular expression" to detect html mixed number (numbers that contain digits and non-digits)
+                        # if mixed-number ==> store in to list, else convert to integer and sotre to list.
+                        if re.findall('[A-Z]+',columns[3].text.strip()):
+                            self.col_layer_stackup_Thickness.append(columns[3].text.strip())
+                        elif len(columns[3].text.strip()) == 0:
+                            self.col_layer_stackup_Thickness.append(columns[3].text.strip())
+                        else:
+                            l = float(columns[3].text.strip())
+                            self.col_layer_stackup_Thickness.append(l)
 
 class ExportTOexcel:
     def __init__(self,object,sheet,column_num):
@@ -175,66 +202,17 @@ class ExportTOexcel:
 
     def WriteTOexcel(self):
         # print(len(self.object))
-        for i in self.object:
-            self.sheet.cell(self.row +1,self.column_num +1).value = i
-            self.row += 1
-
-
-class DataConcatenation:
-    def __init__(self, 
-                 col_1= None,
-                 col_2=None,
-                 sheet1_name=None,
-                 sheet2_name=None,
-                 col_insert_sheet_name= None,
-                 col_insert=None,
-                 concat_symbol=None,
-                 header = None):
+            # Set the border for each cell
+        self.border = Border(left=Side(border_style='thin', color='000000'),
+                        right=Side(border_style='thin', color='000000'),
+                        top=Side(border_style='thin', color='000000'),
+                        bottom=Side(border_style='thin', color='000000'))
+        self.center_alignment = Alignment(horizontal='center', vertical='center')
         
-        self.col_1 = col_1
-        self.col_2 = col_2
-        self.sheet1_name = sheet1_name
-        self.sheet2_name = sheet2_name
-        self.col_insert = col_insert
-        self.start_row = 2 # start from the specific row to exclude the header row
-        self.concat_symbol = concat_symbol
-        self.header = header
-        self.col_insert_sheet_name = col_insert_sheet_name
-
-    def data_concat(self):
-        # Load the Excel file
-        # workbook = openpyxl.load_workbook("2023-04-13 171628.xlsx")
-        workbook = openpyxl.load_workbook(Background_GUI_Tool.y)
-
-        # Select the worksheet
-        df1 = workbook[self.sheet1_name]
-        df2 = workbook[self.sheet2_name]
-        df3 = workbook[self.col_insert_sheet_name]
-
-        end_row = df1.max_row
-
-        if len(self.col_insert) >=2:
-            col_header_insert = 0
-            for c in self.col_insert:
-                col_header_insert = col_header_insert * 26 + ord(c) - ord('A') + 1
-            print(col_header_insert)
-        else:
-            col_header_insert= ord(self.col_insert) - ord('A') + 1
-
-
-        if self.header != None:
-            df3.cell(row=1, column=col_header_insert).value = self.header
-        else:
-            pass
-
-        for row in range(self.start_row, end_row+1):
-            column_1_value = df1[self.col_1 + str(row)].value
-            column_2_value = df2[self.col_2 + str(row)].value
-            combined_value = str(column_1_value) + self.concat_symbol + str(column_2_value) # combine the two column values with a space in between
-
-            if self.col_insert == None:
-                print(combined_value)
-            else:
-                df3[self.col_insert + str(row)].value = combined_value # write the combined value to the third column (column C)    
-                
-        workbook.save(Background_GUI_Tool.y)
+        for i in self.object:
+            # Set Alignment and border for each cell
+            self.sheet.cell(self.row +1,self.column_num +1).value = i
+            self.sheet.cell(self.row +1,self.column_num +1).alignment = self.center_alignment
+            self.sheet.cell(self.row +1,self.column_num +1).border = self.border
+            self.row += 1
+    

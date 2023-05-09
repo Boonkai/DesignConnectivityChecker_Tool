@@ -1,9 +1,11 @@
 import openpyxl
 import Background_GUI_Tool
+from openpyxl.styles import Border, Side
+from openpyxl.styles import Alignment
 
 class DataConcatenation:
     def __init__(self, 
-                 filename,
+                 fileName,
                  col_1= None,
                  col_2=None,
                  sheet1_name=None,
@@ -13,7 +15,7 @@ class DataConcatenation:
                  col_insert_start_row = None,
                  concat_symbol=None,
                  header = None):
-        self.filename =filename
+        self.fileName =fileName
         self.col_1 = col_1
         self.col_2 = col_2
         self.sheet1_name = sheet1_name
@@ -27,7 +29,7 @@ class DataConcatenation:
     def data_concat(self):
         # Load the Excel file
         # workbook = openpyxl.load_workbook("2023-04-13 171628.xlsx")
-        workbook = openpyxl.load_workbook(self.filename)
+        workbook = openpyxl.load_workbook(self.fileName)
 
         # Select the worksheet
         df1 = workbook[self.sheet1_name]
@@ -35,6 +37,15 @@ class DataConcatenation:
         df3 = workbook[self.col_insert_sheet_name]
 
         end_row = df1.max_row
+
+        # Set the border for each cell
+        self.border = Border(left=Side(border_style='thin', color='000000'),
+                        right=Side(border_style='thin', color='000000'),
+                        top=Side(border_style='thin', color='000000'),
+                        bottom=Side(border_style='thin', color='000000'))
+        
+        # set the alignment of the cell to center
+        self.center_alignment = Alignment(horizontal='center', vertical='center')
 
         if len(self.col_insert) >=2:
             col_header_insert = 0
@@ -47,6 +58,10 @@ class DataConcatenation:
 
         if self.header != None:
             df3.cell(row=1, column=col_header_insert).value = self.header
+
+            # Set Alignment and border for header cell
+            df3.cell(row=1, column=col_header_insert).alignment =self.center_alignment
+            df3.cell(row=1, column=col_header_insert).border = self.border
         else:
             pass
 
@@ -66,4 +81,9 @@ class DataConcatenation:
             else:
                 df3[self.col_insert + str(row)].value = combined_value # write the combined value to the third column (column C)    
 
-        workbook.save(self.filename)
+            # Set Alignment and border for each cell
+            df3[self.col_insert + str(row)].alignment = self.center_alignment
+            df3[self.col_insert + str(row)].border = self.border
+
+
+        workbook.save(self.fileName)

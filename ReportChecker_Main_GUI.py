@@ -130,15 +130,17 @@ class mainGUI:
         self.LayerStackup_main_input_entry = Entry(self.ReportFile_Frame ,width=70,background='white',fg="black",borderwidth=3)
         self.LayerStackup_main_input_entry.grid(row=4,column=1,padx=15,pady=15)
 
-        self.LayerStackup_main_browser_button = Button(self.ReportFile_Frame , text="Browse")
+        # create a button on Main Screen (Main Manager) to launch the file browser
+        self.LayerStackup_main_browser_button = Button(self.ReportFile_Frame , text="Browse", command=self.LyrStack_browse_file)
         self.LayerStackup_main_browser_button.grid(row=4, column=2,padx=15,pady=15)
+
+        # create a button on Development Tool (Background Manager) to launch the file browser
+        self.LayerStackup_browser_button = Button(self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_frame , text="Browse", command=self.LyrStack_browse_file)
+        self.LayerStackup_browser_button.grid(row=0, column=8)
 
         # --------------------Memory, PCIe, XGMI, USB, SATA , MISC label and Checkbox-----------------#
         self.MmyIntf_Frame = LabelFrame(self.tab1, text="Memory Interface",padx=10, pady=10,labelanchor='n')
         self.MmyIntf_Frame .grid(padx=5,pady=5,row=1,column=1)
-
-        self.MemLabel = Label(self.MmyIntf_Frame, text="Memory:",font=("Arial", 18))
-        self.MemLabel.grid(row=0,column=0)
 
         self.var =self.BackGui_obj.RefDesignator_Gui_obj.SourceFile_vars
 
@@ -146,13 +148,13 @@ class mainGUI:
         for i, (text, value) in enumerate(self.BackGui_obj.RefDesignator_Gui_obj.SourceFile_check_options):
             self.mainGUI_check_button = Checkbutton(self.MmyIntf_Frame, text=text, variable=self.var[i], onvalue=value, offvalue=0,font=("Arial", 18))
             if i < 3:
-                self.mainGUI_check_button.grid(row=i+1,column=0,sticky="w")
+                self.mainGUI_check_button.grid(row=0,padx=110, column=i,sticky="w")
                 self.mainGUI_check_button.deselect()
             if 3<=i<=5:
-                self.mainGUI_check_button.grid(row=1,padx=100,column=i-2,sticky="w")
+                self.mainGUI_check_button.grid(row=1,padx=110,column=i-3,sticky="w")
                 self.mainGUI_check_button.deselect()
             if 6<=i<=8:
-                self.mainGUI_check_button.grid(row=3,padx=100,column=i-5,sticky="w")
+                self.mainGUI_check_button.grid(row=3,padx=110,column=i-6,sticky="w")
                 self.mainGUI_check_button.deselect()
 
 
@@ -417,6 +419,19 @@ class mainGUI:
         # Update background input
         self.BackGui_obj.LenWidLayer_Gui_obj.LenWidLayer_input_entry.delete(0,END)
         self.BackGui_obj.LenWidLayer_Gui_obj.LenWidLayer_input_entry.insert(0,self.LenWidLayer_file_Path)
+
+    #---------------------Layer Stackup Browse File-----------------------------------
+    # create a function to open the file browser and select a file
+    def LyrStack_browse_file(self):
+        self.LyrStack_file_Path = self.Browse_file.browse_file()
+        
+        # Update main input
+        self.LayerStackup_main_input_entry.delete(0, END)
+        self.LayerStackup_main_input_entry.insert(0, self.LyrStack_file_Path)
+
+        # Update background input
+        self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_input_entry.delete(0,END)
+        self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_input_entry.insert(0,self.LyrStack_file_Path)
 
     def pressExit(self):
         self.BackGui_obj.BackGui_root.destroy()
