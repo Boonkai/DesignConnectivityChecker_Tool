@@ -10,7 +10,7 @@ NetPin_file = "Component_Pin_Report.htm"
 Netlist_file = "Netlist.htm"
 BOM_file = "BOM.htm"
 LenWidLayer_file = "Etch_Length_Width_Layer.htm"
-LayerStack_file = "Layer_Stackup report.htm"
+LayerStack_file = "Layer_Stackup_report.htm"
 
 
 class DataExtraction:
@@ -59,7 +59,9 @@ class DataExtraction:
         self.col_data_TraceLenWid_LenATwidth = []
 
         #Layer Stackup
+        self.Layer_num = 1
         self.col_layer_stackup_SubName = []
+        self.col_layer_stackup_LayerName = ["Layer"]
         self.col_layer_stackup_Type = []
         self.col_layer_stackup_Material = []
         self.col_layer_stackup_Thickness = []
@@ -178,6 +180,14 @@ class DataExtraction:
                 for i in self.col_select:
                     if i.get() == "LyrStack_option1":
                         self.col_layer_stackup_SubName.append(columns[0].text.strip())
+                        if columns[0].text.strip() ==  "Subclass Name":
+                            continue
+                        # Detect layer name, store layer name into list if not empty else append empty
+                        if len(columns[0].text.strip()) > 0 :
+                            self.col_layer_stackup_LayerName.append("L" + str(self.Layer_num))
+                            self.Layer_num += 1
+                        else:
+                            self.col_layer_stackup_LayerName.append(columns[0].text.strip())
                     if i.get() == "LyrStack_option2":
                         self.col_layer_stackup_Type.append(columns[1].text.strip())
                     if i.get() == "LyrStack_option3":

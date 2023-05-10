@@ -61,12 +61,15 @@ class LyrStack_Gui:
         self.LyrStack_Extract_Obj.HTML_Data_Extract()
 
         LyrStack_dict = {}
-        LyrStack_dict["LyrStack_option1"] = self.LyrStack_Extract_Obj.col_layer_stackup_SubName,self.sheet,int(0)
-        LyrStack_dict["LyrStack_option2"] = self.LyrStack_Extract_Obj.col_layer_stackup_Type,self.sheet,int(1)
-        LyrStack_dict["LyrStack_option3"] = self.LyrStack_Extract_Obj.col_layer_stackup_Material,self.sheet,int(2)
-        LyrStack_dict["LyrStack_option4"] = self.LyrStack_Extract_Obj.col_layer_stackup_Thickness,self.sheet,int(3)
+        LyrStack_dict["LyrStack_option1"] = self.LyrStack_Extract_Obj.col_layer_stackup_SubName,self.sheet,int(1)
+        LyrStack_dict["LyrStack_option2"] = self.LyrStack_Extract_Obj.col_layer_stackup_Type,self.sheet,int(2)
+        LyrStack_dict["LyrStack_option3"] = self.LyrStack_Extract_Obj.col_layer_stackup_Material,self.sheet,int(3)
+        LyrStack_dict["LyrStack_option4"] = self.LyrStack_Extract_Obj.col_layer_stackup_Thickness,self.sheet,int(4)
 
         for key,value in LyrStack_dict.items():
             for i in self.LyrStack_vars:
                 if key == i.get():
                     DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+
+        # Export Layer name to column first column
+        DataExtracT_Export.ExportTOexcel(self.LyrStack_Extract_Obj.col_layer_stackup_LayerName,self.sheet,column_num=0).WriteTOexcel()

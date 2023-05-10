@@ -76,3 +76,8 @@ class LenWidLaper_Gui:
             for i in self.LenWidLayer_vars:
                 if key == i.get():
                     DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+
+    
+
+
+        

@@ -10,7 +10,6 @@ from DataConcatenation.DataConcat_GUI import DataConcat_Gui
 from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
-
 class Background_GUI:
     def __init__(self):
         self.BackGui_root = Tk()
@@ -83,7 +82,7 @@ class Background_GUI:
         if self.export_count == 0:
             pass
         else:
-            #----------------Re-Create A New Report Workbook for 2nd times button click---------------#
+            #Re-Create A New Report Workbook for 2nd times button click to avoid reuse existing sheetname#
             Date_Time = datetime.now().strftime('%Y-%m-%d %H%M%S')
             self.New_fileName =str(Date_Time)+'.'+'xlsx'
 
