@@ -71,31 +71,42 @@ sheet2 = workbook['MEMORY']
 lookup_value = []
 lookup_output = []
 
-# # Define the column index to extract data from
-# col_idx = 0  # column B
+def column_label_to_number(label):
+    total = 0
+    for i, char in enumerate(reversed(label)):
+        value = ord(char) - 64
+        total += value * (26 ** i)
+    return total
+
+lkvTbl_Col  = column_label_to_number("C")
+lkvTbl_Result_Col = column_label_to_number("D")
+lkv_value_Col  = column_label_to_number("K")
+
+# # # Define the column index to extract data from
+# # col_idx = 0  # column B
 
 for row in sheet2.iter_rows(values_only=True):
     # print(row[10])
-    lookup_value.append(row[10])
-
+    lookup_value.append(row[lkv_value_Col -1])
+    
 for value in lookup_value:
     for vlook_row in sheet1.iter_rows(values_only=True):
         if value == None:
             continue
-        if value == vlook_row[2]:
-            lookup_output.append(vlook_row[3])
+        if value == vlook_row[lkvTbl_Col - 1]:
+            lookup_output.append(vlook_row[lkvTbl_Result_Col -1])
 
 # print(len(lookup_output))
 for i in lookup_output:
     print(i)
 
-# for i in lookup_value:
-#     print(i)
+# # for i in lookup_value:
+# #     print(i)
 
-#Required Input
-#1)sheetname 1
-#2)sheetname 2
-#3)sheet2 lookup value column
-#4)sheet1 lookup column
-#5)sheet1 lookup output
-#6)shee2 insert col
+# #Required Input
+# #1)sheetname 1
+# #2)sheetname 2
+# #3)sheet2 lookup value column
+# #4)sheet1 lookup column
+# #5)sheet1 lookup output
+# #6)shee2 insert col

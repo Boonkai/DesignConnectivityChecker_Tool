@@ -196,29 +196,28 @@ class RefDesignator_Gui:
         self.Layer_Stackup_Frame = LabelFrame(self.frame ,text="Layer Stackup Table",labelanchor='n')
         self.Layer_Stackup_Frame.grid(padx=10,pady=10,row=1,column=0,sticky="w")
 
-        self.Chl_colInsert_SheetNm = LabelFrame(self.Layer_Stackup_Frame,text="Channel Col Insert & Sheet Name",labelanchor="n")
-        self.Chl_colInsert_SheetNm.grid(row=0,column=0,padx=10)
+        # self.Chl_colInsert_SheetNm = LabelFrame(self.Layer_Stackup_Frame,text="Channel Col Insert & Sheet Name",labelanchor="n")
+        # self.Chl_colInsert_SheetNm.grid(row=0,column=0,padx=10)
 
-        self.Chl_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ"]
-        Label(self.Chl_colInsert_SheetNm,text="Sheet Name:").grid(row=0,column=0)
+        # Label(self.Chl_colInsert_SheetNm,text="Sheet Name:").grid(row=0,column=0)
 
 
-        self.Chl_colInsert_check_button_list = []
-        # Use a for loop to create the check buttons
-        for i, (text, value) in enumerate(self.SourceFile_check_options):
-            self.Chl_colInsert_SheetNm_check_button = Checkbutton(self.Chl_colInsert_SheetNm , text=text, variable=self.SourceFile_vars[i], onvalue=value, offvalue=0)
-            if i < 3:
-                self.Chl_colInsert_SheetNm_check_button.grid(row=i+1, column=0,sticky="w")
-                self.Chl_colInsert_SheetNm_check_button.deselect()
-                self.Chl_colInsert_check_button_list.append(self.SourceFile_vars[i])
+        # self.Chl_colInsert_check_button_list = []
+        # # Use for loop to create the check buttons
+        # for i, (text, value) in enumerate(self.SourceFile_check_options):
+        #     self.Chl_colInsert_SheetNm_check_button = Checkbutton(self.Chl_colInsert_SheetNm , text=text, variable=self.SourceFile_vars[i], onvalue=value, offvalue=0)
+        #     if i < 3:
+        #         self.Chl_colInsert_SheetNm_check_button.grid(row=i+1, column=0,sticky="w")
+        #         self.Chl_colInsert_SheetNm_check_button.deselect()
+        #         self.Chl_colInsert_check_button_list.append(self.SourceFile_vars[i])
 
         # for z in self.Chl_colInsert_check_button_list:
         #     print(z.get())
 
 
-        Label(self.Chl_colInsert_SheetNm,text="Column Insert:").grid(row=0,column=1,padx=20)
-        self.Chl_colInsert_Entry = Entry(self.Chl_colInsert_SheetNm,width=5,background='white',fg="black",borderwidth=3)
-        self.Chl_colInsert_Entry.grid(row=1,column=1)
+        # Label(self.Chl_colInsert_SheetNm,text="Column Insert:").grid(row=0,column=1,padx=20)
+        # self.Chl_colInsert_Entry = Entry(self.Chl_colInsert_SheetNm,width=5,background='white',fg="black",borderwidth=3)
+        # self.Chl_colInsert_Entry.grid(row=1,column=1)
 
 
         # self.fourteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="14 Layer_Stackup",labelanchor='n')
@@ -227,8 +226,8 @@ class RefDesignator_Gui:
         # self.sixteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="16 Layer_Stackup",labelanchor='n')
         # self.sixteen_layer_Frame.grid(padx=10,pady=10,row=0,column=1)
 
-        # self.eighteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="18 Layer_Stackup",labelanchor='n')
-        # self.eighteen_layer_Frame.grid(padx=10,pady=10,row=0,column=2)
+        self.eighteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="PCIe Width",labelanchor='n')
+        self.eighteen_layer_Frame.grid(padx=10,pady=10,row=0,column=3)
 
         # for fourtheen_layer in range(1,15):
         #     Label(self.fourteen_layer_Frame,text="Layer "+ str(fourtheen_layer)).grid(row=fourtheen_layer,column=0)
@@ -241,11 +240,11 @@ class RefDesignator_Gui:
         #     self.sixteen_layer_entry = Entry(self.sixteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
         #     self.sixteen_layer_entry.grid(row=sixteen_layer ,column=1)
 
-        # for eighteen_layer in range(1,19):
-        #     Label(self.eighteen_layer_Frame,text="Layer "+ str(eighteen_layer )).grid(row=eighteen_layer,column=0)
+        for eighteen_layer in range(1,19):
+            Label(self.eighteen_layer_Frame,text="Layer "+ str(eighteen_layer )).grid(row=eighteen_layer,column=0)
 
-        #     self.eighteen_layer_entry = Entry(self.eighteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
-        #     self.eighteen_layer_entry.grid(row=eighteen_layer ,column=1)
+            self.eighteen_layer_entry = Entry(self.eighteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
+            self.eighteen_layer_entry.grid(row=eighteen_layer ,column=1)
 
         #-------------------------------Breakout/Bus Channel Width GUI---------------------------------------#
         # Breakout Width
@@ -273,6 +272,10 @@ class RefDesignator_Gui:
             self.RefDsn_BO_Chnl_width_DQ_entry.grid(row=bo_dq_row+1,column=1,pady=5,padx=5)
             self.RefDsn_BO_Chnl_width_DQ_entry_list.append(self.RefDsn_BO_Chnl_width_DQ_entry)
 
+        self.BO_width_DQ_Output_list = []
+        for bodq_out in self.RefDsn_BO_Chnl_width_DQ_entry_list:
+            self.BO_width_DQ_Output_list.append(bodq_out.get())
+
         self.RefDsn_BO_Chnl_width_DQS_entry_list = []
         for bo_dqS_row in range(0,12):
             self.RefDsn_BO_Chnl_width_DQS_entry = Entry(self.RefDsn_BO_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
@@ -280,13 +283,13 @@ class RefDesignator_Gui:
             self.RefDsn_BO_Chnl_width_DQS_entry_list.append(self.RefDsn_BO_Chnl_width_DQS_entry)
 
 
-        Label(self.RefDsn_BO_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
-        self.BO_DQ_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        self.BO_DQ_col_insert.grid(row=6,column=3)
+        # Label(self.RefDsn_BO_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
+        # self.BO_DQ_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
+        # self.BO_DQ_col_insert.grid(row=6,column=3)
 
-        Label(self.RefDsn_BO_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
-        self.BO_DQS_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        self.BO_DQS_col_insert.grid(row=8,column=3)
+        # Label(self.RefDsn_BO_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
+        # self.BO_DQS_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
+        # self.BO_DQS_col_insert.grid(row=8,column=3)
 
 
         # Bus Channel Width
@@ -320,13 +323,28 @@ class RefDesignator_Gui:
             self.RefDsn_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
             self.RefDsn_Bus_Chnl_width_DQS_entry_list.append(self.RefDsn_Bus_Chnl_width_DQS_entry)
 
-        Label(self.RefDsn_Bus_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
-        self.Bus_DQ_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        self.Bus_DQ_col_insert.grid(row=6,column=3)
+        # Label(self.RefDsn_Bus_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
+        # self.Bus_DQ_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
+        # self.Bus_DQ_col_insert.grid(row=6,column=3)
 
-        Label(self.RefDsn_Bus_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
-        self.Bus_DQS_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        self.Bus_DQS_col_insert.grid(row=8,column=3)
+        # Label(self.RefDsn_Bus_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
+        # self.Bus_DQS_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
+        # self.Bus_DQS_col_insert.grid(row=8,column=3)
+
+
+        bodq_default = ["3.66","3.94","3.94","3.94","3.94","3.94","3.66","3.94","3.94","3.94","3.94","3.94"]
+        for num ,bodq_input in enumerate(bodq_default):
+            (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).delete(0, END)
+            (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
+
+            (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).delete(0, END)
+            (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
+
+            (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).delete(0, END)
+            (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
+
+            (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).delete(0, END)
+            (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
             
         #------------------------Canvas Scroll BarConfigure---------------------------#
@@ -438,13 +456,13 @@ class RefDesignator_Gui:
 
         if Col_Insert == True:
             # --------------4. Configure Default Column Insert-------------------------
-            self.CPU_col_insert_entry_widgets[0][0].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][1].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][2].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][3].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][4].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][5].insert(0,"K")
-            self.CPU_col_insert_entry_widgets[0][6].insert(0,"K")
+            self.CPU_col_insert_entry_widgets[0][0].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][1].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][2].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][3].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][4].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][5].insert(0,"M")
+            self.CPU_col_insert_entry_widgets[0][6].insert(0,"M")
             
     def CUP1_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:

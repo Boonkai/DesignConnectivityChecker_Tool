@@ -3,6 +3,11 @@ from tkinter import *
 from tkinter import ttk
 from HtmlDataExtraction import *
 from FileBrowser.FileBrowser import browser
+Netpin = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Component_Pin_Report.htm"
+Netlist = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Netlist.htm"
+BOMFile = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/BOM.htm"
+lenWid = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Etch_Length_Width_Layer.htm"
+LayerStack = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Layer_Stackup_report.htm"
 
 class mainGUI:
     def __init__(self):
@@ -238,54 +243,54 @@ class mainGUI:
         #-----------------------Sync main and background input--------------------------#
         # Bind sync_main_entry to the KeyRelease event of entry 
         # 1) CPU Reference Designator input
-        self.CPU0_input_entry.bind("<KeyRelease>", self.sync_main_entry)
-        self.CPU1_input_entry.bind("<KeyRelease>", self.sync_main_entry)
-        self.UsbHub_input_entry.bind("<KeyRelease>", self.sync_main_entry)
-        self.ClkBuff_input_entry.bind("<KeyRelease>", self.sync_main_entry)
+        self.CPU0_input_entry.bind("<KeyRelease>", self.sync_RefDsn_main_entry)
+        self.CPU1_input_entry.bind("<KeyRelease>", self.sync_RefDsn_main_entry)
+        self.UsbHub_input_entry.bind("<KeyRelease>", self.sync_RefDsn_main_entry)
+        self.ClkBuff_input_entry.bind("<KeyRelease>", self.sync_RefDsn_main_entry)
         
         # 2) Breakout DQ input (main Page)
         for boDq in self.Main_BO_Chnl_width_DQ_entry_list:
-            boDq.bind("<KeyRelease>", self.sync_main_entry)
+            boDq.bind("<KeyRelease>", self.sync_LyrStack_main_entry)
 
         # 3) Breakout DQS input (main Page)
         for boDqs in self.Main_BO_Chnl_width_DQS_entry_list:
-            boDqs.bind("<KeyRelease>", self.sync_main_entry)
+            boDqs.bind("<KeyRelease>", self.sync_LyrStack_main_entry)
 
         # 4) BUS Channel DQ input (main Page)
         for busDq in self.Main_Bus_Chnl_width_DQ_entry_list:
-            busDq.bind("<KeyRelease>", self.sync_main_entry)
+            busDq.bind("<KeyRelease>", self.sync_LyrStack_main_entry)
 
         # 5) BUS Channel DQS input (main Page)
         for busDqs in self.Main_Bus_Chnl_width_DQS_entry_list:
-            busDqs.bind("<KeyRelease>", self.sync_main_entry)
+            busDqs.bind("<KeyRelease>", self.sync_LyrStack_main_entry)
 
 
         # Bind sync_background_entry to the KeyRelease event of entry
          # 1) CPU Reference Designator input (developemnt Page)
-        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].bind("<KeyRelease>", self.sync_background_entry)
-        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].bind("<KeyRelease>", self.sync_background_entry)
-        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[2].bind("<KeyRelease>", self.sync_background_entry)
-        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[3].bind("<KeyRelease>", self.sync_background_entry)
+        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].bind("<KeyRelease>", self.sync_RefDsgn_background_entry)
+        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].bind("<KeyRelease>", self.sync_RefDsgn_background_entry)
+        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[2].bind("<KeyRelease>", self.sync_RefDsgn_background_entry)
+        self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[3].bind("<KeyRelease>", self.sync_RefDsgn_background_entry)
 
         # 2) Breakout DQ input (developemnt Page)
         self.boDq_backgrd_entry_list = self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list
         for boDq in self.boDq_backgrd_entry_list:
-            boDq.bind("<KeyRelease>", self.sync_background_entry)
+            boDq.bind("<KeyRelease>", self.sync_LyrStack_background_entry)
 
         # 3) Breakout DQS input (developemnt Page)
         self.boDqs_backgrd_entry_list = self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQS_entry_list
         for boDqs in self.boDqs_backgrd_entry_list:
-            boDqs.bind("<KeyRelease>", self.sync_background_entry)
+            boDqs.bind("<KeyRelease>", self.sync_LyrStack_background_entry)
 
         # 4) Bus Channel DQ input (developemnt Page)
         self.busDq_backgrd_entry_list = self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_Bus_Chnl_width_DQ_entry_list
         for busDq in self.busDq_backgrd_entry_list:
-            busDq.bind("<KeyRelease>", self.sync_background_entry)
+            busDq.bind("<KeyRelease>", self.sync_LyrStack_background_entry)
 
         # 5) Bus Channel DQS input (developemnt Page)
         self.busDqs_backgrd_entry_list = self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_Bus_Chnl_width_DQS_entry_list
         for busDqs in self.busDqs_backgrd_entry_list:
-            busDqs.bind("<KeyRelease>", self.sync_background_entry)
+            busDqs.bind("<KeyRelease>", self.sync_LyrStack_background_entry)
 
     """
     In this case, the event parameter in the sync_entry1 method is the Event object associated with the event that 
@@ -299,7 +304,7 @@ class mainGUI:
     We don't actually use any information from the Event object itself, but we still need to include it as a parameter 
     in the function definition because it is automatically passed to the function when the event is triggered.
     """
-    def sync_main_entry(self, event):
+    def sync_RefDsn_main_entry(self, event):
         # print(event) # press 'A' event output = <KeyRelease event keysym=a keycode=97 char='a' x=25 y=19>
 
         # Update the value of sync_background_entry
@@ -314,6 +319,8 @@ class mainGUI:
 
         self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[3].delete(0, END)
         self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[3].insert(0, self.ClkBuff_input_entry.get())
+
+    def sync_LyrStack_main_entry(self, event):
 
         for num, boDq in enumerate(self.boDq_backgrd_entry_list):
             boDq.delete(0, END)
@@ -334,7 +341,7 @@ class mainGUI:
         #self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list[0].delete(0, END)
         # self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list[0].insert(0, self.Main_BO_Chnl_width_DQ_entry_list[0].get())
 
-    def sync_background_entry(self, event):
+    def sync_RefDsgn_background_entry(self, event):
         # Update the value of sync_main_entry
         self.CPU0_input_entry.delete(0, END)
         self.CPU0_input_entry.insert(0, self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].get())
@@ -347,6 +354,8 @@ class mainGUI:
 
         self.ClkBuff_input_entry.delete(0, END)
         self.ClkBuff_input_entry.insert(0, self.BackGui_obj.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[3].get())
+
+    def sync_LyrStack_background_entry(self, event):
 
         for num, boDq in enumerate(self.Main_BO_Chnl_width_DQ_entry_list):
             boDq.delete(0, END)
@@ -371,7 +380,8 @@ class mainGUI:
     #---------------------NetPin File Browser-----------------------------------
     # create a function to open the file browser and select a file
     def NetPin_browse_file(self):
-        self.NetPin_file_Path = self.Browse_file.browse_file()
+        # self.NetPin_file_Path = self.Browse_file.browse_file()
+        self.NetPin_file_Path = Netpin
         
         # Update main input
         self.NetPin_main_input_entry.delete(0, END)
@@ -384,7 +394,8 @@ class mainGUI:
     #---------------------Netlist Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def Netlist_browse_file(self):
-        self.Netlist_file_Path = self.Browse_file.browse_file()
+        # self.Netlist_file_Path = self.Browse_file.browse_file()
+        self.Netlist_file_Path = Netlist
         
         # Update main input
         self.Netlist_main_input_entry.delete(0, END)
@@ -397,7 +408,8 @@ class mainGUI:
     #---------------------BOM Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def BOM_browse_file(self):
-        self.BOM_file_Path = self.Browse_file.browse_file()
+        # self.BOM_file_Path = self.Browse_file.browse_file()
+        self.BOM_file_Path = BOMFile
         
         # Update main input
         self.BOM_main_input_entry.delete(0, END)
@@ -410,8 +422,9 @@ class mainGUI:
     #---------------------Length Width Layer Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def LenWidLayer_browse_file(self):
-        self.LenWidLayer_file_Path = self.Browse_file.browse_file()
-        
+        # self.LenWidLayer_file_Path = self.Browse_file.browse_file()
+        self.LenWidLayer_file_Path = lenWid
+
         # Update main input
         self.LenWidLayer_main_input_entry.delete(0, END)
         self.LenWidLayer_main_input_entry.insert(0, self.LenWidLayer_file_Path)
@@ -423,7 +436,8 @@ class mainGUI:
     #---------------------Layer Stackup Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def LyrStack_browse_file(self):
-        self.LyrStack_file_Path = self.Browse_file.browse_file()
+        # self.LyrStack_file_Path = self.Browse_file.browse_file()
+        self.LyrStack_file_Path = LayerStack
         
         # Update main input
         self.LayerStackup_main_input_entry.delete(0, END)

@@ -10,6 +10,9 @@ from DataConcatenation.DataConcat_GUI import DataConcat_Gui
 from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
+from RefDesignator.LayerTable import CreateChlTable
+from vlookup.vloopup_GUI import vlookup_Gui
+
 class Background_GUI:
     def __init__(self):
         self.BackGui_root = Tk()
@@ -68,6 +71,7 @@ class Background_GUI:
         self.LayerStackup_Gui_obj = LyrStack_Gui(self.tab1,self.sheet5)
         self.DataConcat_Gui_obj = DataConcat_Gui(self.tab2,self.fileName)
         self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileName)
+        self.vlookip_Gui_obj = vlookup_Gui(self.tab4,self.fileName)
 
         #-------------------Create the export button--------------------------#
         self.export_count =  0
@@ -135,6 +139,82 @@ class Background_GUI:
             self.DataConcat_Gui_obj.DataConcat_Execute()
             self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
             self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
+
+            #------------------------------Create Memory Stackup Table------------------------------#
+            self.Ch_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ","ChK","ChL"]
+
+            # Get Breakout DQ input
+            self.BO_width_DQ_Output_list = []
+            for bodq_out in self.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list:
+                try:
+                    if len(bodq_out.get()) == 0:
+                        self.BO_width_DQ_Output_list.append(bodq_out.get())
+                    else:
+                        self.float_convert = float(bodq_out.get())
+                        self.BO_width_DQ_Output_list.append(self.float_convert)
+                except:
+                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
+                     break
+            self.BO_DQ = ["Breakout DQ"] + self.BO_width_DQ_Output_list
+
+            # Get Breakout DQS input
+            self.BO_width_DQS_Output_list = []
+            for bodqs_out in self.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQS_entry_list:
+                try:
+                    if len(bodqs_out.get()) == 0:
+                        self.BO_width_DQS_Output_list.append(bodqs_out.get())
+                    else:
+                        self.float_convert = float(bodqs_out.get())
+                        self.BO_width_DQS_Output_list.append(self.float_convert)
+                except:
+                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
+                     break
+            self.BO_DQS = ["Breakout DQS"] + self.BO_width_DQS_Output_list
+
+            # Get Bus Channel DQ input
+            self.Bus_width_DQ_Output_list = []
+            for busdq_out in self.RefDesignator_Gui_obj.RefDsn_Bus_Chnl_width_DQ_entry_list:
+                try:
+                    if len(busdq_out.get()) == 0:
+                        self.Bus_width_DQ_Output_list.append(busdq_out.get())
+                    else:
+                        self.float_convert = float(busdq_out.get())
+                        self.Bus_width_DQ_Output_list.append(self.float_convert)
+                except:
+                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
+                     break
+            self.Bus_DQ = ["Breakout DQ"] + self.Bus_width_DQ_Output_list
+
+            # Get Bus Channel DQS input
+            self.Bus_width_DQS_Output_list = []
+            for busdqs_out in self.RefDesignator_Gui_obj.RefDsn_Bus_Chnl_width_DQS_entry_list:
+                try:
+                    if len(busdqs_out.get()) == 0:
+                        self.Bus_width_DQS_Output_list.append(busdqs_out.get())
+                    else:
+                        self.float_convert = float(busdqs_out.get())
+                        self.Bus_width_DQS_Output_list.append(self.float_convert)
+                except:
+                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
+                     break
+            self.Bus_DQS = ["Breakout DQ"] + self.Bus_width_DQS_Output_list
+
+
+            if self.export_count == 0:
+                # Create  stackup on “MEMORY” tab
+                CreateChlTable(self.fileName,"MEMORY",self.Ch_Name,"F")
+                CreateChlTable(self.fileName,"MEMORY",self.BO_DQ,"H")
+                CreateChlTable(self.fileName,"MEMORY",self.BO_DQS,"I")
+                CreateChlTable(self.fileName,"MEMORY",self.Bus_DQ,"J")
+                CreateChlTable(self.fileName,"MEMORY",self.Bus_DQS,"K")
+            else:
+                # Create  stackup on “MEMORY” tab
+                CreateChlTable(self.New_fileName,"MEMORY",self.Ch_Name,"F")
+                CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQ,"H")
+                CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQS,"I")   
+                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQ,"J")
+                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")    
+
         else:
             for key, val in self.input_check.items():
                 if not val:

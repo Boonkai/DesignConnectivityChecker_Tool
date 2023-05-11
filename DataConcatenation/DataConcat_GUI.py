@@ -36,11 +36,11 @@ class DataConcat_Gui:
 
         for j in range(1,11):
             self.Sheet1_options = [ "Pin_Net", 
-                    "Netlist",
-                    "BOM",
-                    "NetWidth",
-                    "DDR_14L",
-                    "DDR_16L"]
+                                "Netlist",
+                                "BOM",
+                                "NetWidth",
+                                "DDR_14L",
+                                "DDR_16L"]
 
             #Drop Down Boxes
             self.Sheet1_clicked = StringVar()
@@ -73,12 +73,12 @@ class DataConcat_Gui:
             self.DataConcat_plus2_label.grid(row=j,column=4)
 
             self.Sheet2_options = [ "Pin_Net", 
-                    "Netlist",
-                    "BOM",
-                    "NetWidth",
-                    "DDR_14L",
-                    "DDR_16L"]
-                
+                                "Netlist",
+                                "BOM",
+                                "NetWidth",
+                                "DDR_14L",
+                                "DDR_16L"]
+                            
             #Drop Down Boxes
             self.Sheet2_clicked = StringVar()
             self.Sheet2_clicked.set(self.Sheet2_options[0])
@@ -101,12 +101,12 @@ class DataConcat_Gui:
             self.col_insert_entry_widgets.append(self.col_insert_entry)
 
             self.col_insert_options = [ "Pin_Net", 
-                    "Netlist",
-                    "BOM",
-                    "NetWidth",
-                    "DDR_14L",
-                    "DDR_16L"]
-                
+                                "Netlist",
+                                "BOM",
+                                "NetWidth",
+                                "DDR_14L",
+                                "DDR_16L"]
+                            
             #Drop Down Boxes
             self.col_insert_clicked = StringVar()
             self.col_insert_clicked.set(self.col_insert_options[0])
