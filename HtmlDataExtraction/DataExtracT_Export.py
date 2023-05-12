@@ -61,7 +61,7 @@ class DataExtraction:
         #Layer Stackup
         self.Layer_num = 1
         self.col_layer_stackup_SubName = []
-        self.col_layer_stackup_LayerName = ["Layer"]
+        self.col_layer_stackup_LayerName = ["Layer Name"]
         self.col_layer_stackup_Type = []
         self.col_layer_stackup_Material = []
         self.col_layer_stackup_Thickness = []
@@ -212,7 +212,7 @@ class ExportTOexcel:
 
     def WriteTOexcel(self):
         # print(len(self.object))
-            # Set the border for each cell
+        # Set the border for each cell
         self.border = Border(left=Side(border_style='thin', color='000000'),
                         right=Side(border_style='thin', color='000000'),
                         top=Side(border_style='thin', color='000000'),

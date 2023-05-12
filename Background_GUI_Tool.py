@@ -11,7 +11,9 @@ from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 from RefDesignator.LayerTable import CreateChlTable
-from vlookup.vloopup_GUI import vlookup_Gui
+from vlookup.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
+from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
+from vlookup.vlookupMem_RoutLyr_GUI import vlookupMem_RoutLyr_Gui
 
 class Background_GUI:
     def __init__(self):
@@ -71,7 +73,9 @@ class Background_GUI:
         self.LayerStackup_Gui_obj = LyrStack_Gui(self.tab1,self.sheet5)
         self.DataConcat_Gui_obj = DataConcat_Gui(self.tab2,self.fileName)
         self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileName)
-        self.vlookip_Gui_obj = vlookup_Gui(self.tab4,self.fileName)
+        self.vlookup_LyrStackup_Gui_obj = vlookup_LyrStackup_Gui(self.tab4,self.fileName)
+        self.vlookup_Mem_NetName_Gui_obj = vlookupMem_NetName_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
+        self.vlookup_Mem_RoutLyr_Gui_obj = vlookupMem_RoutLyr_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
 
         #-------------------Create the export button--------------------------#
         self.export_count =  0
@@ -112,6 +116,9 @@ class Background_GUI:
             self.LayerStackup_Gui_obj.sheet = self.New_sheet5
             self.DataConcat_Gui_obj.fileName = self.New_fileName
             self.RefDesignator_Gui_obj.fileName = self.New_fileName
+            self.vlookup_LyrStackup_Gui_obj.fileName = self.New_fileName
+            self.vlookup_Mem_NetName_Gui_obj.fileName = self.New_fileName
+            self.vlookup_Mem_RoutLyr_Gui_obj.fileName = self.New_fileName
 
         # print(self.export_count, "click count check")
 
@@ -139,6 +146,8 @@ class Background_GUI:
             self.DataConcat_Gui_obj.DataConcat_Execute()
             self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
             self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
+            self.vlookup_LyrStackup_Gui_obj.run_LyrStackup_Tbl_vlookup()
+            self.vlookup_Mem_NetName_Gui_obj.run_vlookup_Mem_Netnm()
 
             #------------------------------Create Memory Stackup Table------------------------------#
             self.Ch_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ","ChK","ChL"]
@@ -183,7 +192,7 @@ class Background_GUI:
                 except:
                      messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
                      break
-            self.Bus_DQ = ["Breakout DQ"] + self.Bus_width_DQ_Output_list
+            self.Bus_DQ = ["Bus Channel DQ"] + self.Bus_width_DQ_Output_list
 
             # Get Bus Channel DQS input
             self.Bus_width_DQS_Output_list = []
@@ -197,7 +206,7 @@ class Background_GUI:
                 except:
                      messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
                      break
-            self.Bus_DQS = ["Breakout DQ"] + self.Bus_width_DQS_Output_list
+            self.Bus_DQS = ["Bus Channel DQ"] + self.Bus_width_DQS_Output_list
 
 
             if self.export_count == 0:
@@ -214,7 +223,10 @@ class Background_GUI:
                 CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQS,"I")   
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQ,"J")
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")    
+            
 
+            self.vlookup_Mem_RoutLyr_Gui_obj.run_vlookup_Mem_RoutLyr()
+            
         else:
             for key, val in self.input_check.items():
                 if not val:

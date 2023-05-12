@@ -11,51 +11,51 @@
 
 # print(df1['value2'])
 #-------------------------------------------------------------------#
-# import openpyxl
+import openpyxl
 
-# # Open the Excel file
-# workbook = openpyxl.load_workbook('2023-05-10 172439.xlsx')
+# Open the Excel file
+workbook = openpyxl.load_workbook('2023-05-10 172439.xlsx')
 
-# # Select the sheet to work with
-# sheet = workbook['Layer_Stackup']
+# Select the sheet to work with
+sheet = workbook['Layer_Stackup']
 
-# # Define the cell to look up
-# lookup_value_L1 = sheet['A30'].value
+# Define the cell to look up
+lookup_value_L1 = sheet['A30'].value
 
-# # Define the range to search in
-# table_array = sheet['A1:E32']
+# Define the range to search in
+table_array = sheet['A1:E32']
 
-# # Perform the VLOOKUP operation
-# result_L1 = None
-# result_L14 = None
-# result_L3 = None
-# result_L5 = None
-# result_L10 = None
-# result_L12 = None
+# Perform the VLOOKUP operation
+result_L1 = None
+result_L14 = None
+result_L3 = None
+result_L5 = None
+result_L10 = None
+result_L12 = None
 
-# for row in table_array:
-#     # print(row[0].value)
-#     if row[0].value == "L1":
-#         result_L1 = row[1].value
-#     if row[0].value == "L14":
-#         result_L14 = row[1].value
-#     if row[0].value == "L3":
-#         result_L3 = row[1].value
-#     if row[0].value == "L5":
-#         result_L5 = row[1].value
-#     if row[0].value == "L10":
-#         result_L10 = row[1].value
-#     if row[0].value == "L12":
-#         result_L12 = row[1].value
+for row in table_array:
+    # print(row[0].value)
+    if row[0].value == "L1":
+        result_L1 = row[1].value
+    if row[0].value == "L14":
+        result_L14 = row[1].value
+    if row[0].value == "L3":
+        result_L3 = row[1].value
+    if row[0].value == "L5":
+        result_L5 = row[1].value
+    if row[0].value == "L10":
+        result_L10 = row[1].value
+    if row[0].value == "L12":
+        result_L12 = row[1].value
 
 
-# # Print the result
-# print(result_L1)
-# print(result_L14)
-# print(result_L3)
-# print(result_L5)
-# print(result_L10)
-# print(result_L12)
+# Print the result
+print(result_L1)
+print(result_L14)
+print(result_L3)
+print(result_L5)
+print(result_L10)
+print(result_L12)
 
 #---------------------------------------------------------------#
 import openpyxl

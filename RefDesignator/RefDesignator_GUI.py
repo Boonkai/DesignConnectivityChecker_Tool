@@ -142,22 +142,6 @@ class RefDesignator_Gui:
             self.Sheet_col_insert_Label = Label(Ref_frame ,text="Column Insert",wraplength=50)
             self.Sheet_col_insert_Label.grid(row=0,column=7,sticky='w',padx=5,pady=5)
 
-            # # Create a list of tuples that contains the text and values of the check buttons
-            # self.Ref_design_check_options = [("DDR_14L", "DDR_14L"), 
-            #                 ("DDR_16L", "DDR_16L"),
-            #                 ("DDR_18L", "DDR_18L"),
-            #                 ("XGMI", "XGMI"),
-            #                 ("PCIE", "PCIE"),
-            #                 ("SATA", "SATA"),
-            #                 ("MISC", "MISC"),
-            #                 ("USB", "USB"),
-            #                 ("CLK", "CLK")]
-
-            # # Create a list of IntVar variables to store the selected check button values
-            # self.Ref_design_vars = []
-            # for self.option in self.Ref_design_check_options:
-            #     var = StringVar()
-            #     self.Ref_design_vars.append(var)
 
             # Use a for loop to create the check buttons
             for i, (text, value) in enumerate(self.SourceFile_check_options):
@@ -196,49 +180,10 @@ class RefDesignator_Gui:
         self.Layer_Stackup_Frame = LabelFrame(self.frame ,text="Layer Stackup Table",labelanchor='n')
         self.Layer_Stackup_Frame.grid(padx=10,pady=10,row=1,column=0,sticky="w")
 
-        # self.Chl_colInsert_SheetNm = LabelFrame(self.Layer_Stackup_Frame,text="Channel Col Insert & Sheet Name",labelanchor="n")
-        # self.Chl_colInsert_SheetNm.grid(row=0,column=0,padx=10)
-
-        # Label(self.Chl_colInsert_SheetNm,text="Sheet Name:").grid(row=0,column=0)
-
-
-        # self.Chl_colInsert_check_button_list = []
-        # # Use for loop to create the check buttons
-        # for i, (text, value) in enumerate(self.SourceFile_check_options):
-        #     self.Chl_colInsert_SheetNm_check_button = Checkbutton(self.Chl_colInsert_SheetNm , text=text, variable=self.SourceFile_vars[i], onvalue=value, offvalue=0)
-        #     if i < 3:
-        #         self.Chl_colInsert_SheetNm_check_button.grid(row=i+1, column=0,sticky="w")
-        #         self.Chl_colInsert_SheetNm_check_button.deselect()
-        #         self.Chl_colInsert_check_button_list.append(self.SourceFile_vars[i])
-
-        # for z in self.Chl_colInsert_check_button_list:
-        #     print(z.get())
-
-
-        # Label(self.Chl_colInsert_SheetNm,text="Column Insert:").grid(row=0,column=1,padx=20)
-        # self.Chl_colInsert_Entry = Entry(self.Chl_colInsert_SheetNm,width=5,background='white',fg="black",borderwidth=3)
-        # self.Chl_colInsert_Entry.grid(row=1,column=1)
-
-
-        # self.fourteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="14 Layer_Stackup",labelanchor='n')
-        # self.fourteen_layer_Frame.grid(padx=10,pady=10,row=0,column=0)
-
-        # self.sixteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="16 Layer_Stackup",labelanchor='n')
-        # self.sixteen_layer_Frame.grid(padx=10,pady=10,row=0,column=1)
 
         self.eighteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="PCIe Width",labelanchor='n')
         self.eighteen_layer_Frame.grid(padx=10,pady=10,row=0,column=3)
 
-        # for fourtheen_layer in range(1,15):
-        #     Label(self.fourteen_layer_Frame,text="Layer "+ str(fourtheen_layer)).grid(row=fourtheen_layer,column=0)
-
-        #     self.fourteen_layer_entry = Entry(self.fourteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
-        #     self.fourteen_layer_entry.grid(row=fourtheen_layer,column=1)
-        # for sixteen_layer in range(1,17):
-        #     Label(self.sixteen_layer_Frame,text="Layer "+ str(sixteen_layer )).grid(row=sixteen_layer,column=0)
-
-        #     self.sixteen_layer_entry = Entry(self.sixteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
-        #     self.sixteen_layer_entry.grid(row=sixteen_layer ,column=1)
 
         for eighteen_layer in range(1,19):
             Label(self.eighteen_layer_Frame,text="Layer "+ str(eighteen_layer )).grid(row=eighteen_layer,column=0)
@@ -283,14 +228,6 @@ class RefDesignator_Gui:
             self.RefDsn_BO_Chnl_width_DQS_entry_list.append(self.RefDsn_BO_Chnl_width_DQS_entry)
 
 
-        # Label(self.RefDsn_BO_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
-        # self.BO_DQ_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        # self.BO_DQ_col_insert.grid(row=6,column=3)
-
-        # Label(self.RefDsn_BO_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
-        # self.BO_DQS_col_insert = Entry(self.RefDsn_BO_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        # self.BO_DQS_col_insert.grid(row=8,column=3)
-
 
         # Bus Channel Width
         self.RefDsn_Bus_Chnl_width = LabelFrame(self.Layer_Stackup_Frame,text="Bus Channel Width",labelanchor="n")
@@ -322,14 +259,6 @@ class RefDesignator_Gui:
             self.RefDsn_Bus_Chnl_width_DQS_entry = Entry(self.RefDsn_Bus_Chnl_width,width=5,background='white',fg="black",borderwidth=3)
             self.RefDsn_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
             self.RefDsn_Bus_Chnl_width_DQS_entry_list.append(self.RefDsn_Bus_Chnl_width_DQS_entry)
-
-        # Label(self.RefDsn_Bus_Chnl_width,text="DQ Col \nInsert").grid(row=5,column=3,padx=5,sticky="n")
-        # self.Bus_DQ_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        # self.Bus_DQ_col_insert.grid(row=6,column=3)
-
-        # Label(self.RefDsn_Bus_Chnl_width,text="DQS Col \nInsert").grid(row=7,column=3,padx=5,sticky="n")
-        # self.Bus_DQS_col_insert = Entry(self.RefDsn_Bus_Chnl_width ,width=5,background='white',fg="black",borderwidth=3)
-        # self.Bus_DQS_col_insert.grid(row=8,column=3)
 
 
         bodq_default = ["3.66","3.94","3.94","3.94","3.94","3.94","3.66","3.94","3.94","3.94","3.94","3.94"]
