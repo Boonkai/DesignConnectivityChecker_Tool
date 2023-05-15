@@ -143,6 +143,22 @@ class mainGUI:
         self.LayerStackup_browser_button = Button(self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_frame , text="Browse", command=self.LyrStack_browse_file)
         self.LayerStackup_browser_button.grid(row=0, column=8)
 
+    #--------------------Set Report Files input to default path-----------------------
+        self.NetPin_main_input_entry.insert(0, Netpin)
+        self.BackGui_obj.NetPin_Gui_obj.NetPin_input_entry.insert(0,Netpin)
+
+        self.Netlist_main_input_entry.insert(0, Netlist)
+        self.BackGui_obj.Netlist_Gui_obj.Netlist_input_entry.insert(0,Netlist)
+
+        self.BOM_main_input_entry.insert(0, BOMFile)
+        self.BackGui_obj.BOM_Gui_obj.BOM_input_entry.insert(0,BOMFile)
+
+        self.LenWidLayer_main_input_entry.insert(0, lenWid)
+        self.BackGui_obj.LenWidLayer_Gui_obj.LenWidLayer_input_entry.insert(0,lenWid)
+
+        self.LayerStackup_main_input_entry.insert(0, LayerStack)
+        self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_input_entry.insert(0,LayerStack)
+
         # --------------------Memory, PCIe, XGMI, USB, SATA , MISC label and Checkbox-----------------#
         self.MmyIntf_Frame = LabelFrame(self.tab1, text="Memory Interface",padx=10, pady=10,labelanchor='n')
         self.MmyIntf_Frame .grid(padx=5,pady=5,row=1,column=1)
@@ -154,7 +170,7 @@ class mainGUI:
             self.mainGUI_check_button = Checkbutton(self.MmyIntf_Frame, text=text, variable=self.var[i], onvalue=value, offvalue=0,font=("Arial", 18))
             if i < 3:
                 self.mainGUI_check_button.grid(row=0,padx=110, column=i,sticky="w")
-                self.mainGUI_check_button.deselect()
+                self.mainGUI_check_button.select()
             if 3<=i<=5:
                 self.mainGUI_check_button.grid(row=1,padx=110,column=i-3,sticky="w")
                 self.mainGUI_check_button.deselect()

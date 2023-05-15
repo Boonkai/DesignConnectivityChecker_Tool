@@ -260,21 +260,16 @@ class RefDesignator_Gui:
             self.RefDsn_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
             self.RefDsn_Bus_Chnl_width_DQS_entry_list.append(self.RefDsn_Bus_Chnl_width_DQS_entry)
 
-
+        # Set layer stackup value and cpu0 to default for development purpose
         bodq_default = ["3.66","3.94","3.94","3.94","3.94","3.94","3.66","3.94","3.94","3.94","3.94","3.94"]
         for num ,bodq_input in enumerate(bodq_default):
-            (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).delete(0, END)
             (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
-
-            (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).delete(0, END)
             (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
-            (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).delete(0, END)
             (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
-
-            (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).delete(0, END)
             (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
+        self.CPU_Ref_input_entry_widgets[0].insert(0,"J29")
             
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas

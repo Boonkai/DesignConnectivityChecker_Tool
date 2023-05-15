@@ -153,37 +153,79 @@ class vlookup:
 
         self.bodq_col = self.lkv_BO_Dq_Col
 
-        for bodq_Val in self.sheet2.iter_rows(min_row=3,max_row=14,values_only=True):
-            self.lookup_bodq_val.append(bodq_Val[self.lkv_BO_Dq_Col-1])
+        # Create an empty list to store the column data
+        self.LyrTable_data = {}
+
+        # Create empty lists for column 7 and column 8
+        LyrStack_values = []
+        BO_DQ_values = []
+
+        # Iterate over the columns and append each column to the list
+        # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
+        # for debugging purpose )
+        for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=self.lkv_BO_Dq_Col):
+            LyrStack_values.append(row[0].value)
+            BO_DQ_values.append(row[1].value)
+
+        for key , value in zip(LyrStack_values,BO_DQ_values):
+            self.LyrTable_data[key] = value
         
-        for vals in self.lookup_bodq_val:
-            for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-                self.Concat_Val = Netnm_val[self.lkv_NetNm_Col -1] + self.symbol1 + str((vals))
-                self.lookup_value.append(self.Concat_Val)
-            
-        # for i in self.lookup_value:
-        #     print(i)
-            
+        # dedined maximum row 
         max_row = self.sheet1.max_row
 
-        for value in self.lookup_value:
-            self.row_count = 1
-            for vlook_row in self.sheet1.iter_rows(min_row=1, values_only=True):
-                if self.row_count < max_row:
-                    # print(self.row_count)
-                    if value == vlook_row[self.lkvTbl_Col - 1]:
-                        self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-                        continue
-                    else:
-                        self.row_count +=1
-                else:
-                    # self.lookup_output.append(vlook_row[6])
-                    self.lookup_output.append("#N/A")
+        self.current_NetName = 0
+        self.layerName_flag = 0
+        self.row_count = 1
+        self.row_data = []
 
-        # for i in self.lookup_output:
-        #     print(i)
+        # Loop up available DQ value and defined row_count to track the end of row of lookup table
+        for key, value in self.LyrTable_data.items():
+            for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+                for vlook_row in self.sheet1.iter_rows( values_only=True):
+                    if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
+                        self.row_data.append(vlook_row)
+                    else:
+                        break
+                for i in self.row_data:
+                    print(i[1])
+                    if value  == i[1]:
+                        if key == i[4]:
+                            self.lookup_output.append(i[4])
+                            break
+                        else:
+                            self.lookup_output.append("#N\A")
+                    else:
+                        continue
+
+                        # if self.current_NetName == vlook_row[0]:
+                    #         self.row_count = 0
+                    #         continue
+                    #     elif value == vlook_row[1]:
+                    #         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+                    #         self.current_NetName = vlook_row[0]
+                    #         self.row_count = 0
+                    #         continue
+                    #     elif key == vlook_row[4]:
+                    #         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+                    #         self.current_NetName = vlook_row[0]
+                    #         self.row_count = 0
+                    #         continue
+                    #     self.row_count += 1
+                    #     print(self.row_count)
+                    #     if self.row_count > max_row:
+                    #         print(key)
+                    #         print(vlook_row[4])
+                    #         self.lookup_output.append("#N/A")
+                    #         self.current_NetName = vlook_row[0]
+                    #         print(vlook_row[0])
+                    #         self.row_count = 0
+                    #         self.row_count += 1
+                    # else:
+                    #     self.row_count += 1
+
+        for i in self.lookup_output:
+            print(i)
         
-    
         # Insert header with boarder and alignment styling
         self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
         self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
@@ -198,3 +240,58 @@ class vlookup:
 
         self.workbook.save(self.filename)
 
+
+
+        # # Loop up available DQ value and defined row_count to track the end of row of lookup table
+        # for key, value in self.LyrTable_data.items():
+        #     for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+        #         for vlook_row in self.sheet1.iter_rows( values_only=True):
+        #             if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
+        #                 if self.current_NetName == vlook_row[0]:
+        #                     continue
+        #                 else:
+        #                     if value == vlook_row[1]:
+        #                         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+        #                         self.current_NetName = vlook_row[0]
+        #                         continue
+        #                     elif key ==  vlook_row[4]:
+        #                         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+        #                         self.current_NetName = vlook_row[0]
+        #                         continue
+        #                     else:
+        #                         self.lookup_output.append("#N/A")
+        #                         self.current_NetName = vlook_row[0]
+        #                         print(vlook_row[0])
+        #                         continue
+
+
+        # # Loop up available DQ value and defined row_count to track the end of row of lookup table
+        # for key, value in self.LyrTable_data.items():
+        #     for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+        #         for vlook_row in self.sheet1.iter_rows( values_only=True):
+        #             if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
+        #                 if self.current_NetName == vlook_row[0]:
+        #                     self.row_count = 0
+        #                     continue
+        #                 elif value == vlook_row[1]:
+        #                     self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+        #                     self.current_NetName = vlook_row[0]
+        #                     self.row_count = 0
+        #                     continue
+        #                 elif key == vlook_row[4]:
+        #                     self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+        #                     self.current_NetName = vlook_row[0]
+        #                     self.row_count = 0
+        #                     continue
+        #                 self.row_count += 1
+        #                 print(self.row_count)
+        #                 if self.row_count > max_row:
+        #                     print(key)
+        #                     print(vlook_row[4])
+        #                     self.lookup_output.append("#N/A")
+        #                     self.current_NetName = vlook_row[0]
+        #                     print(vlook_row[0])
+        #                     self.row_count = 0
+        #                     self.row_count += 1
+        #             else:
+        #                 self.row_count += 1
