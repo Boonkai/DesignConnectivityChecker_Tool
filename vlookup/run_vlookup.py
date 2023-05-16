@@ -153,75 +153,99 @@ class vlookup:
 
         self.bodq_col = self.lkv_BO_Dq_Col
 
-        # Create an empty list to store the column data
-        self.LyrTable_data = {}
+        # # Create an empty list to store the column data
+        # self.LyrTable_data_dq = {}
+        # self.LyrTable_data_dqs = {}
 
         # Create empty lists for column 7 and column 8
         LyrStack_values = []
         BO_DQ_values = []
+        BO_DQS_values = []
 
         # Iterate over the columns and append each column to the list
         # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
         # for debugging purpose )
-        for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=self.lkv_BO_Dq_Col):
+        for row in self.sheet2.iter_rows(min_row=3, max_row=14, min_col=7, max_col=9):
             LyrStack_values.append(row[0].value)
             BO_DQ_values.append(row[1].value)
+            BO_DQS_values.append(row[2].value)
 
-        for key , value in zip(LyrStack_values,BO_DQ_values):
-            self.LyrTable_data[key] = value
-        
+
+        self.LyrTable_data = [list(values) for values in zip(LyrStack_values, BO_DQ_values, BO_DQS_values)]
+
+        # for key , value in zip(LyrStack_values,BO_DQ_values):
+        #     self.LyrTable_data_dq[key] = value
+
+        # for key , value in zip(LyrStack_values,BO_DQS_values):
+        #     self.LyrTable_data_dqs[key] = value
+    
+
         # dedined maximum row 
-        max_row = self.sheet1.max_row
+        # max_row = self.sheet1.max_row
 
         self.current_NetName = 0
         self.layerName_flag = 0
-        self.row_count = 1
-        self.row_data = []
+        self.table_data = []
+        self.repeat_Netname = []
+        self.routing_lyr = []
 
-        # Loop up available DQ value and defined row_count to track the end of row of lookup table
-        for key, value in self.LyrTable_data.items():
+        # Retrive "NetWidth" Table and store into list
+        for vlook_row in self.sheet1.iter_rows( values_only=True):
+            self.table_data.append(vlook_row)
+
+        #  Loop through Layer Table 
+        for data in self.LyrTable_data:
+            #Loop through Memory Sheet
             for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-                for vlook_row in self.sheet1.iter_rows( values_only=True):
-                    if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
-                        self.row_data.append(vlook_row)
-                    else:
-                        break
-                for i in self.row_data:
-                    print(i[1])
-                    if value  == i[1]:
-                        if key == i[4]:
-                            self.lookup_output.append(i[4])
-                            break
-                        else:
-                            self.lookup_output.append("#N\A")
+                self.repeat_Netname = [] # Clear/empty the list to store a new repeated NetName 
+                #Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                for row_data in self.table_data:
+                    if Netnm_val[self.lkv_NetNm_Col -1] == row_data[0]:
+                        self.repeat_Netname.append(row_data)
                     else:
                         continue
+                
+                # Loop through self.repeat_Netname and then check against with 
+                # layer name and DQ/DQS value and break the loop if data or value of
+                # (DQ/DQS) statement are true
+                for i in self.repeat_Netname:
+                    self.routing_lyr = [] # Clear/empty the list to store new routing results
+                    if "DQS" in i[0]:
+                        if data[2] == i[1]:
+                            # print(value, i[1],i[0])
+                            self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+                            break
+                        elif data[0] == i[4]:
+                            # print(key, i[1],i[4],i[0])
+                            self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+                            break
+                        elif data[0] != i[4]:
+                            continue
+                    else:
+                        for i in self.repeat_Netname:
+                            self.routing_lyr = []
+                            if data[1] == i[1]:
+                                # print(data[1], i[1],i[0])
+                                self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+                                break
+                            elif data[0] == i[4]:
+                                # print(data[0], i[1],i[4],i[0])
+                                self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+                                break
+                            elif data[0] != i[4]:
+                                continue
 
-                        # if self.current_NetName == vlook_row[0]:
-                    #         self.row_count = 0
-                    #         continue
-                    #     elif value == vlook_row[1]:
-                    #         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-                    #         self.current_NetName = vlook_row[0]
-                    #         self.row_count = 0
-                    #         continue
-                    #     elif key == vlook_row[4]:
-                    #         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-                    #         self.current_NetName = vlook_row[0]
-                    #         self.row_count = 0
-                    #         continue
-                    #     self.row_count += 1
-                    #     print(self.row_count)
-                    #     if self.row_count > max_row:
-                    #         print(key)
-                    #         print(vlook_row[4])
-                    #         self.lookup_output.append("#N/A")
-                    #         self.current_NetName = vlook_row[0]
-                    #         print(vlook_row[0])
-                    #         self.row_count = 0
-                    #         self.row_count += 1
-                    # else:
-                    #     self.row_count += 1
+                # print(self.routing_lyr)
+
+                # Check if self.routing_lyr list is empty else append "#N\A"
+                if len(self.routing_lyr)>0:
+                    self.lookup_output.append(self.routing_lyr[0])
+                    self.routing_lyr = []
+                    continue
+                else:
+                    self.lookup_output.append("#N/A")
+                    continue
+    
 
         for i in self.lookup_output:
             print(i)
@@ -241,57 +265,38 @@ class vlookup:
         self.workbook.save(self.filename)
 
 
+        # # Retrive "NetWidth" Table and store into list
+        # for vlook_row in self.sheet1.iter_rows( values_only=True):
+        #     self.table_data.append(vlook_row)
 
-        # # Loop up available DQ value and defined row_count to track the end of row of lookup table
-        # for key, value in self.LyrTable_data.items():
+        # #  Loop through Layer Table 
+        # for key, value in self.LyrTable_data_dq.items():
         #     for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-        #         for vlook_row in self.sheet1.iter_rows( values_only=True):
-        #             if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
-        #                 if self.current_NetName == vlook_row[0]:
-        #                     continue
-        #                 else:
-        #                     if value == vlook_row[1]:
-        #                         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-        #                         self.current_NetName = vlook_row[0]
-        #                         continue
-        #                     elif key ==  vlook_row[4]:
-        #                         self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-        #                         self.current_NetName = vlook_row[0]
-        #                         continue
-        #                     else:
-        #                         self.lookup_output.append("#N/A")
-        #                         self.current_NetName = vlook_row[0]
-        #                         print(vlook_row[0])
-        #                         continue
-
-
-        # # Loop up available DQ value and defined row_count to track the end of row of lookup table
-        # for key, value in self.LyrTable_data.items():
-        #     for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-        #         for vlook_row in self.sheet1.iter_rows( values_only=True):
-        #             if Netnm_val[self.lkv_NetNm_Col -1] == vlook_row[0]:
-        #                 if self.current_NetName == vlook_row[0]:
-        #                     self.row_count = 0
-        #                     continue
-        #                 elif value == vlook_row[1]:
-        #                     self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-        #                     self.current_NetName = vlook_row[0]
-        #                     self.row_count = 0
-        #                     continue
-        #                 elif key == vlook_row[4]:
-        #                     self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-        #                     self.current_NetName = vlook_row[0]
-        #                     self.row_count = 0
-        #                     continue
-        #                 self.row_count += 1
-        #                 print(self.row_count)
-        #                 if self.row_count > max_row:
-        #                     print(key)
-        #                     print(vlook_row[4])
-        #                     self.lookup_output.append("#N/A")
-        #                     self.current_NetName = vlook_row[0]
-        #                     print(vlook_row[0])
-        #                     self.row_count = 0
-        #                     self.row_count += 1
+        #         self.repeat_Netname = []
+        #         for row_data in self.table_data:
+        #             if Netnm_val[self.lkv_NetNm_Col -1] == row_data[0]:
+        #                 self.repeat_Netname.append(row_data)
         #             else:
-        #                 self.row_count += 1
+        #                 continue
+                    
+        #         for i in self.repeat_Netname:
+        #             self.routing_lyr = []
+        #             if value == i[1]:
+        #                 # print(value, i[1],i[0])
+        #                 self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+        #                 break
+        #             elif key == i[4]:
+        #                 # print(key, i[1],i[4],i[0])
+        #                 self.routing_lyr.append(i[self.lkvTbl_Result_Col-1])
+        #                 break
+        #             elif key!= i[4]:
+        #                 continue
+
+        #         # print(self.routing_lyr)
+        #         if len(self.routing_lyr)>0:
+        #             self.lookup_output.append(self.routing_lyr[0])
+        #             self.routing_lyr = []
+        #             continue
+        #         else:
+        #             self.lookup_output.append("#N/A")
+        #             continue
