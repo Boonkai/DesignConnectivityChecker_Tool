@@ -13,7 +13,7 @@ from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 from RefDesignator.LayerTable import CreateChlTable
 from vlookup.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
 from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
-from vlookup.vlookupMem_RoutLyr_GUI import vlookupMem_RoutLyr_Gui
+from vlookup.vlookupMem_RoutLyr_GUI import vlookupMem_RoutLyr_TtlLength_Gui
 
 class Background_GUI:
     def __init__(self):
@@ -75,7 +75,7 @@ class Background_GUI:
         self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileName)
         self.vlookup_LyrStackup_Gui_obj = vlookup_LyrStackup_Gui(self.tab4,self.fileName)
         self.vlookup_Mem_NetName_Gui_obj = vlookupMem_NetName_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
-        self.vlookup_Mem_RoutLyr_Gui_obj = vlookupMem_RoutLyr_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
+        self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj = vlookupMem_RoutLyr_TtlLength_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
 
         #-------------------Create the export button--------------------------#
         self.export_count =  0
@@ -118,7 +118,7 @@ class Background_GUI:
             self.RefDesignator_Gui_obj.fileName = self.New_fileName
             self.vlookup_LyrStackup_Gui_obj.fileName = self.New_fileName
             self.vlookup_Mem_NetName_Gui_obj.fileName = self.New_fileName
-            self.vlookup_Mem_RoutLyr_Gui_obj.fileName = self.New_fileName
+            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.fileName = self.New_fileName
 
         # print(self.export_count, "click count check")
 
@@ -225,7 +225,8 @@ class Background_GUI:
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")    
             
 
-            self.vlookup_Mem_RoutLyr_Gui_obj.run_vlookup_Mem_RoutLyr()
+            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_RoutLyr()
+            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_TtlLgth()
             
         else:
             for key, val in self.input_check.items():

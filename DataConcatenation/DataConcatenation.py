@@ -2,6 +2,7 @@ import openpyxl
 import Background_GUI_Tool
 from openpyxl.styles import Border, Side
 from openpyxl.styles import Alignment
+from openpyxl.styles import PatternFill
 
 class DataConcatenation:
     def __init__(self, 
@@ -46,6 +47,10 @@ class DataConcatenation:
         
         # set the alignment of the cell to center
         self.center_alignment = Alignment(horizontal='center', vertical='center')
+        # Fill up color Style on header cell  
+        self.header_fill = PatternFill(start_color="f2c43d", end_color="f2c43d", fill_type="solid")
+        # Fill up color Style on column 
+        self.col_fill = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
 
         if len(self.col_insert) >=2:
             col_header_insert = 0
@@ -62,6 +67,7 @@ class DataConcatenation:
             # Set Alignment and border for header cell
             df3.cell(row=1, column=col_header_insert).alignment =self.center_alignment
             df3.cell(row=1, column=col_header_insert).border = self.border
+            df3.cell(row=1, column=col_header_insert).fill = self.header_fill
         else:
             pass
 
@@ -84,6 +90,7 @@ class DataConcatenation:
             # Set Alignment and border for each cell
             df3[self.col_insert + str(row)].alignment = self.center_alignment
             df3[self.col_insert + str(row)].border = self.border
+            df3[self.col_insert + str(row)].fill = self.col_fill
 
 
         workbook.save(self.fileName)

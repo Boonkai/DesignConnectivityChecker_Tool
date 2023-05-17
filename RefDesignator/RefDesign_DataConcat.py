@@ -2,6 +2,7 @@ import openpyxl
 import Background_GUI_Tool
 from openpyxl.styles import Border, Side
 from openpyxl.styles import Alignment
+from openpyxl.styles import PatternFill
 
 class RefDesig_Concat:
     def __init__(self, 
@@ -41,7 +42,10 @@ class RefDesig_Concat:
         
         # set the alignment of the cell to center
         self.center_alignment = Alignment(horizontal='center', vertical='center')
-
+        # Fill up color Style on header cell  
+        self.header_fill = PatternFill(start_color="f2c43d", end_color="f2c43d", fill_type="solid")
+        # Fill up color Style on column 
+        self.col_fill = PatternFill(start_color="fce4d6", end_color="fce4d6", fill_type="solid")
 
         # print(self.col_insert)
         if len(self.col_insert) >=2:
@@ -58,6 +62,7 @@ class RefDesig_Concat:
             # Set Alignment and border for header cell
             df1.cell(self.col_insert_start_row-1, column=col_header_insert).alignment =self.center_alignment
             df1.cell(self.col_insert_start_row-1, column=col_header_insert).border = self.border
+            df1.cell(self.col_insert_start_row-1, column=col_header_insert).fill =self.header_fill
 
         else:
             pass
@@ -70,6 +75,7 @@ class RefDesig_Concat:
             # Set Alignment and border for each cell
             df1[self.col_insert + str(row)].alignment = self.center_alignment
             df1[self.col_insert + str(row)].border = self.border
+            df1[self.col_insert + str(row)].fill = self.col_fill
 
         workbook.save(self.fileName)
         # workbook.save("2023-04-27 123135.xlsx")
