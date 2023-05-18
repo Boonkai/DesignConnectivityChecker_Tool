@@ -48,7 +48,7 @@ class vlookup_LyrStackup_Gui:
 
         # print(self.Sheet1_clicked.get())
 
-        self.sheet1_lkupTbl_Col = Label(self.lyrStack_sheet_1,text="Lookup \nTabel Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_Col = Label(self.lyrStack_sheet_1,text="Lookup \nTable Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_Col_Entry = Entry(self.lyrStack_sheet_1,borderwidth=3,width=4,fg="black",background="white")
         self.sheet1_lkupTbl_Col_Entry.grid(row=1,column=1,padx=3,pady=3)
 

@@ -38,15 +38,15 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.Sheet1_drop = OptionMenu(self.Mem_RoutLayer_sheet1,self.Sheet1_clicked,*self.Sheet1_options)
         self.Sheet1_drop.grid(row=1,column=0,padx=5,pady=5)
 
-        self.sheet1_lkupTbl_Col = Label(self.Mem_RoutLayer_sheet1,text="Vlookup \nTabel Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_Col = Label(self.Mem_RoutLayer_sheet1,text="Vlookup \nNetName Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_Col_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black",background="white")
         self.sheet1_lkupTbl_Col_Entry.grid(row=1,column=1,padx=2,pady=2)
 
-        self.sheet1_lkupTbl_LyrNm_result_Col = Label(self.Mem_RoutLayer_sheet1,text="LayerName Col").grid(row=0,column=2,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_LyrNm_result_Col = Label(self.Mem_RoutLayer_sheet1,text="LayerName\nCol").grid(row=0,column=2,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_LyrNm_result_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black", background="white")
         self.sheet1_lkupTbl_LyrNm_result_Entry.grid(row=1,column=2,padx=2,pady=2)
 
-        self.sheet1_lkupTbl_TtlLgth_result_Col = Label(self.Mem_RoutLayer_sheet1,text="Total Length Col").grid(row=0,column=3,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_TtlLgth_result_Col = Label(self.Mem_RoutLayer_sheet1,text="Total Length\nCol").grid(row=0,column=3,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_TtlLgth_result_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black", background="white")
         self.sheet1_lkupTbl_TtlLgth_result_Entry.grid(row=1,column=3,padx=2,pady=2)
 
@@ -76,7 +76,7 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.Sheet2_drop.grid(row=1,column=0)
 
         #LayerName input entry
-        self.sheet2_Netnm_col_label = Label(self.Mem_RoutLayer_sheet2,text="NetName Vlookup\nValue Col").grid(row=0,column=1,sticky="n")
+        self.sheet2_Netnm_col_label = Label(self.Mem_RoutLayer_sheet2,text="Vlookup NetName\nValue Col").grid(row=0,column=1,sticky="n")
         self.sheet2_vlookup_Netnm_col_entry = Entry(self.Mem_RoutLayer_sheet2,border=3,width=6,fg="black",background="white")
         self.sheet2_vlookup_Netnm_col_entry.grid(row=1,column=1,padx=3)
 

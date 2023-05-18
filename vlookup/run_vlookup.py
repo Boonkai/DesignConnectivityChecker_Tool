@@ -209,8 +209,9 @@ class vlookup:
         for data in self.LyrTable_data:
             #Loop through Memory Sheet
             for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-                self.repeat_Netname = [] # Clear/empty the list to store a new repeated NetName 
-                #Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                # Clear/empty the list to store a new repeated NetName 
+                self.repeat_Netname = []
+                # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
                 for row_data in self.table_data:
                     if Netnm_val[self.lkv_NetNm_Col -1] == row_data[self.lkv_Tbl_col -1]:
                         self.repeat_Netname.append(row_data)
@@ -220,7 +221,8 @@ class vlookup:
                 # Loop through self.repeat_Netname and then check against with 
                 # NetName and break the loop if statement are true
                 for i in self.repeat_Netname:
-                    self.routing_lyr = [] # Clear/empty the list to store new routing results
+                    # Clear/empty the list to store new routing results
+                    self.routing_lyr = []
                     if data[0] == i[4]:
                         # print(key, i[1],i[4],i[0])
                         self.routing_lyr.append(i[self.lkv_Tbl_LyrNm_out-1])
@@ -289,7 +291,8 @@ class vlookup:
             # Loop through self.repeat_Netname and then check against with 
             # NetName and break the loop if statement are true
             for i in self.repeat_Netname:
-                self.Totallength = [] # Clear/empty the list to store new routing results
+                # Clear/empty the list to store new routing results
+                self.Totallength = []
                 if Netnm_val[self.lkv_NetNm_Col -1] == i[self.lkv_Tbl_col -1]:
                     self.Totallength.append(i[self.lkv_Tbl_TtlLgth_out-1])
                     break
@@ -322,5 +325,53 @@ class vlookup:
             cell.border = self.border
             cell.alignment = self.center_alignment
             cell.fill = self.col_fill
+
+        self.workbook.save(self.filename)
+
+    def vlookup_RoutePerMbdg(self):
+        #Character to Int Conversion
+        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+
+        # Define lookup list
+        self.lookup_output = []
+
+        #  Loop through Layer Table 
+        for layerNm in self.sheet1.iter_rows(min_row=3, max_row=3, values_only=True):
+            #Loop through Memory Sheet
+            for RouteLyr in self.sheet2.iter_rows(min_row=3, values_only=True):
+                if layerNm[self.lkv_Tbl_col-1] == RouteLyr[self.lkv_val_col-1]:
+                    self.lookup_output.append("OK")
+                else:
+                    self.lookup_output.append("NO")
+    
+
+        # for i in self.lookup_output:
+        #     print(i)
+        
+        (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
+        (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
+
+        # Insert header with boarder and alignment styling
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
+
+        for i, output in enumerate(self.lookup_output):
+            if output == "OK":
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill_Green
+            else:
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill_Red
+
 
         self.workbook.save(self.filename)
