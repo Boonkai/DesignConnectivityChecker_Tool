@@ -15,6 +15,8 @@ from vlookup.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
 from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
 from vlookup.vlookupMem_RoutLyr_TtlLength_Gui import vlookupMem_RoutLyr_TtlLength_Gui
 from vlookup.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
+from vlookup.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
+
 
 class Background_GUI:
     def __init__(self):
@@ -78,7 +80,7 @@ class Background_GUI:
         self.vlookup_Mem_NetName_Gui_obj = vlookupMem_NetName_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
         self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj = vlookupMem_RoutLyr_TtlLength_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
         self.vlookup_Mem_RouteMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
-
+        self.vlookup_Mem_BOLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
 
         #-------------------Create the export button--------------------------#
         self.export_count =  0
@@ -123,6 +125,7 @@ class Background_GUI:
             self.vlookup_Mem_NetName_Gui_obj.fileName = self.New_fileName
             self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.fileName = self.New_fileName
             self.vlookup_Mem_RouteMbdg_Gui_obj.fileName = self.New_fileName
+            self.vlookup_Mem_BOLgth_Gui_obj.fileName = self.New_fileName
 
         # print(self.export_count, "click count check")
 
@@ -232,6 +235,7 @@ class Background_GUI:
             self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_RoutLyr()
             self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_TtlLgth()
             self.vlookup_Mem_RouteMbdg_Gui_obj.run_vlookup_RoutePerMbdg()
+            self.vlookup_Mem_BOLgth_Gui_obj.run_vlookup_Mem_BoLength()
             
         else:
             for key, val in self.input_check.items():

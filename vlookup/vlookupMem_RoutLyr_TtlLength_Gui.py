@@ -7,7 +7,7 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.fileName = fileName
 
         self.Mem_RoutLyr_frame = LabelFrame(self.rootframe, text="Routing Layer & Total Length",labelanchor="n")
-        self.Mem_RoutLyr_frame.grid(row=2,column=0,padx=10,pady=10)
+        self.Mem_RoutLyr_frame.grid(row=2,column=0,padx=10,pady=10,columnspan=5)
 
 
         #------------------------First Sheet Gui-----------------------# 

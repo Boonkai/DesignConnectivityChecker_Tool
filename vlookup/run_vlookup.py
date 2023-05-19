@@ -16,6 +16,7 @@ class vlookup:
                  lookup_Tbl_TtlLgth_out = None,
                  lookup_lyrNm_out_insert =None,
                  lookup_TtlLgth_out_insert =None,
+                 lookup_Tbl_col_LineWdt = None,
                  header_LyrNm =None,
                  header_TtlLgth =None,
                  header=None,
@@ -27,6 +28,7 @@ class vlookup:
         self.sheet2 = sheet2
         self.lookup_out_insert = lookup_out_insert
         self.lookup_Tbl_column = lookup_Tbl_column
+        self.lookup_Tbl_col_LineWdt = lookup_Tbl_col_LineWdt
         self.lookup_Tbl_output = lookup_Tbl_output
         self.header = header
         self.NetName_Col = NetName_Col
@@ -373,5 +375,118 @@ class vlookup:
                 cell.alignment = self.center_alignment
                 cell.fill = self.col_fill_Red
 
+
+        self.workbook.save(self.filename)
+
+    def vlookup_BreakoutLength(self):
+        #Character to Int Conversion
+        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+        self.lkv_Tbl_linWdth_Col = self.column_label_to_number(self.lookup_Tbl_col_LineWdt.upper())
+        self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
+        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+        self.lkv_out_insert_Col = self.column_label_to_number(self.lookup_out_insert.upper())
+
+        # Define lookup list
+        self.lookup_output = []
+
+        # Create empty lists for column 7 and column 8
+        LyrStack_values = []
+        BO_DQ_values = []
+        BO_DQS_values = []
+        Bus_DQ_values = []
+        Bus_DQS_values = []
+
+        # Iterate over the columns and append each column to the list
+        # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
+        # for debugging purpose )
+        for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=11):
+            LyrStack_values.append(row[0].value)
+            BO_DQ_values.append(row[1].value)
+            BO_DQS_values.append(row[2].value)
+            Bus_DQ_values.append(row[3].value)
+            Bus_DQS_values.append(row[4].value)
+
+
+        self.LyrTable_data = [list(values) for values in zip(LyrStack_values, 
+                                                            BO_DQ_values, 
+                                                            BO_DQS_values,
+                                                            Bus_DQ_values,
+                                                            Bus_DQS_values)]
+
+        self.table_data = []
+        self.repeat_Netname = []
+        self.BO_Length = []
+
+        # Retrive "NetWidth" Table and store into list
+        for vlook_row in self.sheet1.iter_rows( values_only=True):
+            self.table_data.append(vlook_row)
+
+        #  Loop through Layer Table 
+        for data in self.LyrTable_data:
+            #Loop through Memory Sheet
+            for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+                # Clear/empty the list to store a new repeated NetName 
+                self.repeat_Netname = []
+                # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                for row_data in self.table_data:
+                    if Netnm_val[self.lkv_val_col -1] == row_data[self.lkv_Tbl_col -1]:
+                        self.repeat_Netname.append(row_data)
+                    else:
+                        continue
+                
+                # Loop through self.repeat_Netname and then check against with 
+                # layer name and DQ/DQS value and break the loop if data or value of
+                # (DQ/DQS) statement are true
+                for i in self.repeat_Netname:
+                     # Clear/empty the list to store new 
+                    self.BO_Length = []
+                    if "DQS" in i[0]:
+                        if data[2] == i[self.lkv_Tbl_linWdth_Col-1]:
+                            # print(value, i[1],i[0])
+                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                            break
+                        elif data[4] == i[self.lkv_Tbl_linWdth_Col-1]:
+                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                            break
+                        else:
+                            continue
+                    else:
+                        if data[1] == i[self.lkv_Tbl_linWdth_Col-1]:
+                            # print(value, i[1],i[0])
+                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                            break
+                        elif data[3] == i[self.lkv_Tbl_linWdth_Col-1]:
+                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                            break
+                        else:
+                            continue
+
+                # Check if self.BO_Length list is not empty else append "#N\A"
+                if len(self.BO_Length)>0:
+                    self.lookup_output.append(self.BO_Length[0])
+                    self.BO_Length = []
+                    continue
+                else:
+                    self.lookup_output.append("#N/A")
+                    continue
+    
+
+        # for i in self.lookup_output:
+        #     print(i)
+        
+        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+
+        # Insert header with boarder and alignment styling
+        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).value = self.header
+        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).border = self.border
+        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).alignment = self.center_alignment
+        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).fill = self.head_fill        
+
+        for i, output in enumerate(self.lookup_output):
+            cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert_Col) 
+            cell.value = output
+            cell.border = self.border
+            cell.alignment = self.center_alignment
+            cell.fill = self.col_fill
 
         self.workbook.save(self.filename)
