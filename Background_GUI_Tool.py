@@ -11,12 +11,7 @@ from RefDesignator.RefDesignator_GUI import RefDesignator_Gui
 from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 from RefDesignator.LayerTable import CreateChlTable
-from vlookup.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
-from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
-from vlookup.vlookupMem_RoutLyr_TtlLength_Gui import vlookupMem_RoutLyr_TtlLength_Gui
-from vlookup.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
-from vlookup.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
-
+from vlookup.vlookupMem_GUI import vlookup_gui
 
 class Background_GUI:
     def __init__(self):
@@ -76,11 +71,7 @@ class Background_GUI:
         self.LayerStackup_Gui_obj = LyrStack_Gui(self.tab1,self.sheet5)
         self.DataConcat_Gui_obj = DataConcat_Gui(self.tab2,self.fileName)
         self.RefDesignator_Gui_obj = RefDesignator_Gui(self.tab3,self.fileName)
-        self.vlookup_LyrStackup_Gui_obj = vlookup_LyrStackup_Gui(self.tab4,self.fileName)
-        self.vlookup_Mem_NetName_Gui_obj = vlookupMem_NetName_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
-        self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj = vlookupMem_RoutLyr_TtlLength_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
-        self.vlookup_Mem_RouteMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
-        self.vlookup_Mem_BOLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.vlookup_LyrStackup_Gui_obj.frame,self.fileName)
+        self.vlookup_Gui_obj = vlookup_gui(self.tab4,self.fileName)
 
         #-------------------Create the export button--------------------------#
         self.export_count =  0
@@ -121,11 +112,7 @@ class Background_GUI:
             self.LayerStackup_Gui_obj.sheet = self.New_sheet5
             self.DataConcat_Gui_obj.fileName = self.New_fileName
             self.RefDesignator_Gui_obj.fileName = self.New_fileName
-            self.vlookup_LyrStackup_Gui_obj.fileName = self.New_fileName
-            self.vlookup_Mem_NetName_Gui_obj.fileName = self.New_fileName
-            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.fileName = self.New_fileName
-            self.vlookup_Mem_RouteMbdg_Gui_obj.fileName = self.New_fileName
-            self.vlookup_Mem_BOLgth_Gui_obj.fileName = self.New_fileName
+            self.vlookup_Gui_obj.fileName = self.New_fileName
 
         # print(self.export_count, "click count check")
 
@@ -153,8 +140,7 @@ class Background_GUI:
             self.DataConcat_Gui_obj.DataConcat_Execute()
             self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
             self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
-            self.vlookup_LyrStackup_Gui_obj.run_LyrStackup_Tbl_vlookup()
-            self.vlookup_Mem_NetName_Gui_obj.run_vlookup_Mem_Netnm()
+            self.vlookup_Gui_obj.run_LyrStackup_Tbl_vlookup()
 
             #------------------------------Create Memory Stackup Table------------------------------#
             self.Ch_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ","ChK","ChL"]
@@ -231,11 +217,11 @@ class Background_GUI:
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQ,"J")
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")    
             
-
-            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_RoutLyr()
-            self.vlookup_Mem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_TtlLgth()
-            self.vlookup_Mem_RouteMbdg_Gui_obj.run_vlookup_RoutePerMbdg()
-            self.vlookup_Mem_BOLgth_Gui_obj.run_vlookup_Mem_BoLength()
+            self.vlookup_Gui_obj.run_vlookup_Mem_Netnm()
+            self.vlookup_Gui_obj.run_vlookup_Mem_RoutLyr()
+            self.vlookup_Gui_obj.run_vlookup_Mem_TtlLgth()
+            self.vlookup_Gui_obj.run_vlookup_RoutePerMbdg()
+            self.vlookup_Gui_obj.run_vlookup_Mem_BoLength()
             
         else:
             for key, val in self.input_check.items():

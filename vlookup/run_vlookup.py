@@ -437,6 +437,7 @@ class vlookup:
                 # Loop through self.repeat_Netname and then check against with 
                 # layer name and DQ/DQS value and break the loop if data or value of
                 # (DQ/DQS) statement are true
+                # NOTE: e.g of data's list on channel A => ("TOP","3.66","3.66","4.3","5.0")
                 for i in self.repeat_Netname:
                      # Clear/empty the list to store new 
                     self.BO_Length = []

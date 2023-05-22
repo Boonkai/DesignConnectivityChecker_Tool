@@ -1,17 +1,16 @@
 from tkinter import *
 from vlookup.run_vlookup import vlookup
 
+
 class vlookupMem_NetName_Gui:
-    def __init__(self,rootframe, fileName):
+    def __init__(self,rootframe):
         self.rootframe = rootframe
-        self.fileName = fileName
 
-        self.Mem_frame = LabelFrame(self.rootframe, text="MEMORY",labelanchor="n")
-        self.Mem_frame.grid(row=1,column=0,padx=10,pady=10)
-
+        self.Mem_frame = LabelFrame(self.rootframe, text="NetName",labelanchor="n")
+        self.Mem_frame.grid(row=0,column=1,padx=60,pady=10)
 
         #------------------------First Sheet Gui-----------------------# 
-        self.Mem_sheet_1 = LabelFrame(self.Mem_frame,text="First Sheet (As a Lookup Table)",labelanchor="n")
+        self.Mem_sheet_1 = LabelFrame(self.Mem_frame,text="First Sheet (Vlookup Table)",labelanchor="n")
         self.Mem_sheet_1.grid(row=0,column=0,padx=5,pady=5)
 
         self.shee1_label = Label(self.Mem_sheet_1,text="Sheet:").grid(row=0,column=0,padx=3,pady=3)
@@ -36,20 +35,20 @@ class vlookupMem_NetName_Gui:
         # self.Sheet1_drop_list.append(self.Sheet1_clicked)
 
         self.Sheet1_drop = OptionMenu(self.Mem_sheet_1,self.Sheet1_clicked,*self.Sheet1_options)
-        self.Sheet1_drop.grid(row=1,column=0,padx=5,pady=5)
+        self.Sheet1_drop.grid(row=0,column=1,padx=5,pady=5)
 
         # print(self.Sheet1_clicked.get())
 
-        self.sheet1_lkupTbl_Col = Label(self.Mem_sheet_1,text="Lookup \nTable Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
-        self.sheet1_lkupTbl_Col_Entry = Entry(self.Mem_sheet_1,borderwidth=3,width=4,fg="black",background="white")
+        self.sheet1_lkupTbl_Col = Label(self.Mem_sheet_1,text="Lookup \nTable Col").grid(row=1,column=0,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_Col_Entry = Entry(self.Mem_sheet_1,borderwidth=3,width=10,fg="black",background="white")
         self.sheet1_lkupTbl_Col_Entry.grid(row=1,column=1,padx=2,pady=2)
 
-        self.sheet1_lkupTbl_result_Col = Label(self.Mem_sheet_1,text="Result Col").grid(row=0,column=2,padx=5,pady=5,sticky="n")
-        self.sheet1_lkupTbl_result_Entry = Entry(self.Mem_sheet_1,borderwidth=3,width=4,fg="black", background="white")
-        self.sheet1_lkupTbl_result_Entry.grid(row=1,column=2,padx=2,pady=2)
+        self.sheet1_lkupTbl_result_Col = Label(self.Mem_sheet_1,text="Result Col").grid(row=2,column=0,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_result_Entry = Entry(self.Mem_sheet_1,borderwidth=3,width=10,fg="black", background="white")
+        self.sheet1_lkupTbl_result_Entry.grid(row=2,column=1,padx=2,pady=2)
 
         #------------------------Second Sheet Gui-----------------------# 
-        self.Mem_sheet_2 = LabelFrame(self.Mem_frame,text="Second Sheet (As a Lookup value)",labelanchor="n")
+        self.Mem_sheet_2 = LabelFrame(self.Mem_frame,text="Second Sheet (Vlookup value)",labelanchor="n")
         self.Mem_sheet_2.grid(row=0,column=1,padx=5,pady=5)
 
         self.shee2_label = Label(self.Mem_sheet_2,text="Sheet:").grid(row=0,column=0,padx=3,pady=3)
@@ -74,21 +73,21 @@ class vlookupMem_NetName_Gui:
         # self.Sheet1_drop_list.append(self.Sheet1_clicked)
 
         self.Sheet2_drop = OptionMenu(self.Mem_sheet_2,self.Sheet2_clicked,*self.Sheet2_options)
-        self.Sheet2_drop.grid(row=1,column=0,padx=3,pady=3)
+        self.Sheet2_drop.grid(row=0,column=1,padx=3,pady=3)
 
         # print(self.Sheet2_clicked.get())
 
-        self.sheet2_lkupTbl_Col = Label(self.Mem_sheet_2,text="Lookup\nValue Col").grid(row=0,column=1,padx=5,pady=5,sticky="n")
-        self.sheet2_lkup_val_Col_Entry = Entry(self.Mem_sheet_2,border=3,width=4,fg="black",background="white")
+        self.sheet2_lkupTbl_Col = Label(self.Mem_sheet_2,text="Lookup\nValue Col").grid(row=1,column=0,padx=5,pady=5,sticky="n")
+        self.sheet2_lkup_val_Col_Entry = Entry(self.Mem_sheet_2,border=3,width=10,fg="black",background="white")
         self.sheet2_lkup_val_Col_Entry.grid(row=1,column=1,padx=3,pady=3)
 
-        self.sheet2_lkup_result_Col = Label(self.Mem_sheet_2,text="Result\nCol Insert").grid(row=0,column=2,padx=5,pady=5,sticky="n")
-        self.sheet2_result_insert_col_Entry = Entry(self.Mem_sheet_2,border=3,width=4,fg="black",background="white")
-        self.sheet2_result_insert_col_Entry.grid(row=1,column=2,padx=3,pady=3)
+        self.sheet2_lkup_result_Col = Label(self.Mem_sheet_2,text="Result\nCol Insert").grid(row=2,column=0,padx=5,pady=5,sticky="n")
+        self.sheet2_result_insert_col_Entry = Entry(self.Mem_sheet_2,border=3,width=10,fg="black",background="white")
+        self.sheet2_result_insert_col_Entry.grid(row=2,column=1,padx=3,pady=3)
 
-        self.sheet2_header_label = Label(self.Mem_sheet_2,text="Header").grid(row=0,column=3,padx=5,pady=5,sticky="n")
+        self.sheet2_header_label = Label(self.Mem_sheet_2,text="Header").grid(row=3,column=0,padx=5,pady=5,sticky="n")
         self.sheet2_header_entry = Entry(self.Mem_sheet_2,border=3,width=10,fg="black",background="white")
-        self.sheet2_header_entry.grid(row=1,column=3,padx=3,pady=3)
+        self.sheet2_header_entry.grid(row=3,column=1,padx=3,pady=3)
 
         #Set Default input
         self.sheet1_lkupTbl_Col_Entry.insert(0,"C")
@@ -97,7 +96,8 @@ class vlookupMem_NetName_Gui:
         self.sheet2_result_insert_col_Entry.insert(0,"N")
         self.sheet2_header_entry.insert(0,"NetName")
 
-    def run_vlookup_Mem_Netnm(self):
+    def run_vlookup_Mem_Netnm(self,fileName):
+        self.fileName = fileName
         vlookup(filename= self.fileName,
                 sheet1=self.Sheet1_clicked.get(),
                 sheet2= self.Sheet2_clicked.get(),

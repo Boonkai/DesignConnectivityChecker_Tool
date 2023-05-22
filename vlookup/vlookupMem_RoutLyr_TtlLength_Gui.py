@@ -2,16 +2,15 @@ from tkinter import *
 from vlookup.run_vlookup import vlookup
 
 class vlookupMem_RoutLyr_TtlLength_Gui:
-    def __init__(self,rootframe, fileName):
+    def __init__(self,rootframe):
         self.rootframe = rootframe
-        self.fileName = fileName
 
         self.Mem_RoutLyr_frame = LabelFrame(self.rootframe, text="Routing Layer & Total Length",labelanchor="n")
-        self.Mem_RoutLyr_frame.grid(row=2,column=0,padx=10,pady=10,columnspan=5)
+        self.Mem_RoutLyr_frame.grid(row=1,column=0,padx=10,pady=10,columnspan=2)
 
 
         #------------------------First Sheet Gui-----------------------# 
-        self.Mem_RoutLayer_sheet1 = LabelFrame(self.Mem_RoutLyr_frame,text="First Sheet (As a Lookup Table)",labelanchor="n")
+        self.Mem_RoutLayer_sheet1 = LabelFrame(self.Mem_RoutLyr_frame,text="First Sheet (Vlookup Table)",labelanchor="n")
         self.Mem_RoutLayer_sheet1.grid(row=0,column=0,padx=5,pady=5)
 
         self.shee1_label = Label(self.Mem_RoutLayer_sheet1,text="Sheet:").grid(row=0,column=0,padx=3,pady=3)
@@ -51,7 +50,7 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.sheet1_lkupTbl_TtlLgth_result_Entry.grid(row=1,column=3,padx=2,pady=2)
 
         #------------------------Second Sheet Gui-----------------------# 
-        self.Mem_RoutLayer_sheet2 = LabelFrame(self.Mem_RoutLyr_frame,text="Second Sheet (As a Lookup value)",labelanchor="n")
+        self.Mem_RoutLayer_sheet2 = LabelFrame(self.Mem_RoutLyr_frame,text="Second Sheet (Vlookup value)",labelanchor="n")
         self.Mem_RoutLayer_sheet2.grid(row=0,column=1,padx=5,pady=5)
 
         # Drop down Sheet
@@ -110,7 +109,8 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.sheet2_LyrNm_header_entry.insert(0,"Routing Layer")
         self.sheet2_TtlLgth_header_entry.insert(0,"Total length")
 
-    def run_vlookup_Mem_RoutLyr(self):
+    def run_vlookup_Mem_RoutLyr(self,fileName):
+        self.fileName = fileName
         vlookup(filename= self.fileName,
                 sheet1=self.Sheet1_clicked.get(),
                 sheet2= self.Sheet2_clicked.get(),
@@ -120,7 +120,8 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
                 header_LyrNm =self.sheet2_LyrNm_header_entry.get(),
                 NetName_Col = self.sheet2_vlookup_Netnm_col_entry.get()).vlookup_Routing_layer()
         
-    def run_vlookup_Mem_TtlLgth(self):
+    def run_vlookup_Mem_TtlLgth(self,fileName):
+        self.fileName = fileName
         vlookup(filename= self.fileName,
                 sheet1=self.Sheet1_clicked.get(),
                 sheet2= self.Sheet2_clicked.get(),
