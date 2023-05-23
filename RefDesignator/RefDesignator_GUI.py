@@ -270,6 +270,62 @@ class RefDesignator_Gui:
             (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
         self.CPU_Ref_input_entry_widgets[0].insert(0,"J29")
+
+        #------------------------DDR Length Input GUI--------------------------------#
+
+        self.DDR_LengthFrm = LabelFrame(self.frame, text="DDR Length",labelanchor="n")
+        self.DDR_LengthFrm.grid(row=1,column=1)
+
+        self.DDR_Length_label = Label(self.DDR_LengthFrm,text="DDR Length Value:")
+        self.DDR_Length_label.grid(row=0,column=0,padx=5,pady=5,sticky="w")
+        self.DDR_Length_val_entry = Entry(self.DDR_LengthFrm,width=10,borderwidth=3,background="white",fg="black")
+        self.DDR_Length_val_entry.grid(row=0,column=1,padx=5,pady=5)
+
+        self.DDR_Length_sheet_label = Label(self.DDR_LengthFrm,text="Sheet Name")
+        self.DDR_Length_sheet_label.grid(row=1,column=0,padx=5,pady=5,sticky="w")
+        # self.Sheet1_drop_list = []
+        self.DdrLgth_Sheet_options = [ "Pin_Net", 
+                                    "Netlist",
+                                    "BOM",
+                                    "NetWidth",
+                                    "Layer_Stackup",
+                                    "MEMORY",
+                                    "XGMI",
+                                    "PCIe",
+                                    "SATA",
+                                    "MISC",
+                                    "USB",
+                                    "CLK"]
+
+        #Drop Down Boxes
+        self.DdrLgth_drop_click = StringVar()
+        self.DdrLgth_drop_click.set(self.DdrLgth_Sheet_options[5])
+        # self.Sheet1_drop_list.append(self.Sheet1_clicked)
+
+        self.DdrLgth_sheet_drop = OptionMenu(self.DDR_LengthFrm,self.DdrLgth_drop_click,*self.DdrLgth_Sheet_options)
+        self.DdrLgth_sheet_drop.grid(row=1,column=1,padx=5,pady=5)
+
+        self.DDR_Length_col_insert_label = Label(self.DDR_LengthFrm,text="Column Insert")
+        self.DDR_Length_col_insert_label.grid(row=2,column=0,padx=5,pady=5,sticky="w")
+        self.DDR_Length_col_insert =  Entry(self.DDR_LengthFrm,width=10,borderwidth=3,background="white",fg="black")
+        self.DDR_Length_col_insert.grid(row=2,column=1,padx=5,pady=5)
+
+        self.DDR_Length_row_insert_label = Label(self.DDR_LengthFrm,text="row Insert")
+        self.DDR_Length_row_insert_label.grid(row=3,column=0,padx=5,pady=5,sticky="w")
+        self.DDR_Length_row_insert =  Entry(self.DDR_LengthFrm,width=10,borderwidth=3,background="white",fg="black")
+        self.DDR_Length_row_insert.grid(row=3,column=1,padx=5,pady=5)
+
+        self.DDR_Length_header_label = Label(self.DDR_LengthFrm,text="Header")
+        self.DDR_Length_header_label.grid(row=4,column=0,padx=5,pady=5,sticky="w")
+        self.DDR_Length_header =  Entry(self.DDR_LengthFrm,width=10,borderwidth=3,background="white",fg="black")
+        self.DDR_Length_header.grid(row=4,column=1,padx=5,pady=5)
+
+        # Set DDR length value to default for development purpose
+        self.DDR_Length_val_entry.insert(0,"1574")
+        self.DDR_Length_col_insert.insert(0,"F")
+        self.DDR_Length_row_insert.insert(0,"17")
+        self.DDR_Length_header.insert(0,"DDR Length")
+
             
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas

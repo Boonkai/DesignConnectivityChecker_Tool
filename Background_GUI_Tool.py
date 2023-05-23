@@ -12,6 +12,7 @@ from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 from RefDesignator.LayerTable import CreateChlTable
 from vlookup.vlookupMem_GUI import vlookup_gui
+from vlookup.DdrLength import DdrLength_val_insertTOexcel
 
 class Background_GUI:
     def __init__(self):
@@ -209,14 +210,28 @@ class Background_GUI:
                 CreateChlTable(self.fileName,"MEMORY",self.BO_DQS,"I")
                 CreateChlTable(self.fileName,"MEMORY",self.Bus_DQ,"J")
                 CreateChlTable(self.fileName,"MEMORY",self.Bus_DQS,"K")
+                DdrLength_val_insertTOexcel(fileName= self.fileName,
+                                    Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
+                                    sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
+                                    col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
+                                    row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
+                                    header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
             else:
                 # Create  stackup on “MEMORY” tab
                 CreateChlTable(self.New_fileName,"MEMORY",self.Ch_Name,"F")
                 CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQ,"H")
                 CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQS,"I")   
                 CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQ,"J")
-                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")    
-            
+                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")
+                DdrLength_val_insertTOexcel(fileName= self.New_fileName,
+                                    Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
+                                    sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
+                                    col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
+                                    row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
+                                    header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
+                
+                    
+            # vlookup_DdrLength.run_vloopup_DDRLength()
             self.vlookup_Gui_obj.run_vlookup_Mem_Netnm()
             self.vlookup_Gui_obj.run_vlookup_Mem_RoutLyr()
             self.vlookup_Gui_obj.run_vlookup_Mem_TtlLgth()

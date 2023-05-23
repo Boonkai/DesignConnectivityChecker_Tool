@@ -256,6 +256,15 @@ class mainGUI:
             self.Main_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
             self.Main_Bus_Chnl_width_DQS_entry_list.append(self.Main_Bus_Chnl_width_DQS_entry)
 
+        #------------------------DDR Length Input GUI--------------------------------#
+        self.DDR_LengthFrm_mainScr = LabelFrame(self.tab2, text="DDR Length",labelanchor="n")
+        self.DDR_LengthFrm_mainScr.grid(row=0,column=2,padx=20)
+
+        self.DDR_Length_label_mainScr = Label(self.DDR_LengthFrm_mainScr,text="DDR Length Value:")
+        self.DDR_Length_label_mainScr.grid(row=0,column=0,padx=5,pady=5,sticky="w")
+        self.DDR_Length_val_entry_mainScr = Entry(self.DDR_LengthFrm_mainScr,width=10,borderwidth=3,background="white",fg="black")
+        self.DDR_Length_val_entry_mainScr.grid(row=0,column=1,padx=5,pady=5)
+
         #-----------------------Sync main and background input--------------------------#
         # Bind sync_main_entry to the KeyRelease event of entry 
         # 1) CPU Reference Designator input
@@ -279,6 +288,9 @@ class mainGUI:
         # 5) BUS Channel DQS input (main Page)
         for busDqs in self.Main_Bus_Chnl_width_DQS_entry_list:
             busDqs.bind("<KeyRelease>", self.sync_LyrStack_main_entry)
+
+        # 6) DDR Length input (main Page)
+        self.DDR_Length_val_entry_mainScr.bind("<KeyRelease>",self.sync_DDR_Length_main_entry)
 
 
         # Bind sync_background_entry to the KeyRelease event of entry
@@ -307,6 +319,10 @@ class mainGUI:
         self.busDqs_backgrd_entry_list = self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_Bus_Chnl_width_DQS_entry_list
         for busDqs in self.busDqs_backgrd_entry_list:
             busDqs.bind("<KeyRelease>", self.sync_LyrStack_background_entry)
+
+        # 6) DDR Length input (developemnt Page)
+        self.BackGui_obj.RefDesignator_Gui_obj.DDR_Length_val_entry.bind("<KeyRelease>", self.sync_DDR_Legth_background_entry)
+
 
     """
     In this case, the event parameter in the sync_entry1 method is the Event object associated with the event that 
@@ -357,6 +373,10 @@ class mainGUI:
         #self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list[0].delete(0, END)
         # self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list[0].insert(0, self.Main_BO_Chnl_width_DQ_entry_list[0].get())
 
+    def sync_DDR_Length_main_entry(self,event):
+        self.BackGui_obj.RefDesignator_Gui_obj.DDR_Length_val_entry.delete(0,END)
+        self.BackGui_obj.RefDesignator_Gui_obj.DDR_Length_val_entry.insert(0,self.DDR_Length_val_entry_mainScr.get())
+
     def sync_RefDsgn_background_entry(self, event):
         # Update the value of sync_main_entry
         self.CPU0_input_entry.delete(0, END)
@@ -389,9 +409,13 @@ class mainGUI:
             busDqs.delete(0, END)
             busDqs.insert(0, self.busDqs_backgrd_entry_list[num].get())
 
-
         # self.Main_BO_Chnl_width_DQ_entry_list[0].delete(0, END)
         # self.Main_BO_Chnl_width_DQ_entry_list[0].insert(0,self.BackGui_obj.RefDesignator_Gui_obj.RefDsn_BO_Chnl_width_DQ_entry_list[0].get())
+    
+    def sync_DDR_Legth_background_entry(self,event):
+        self.DDR_Length_val_entry_mainScr.delete(0, END)
+        self.DDR_Length_val_entry_mainScr.insert(0, self.BackGui_obj.RefDesignator_Gui_obj.DDR_Length_val_entry.get())
+
 
     #---------------------NetPin File Browser-----------------------------------
     # create a function to open the file browser and select a file
