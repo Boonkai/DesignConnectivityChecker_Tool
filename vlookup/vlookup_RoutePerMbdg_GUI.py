@@ -72,7 +72,7 @@ class vlookupMem_RoutrPerMbdg_Gui:
         self.sheet2_vlookup_Mem_RouteMBDG_col_entry.grid(row=1,column=1,padx=3)
 
         # Layer Name Result Col insert input entry
-        self.sheet2_Mem_RouteMBDG_result_Col_label = Label(self.Mem_RouteMBDG_sheet2,text="Route Per MBDG \nOutput Col Insert").grid(row=2,column=0,padx=3,sticky="n")
+        self.sheet2_Mem_RouteMBDG_result_Col_label = Label(self.Mem_RouteMBDG_sheet2,text="Route Per MBDG \nOutput Insert Col").grid(row=2,column=0,padx=3,sticky="n")
         self.sheet2_Mem_RouteMBDG_result_insert_col_Entry = Entry(self.Mem_RouteMBDG_sheet2,border=3,width=10,fg="black",background="white")
         self.sheet2_Mem_RouteMBDG_result_insert_col_Entry.grid(row=2,column=1,padx=3)
 
@@ -84,7 +84,7 @@ class vlookupMem_RoutrPerMbdg_Gui:
         #Set Default input
         self.sheet1_lkupTbl_Col_Entry.insert(0,"G")
         self.sheet2_vlookup_Mem_RouteMBDG_col_entry.insert(0,"O")
-        self.sheet2_Mem_RouteMBDG_result_insert_col_Entry.insert(0,"Q")
+        self.sheet2_Mem_RouteMBDG_result_insert_col_Entry.insert(0,"P")
         self.sheet2_Mem_RouteMBDG_header_entry.insert(0,"Route Per MBDG")
 
     def run_vlookup_RoutePerMbdg(self,fileName):

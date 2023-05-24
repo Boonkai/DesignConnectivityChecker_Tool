@@ -77,7 +77,7 @@ class vlookup_LyrStackup_Gui:
 
         # print(self.Sheet2_clicked.get())
 
-        self.sheet2_lkup_result_Col = Label(self.lyrStack_sheet_2,text="Result\nCol Insert").grid(row=1,column=0,padx=5,pady=5,sticky="n")
+        self.sheet2_lkup_result_Col = Label(self.lyrStack_sheet_2,text="Result\nInsert Col").grid(row=1,column=0,padx=5,pady=5,sticky="n")
         self.sheet2_result_insert_col_Entry = Entry(self.lyrStack_sheet_2,border=3,width=10,fg="black",background="white")
         self.sheet2_result_insert_col_Entry.grid(row=1,column=1,padx=3,pady=3)
 

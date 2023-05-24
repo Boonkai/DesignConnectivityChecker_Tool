@@ -81,7 +81,7 @@ class vlookupMem_NetName_Gui:
         self.sheet2_lkup_val_Col_Entry = Entry(self.Mem_sheet_2,border=3,width=10,fg="black",background="white")
         self.sheet2_lkup_val_Col_Entry.grid(row=1,column=1,padx=3,pady=3)
 
-        self.sheet2_lkup_result_Col = Label(self.Mem_sheet_2,text="Result\nCol Insert").grid(row=2,column=0,padx=5,pady=5,sticky="n")
+        self.sheet2_lkup_result_Col = Label(self.Mem_sheet_2,text="Result\nInsert Col").grid(row=2,column=0,padx=5,pady=5,sticky="n")
         self.sheet2_result_insert_col_Entry = Entry(self.Mem_sheet_2,border=3,width=10,fg="black",background="white")
         self.sheet2_result_insert_col_Entry.grid(row=2,column=1,padx=3,pady=3)
 
