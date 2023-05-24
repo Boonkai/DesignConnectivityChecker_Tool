@@ -4,6 +4,7 @@ from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
 from vlookup.vlookupMem_RoutLyr_TtlLength_Gui import vlookupMem_RoutLyr_TtlLength_Gui
 from vlookup.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
 from vlookup.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
+from vlookup.vlookup_Impedance_GUI import vlookupMem_Impedance_Gui
 
 
 class vlookup_gui:
@@ -27,6 +28,7 @@ class vlookup_gui:
         self.vlookupMem_RoutLyr_TtlLength_Gui_obj = vlookupMem_RoutLyr_TtlLength_Gui(self.Memoey_Frame)
         self.vlookupMem_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.Memoey_Frame)
         self.vlookupMem_BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.Memoey_Frame)
+        self.vlookupMem_Impedance_Gui_obj = vlookupMem_Impedance_Gui(self.Memoey_Frame)
 
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
@@ -62,4 +64,7 @@ class vlookup_gui:
 
     def run_vlookup_Mem_BoLength(self):
         self.vlookupMem_BreakOutLgth_Gui_obj.run_vlookup_Mem_BoLength(self.fileName)
+
+    def run_vlookup_Impedance(self):
+        self.vlookupMem_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
 

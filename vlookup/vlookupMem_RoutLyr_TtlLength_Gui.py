@@ -41,11 +41,11 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.sheet1_lkupTbl_Col_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black",background="white")
         self.sheet1_lkupTbl_Col_Entry.grid(row=1,column=1,padx=2,pady=2)
 
-        self.sheet1_lkupTbl_LyrNm_result_Col = Label(self.Mem_RoutLayer_sheet1,text="LayerName\nCol").grid(row=0,column=2,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_LyrNm_result_Col = Label(self.Mem_RoutLayer_sheet1,text="Result Col\nfor Route Layer").grid(row=0,column=2,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_LyrNm_result_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black", background="white")
         self.sheet1_lkupTbl_LyrNm_result_Entry.grid(row=1,column=2,padx=2,pady=2)
 
-        self.sheet1_lkupTbl_TtlLgth_result_Col = Label(self.Mem_RoutLayer_sheet1,text="Total Length\nCol").grid(row=0,column=3,padx=5,pady=5,sticky="n")
+        self.sheet1_lkupTbl_TtlLgth_result_Col = Label(self.Mem_RoutLayer_sheet1,text="Result Col\nfor Total Length").grid(row=0,column=3,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_TtlLgth_result_Entry = Entry(self.Mem_RoutLayer_sheet1,borderwidth=3,width=6,fg="black", background="white")
         self.sheet1_lkupTbl_TtlLgth_result_Entry.grid(row=1,column=3,padx=2,pady=2)
 
@@ -80,12 +80,12 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.sheet2_vlookup_Netnm_col_entry.grid(row=1,column=1,padx=3)
 
         # Layer Name Result Col insert input entry
-        self.sheet2_LyrNm_result_Col_label = Label(self.Mem_RoutLayer_sheet2,text="Layer name \nOutput Col Insert").grid(row=0,column=2,padx=3,sticky="n")
+        self.sheet2_LyrNm_result_Col_label = Label(self.Mem_RoutLayer_sheet2,text="Layer name \nOutput Insert Col").grid(row=0,column=2,padx=3,sticky="n")
         self.sheet2_LyrNm_result_insert_col_Entry = Entry(self.Mem_RoutLayer_sheet2,border=3,width=6,fg="black",background="white")
         self.sheet2_LyrNm_result_insert_col_Entry.grid(row=1,column=2,padx=3)
 
         # Total Length Result Col insert input entry
-        self.sheet2_TtlLgth_result_Col_label = Label(self.Mem_RoutLayer_sheet2,text="Total Length \nOutput Col Insert").grid(row=0,column=3,padx=3,sticky="n")
+        self.sheet2_TtlLgth_result_Col_label = Label(self.Mem_RoutLayer_sheet2,text="Total Length \nOutput Insert Col").grid(row=0,column=3,padx=3,sticky="n")
         self.sheet2_TtlLgth_result_insert_col_Entry = Entry(self.Mem_RoutLayer_sheet2,border=3,width=6,fg="black",background="white")
         self.sheet2_TtlLgth_result_insert_col_Entry.grid(row=1,column=3,padx=3)
 
@@ -105,7 +105,7 @@ class vlookupMem_RoutLyr_TtlLength_Gui:
         self.sheet1_lkupTbl_TtlLgth_result_Entry.insert(0,"F")
         self.sheet2_vlookup_Netnm_col_entry.insert(0,"N")
         self.sheet2_LyrNm_result_insert_col_Entry.insert(0,"O")
-        self.sheet2_TtlLgth_result_insert_col_Entry.insert(0,"P")
+        self.sheet2_TtlLgth_result_insert_col_Entry.insert(0,"R")
         self.sheet2_LyrNm_header_entry.insert(0,"Routing Layer")
         self.sheet2_TtlLgth_header_entry.insert(0,"Total length")
 

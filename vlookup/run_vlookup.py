@@ -491,3 +491,61 @@ class vlookup:
             cell.fill = self.col_fill
 
         self.workbook.save(self.filename)
+
+    def vlookup_impedance(self):
+        #Character to Int Conversion
+        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+        self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
+
+        # Define lookup list
+        self.lookup_output = []
+
+        #  Loop through Layer Table 
+        for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
+            #Loop through Memory Sheet
+            for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
+                if "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
+                    self.lookup_output.append("NA")
+                elif int(DDRLength[self.lkv_Tbl_col-1]) >= int(TotalLength[self.lkv_val_col-1]):
+                    self.lookup_output.append("OK")
+                else:
+                    self.lookup_output.append("40OHM")
+    
+
+        # for i in self.lookup_output:
+        #     print(i)
+        
+        (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
+        (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
+        (self.head_fill, self.col_fill_Grey) =self.color_styling("f2c43d","d0cece")
+
+        # Insert header with boarder and alignment styling
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
+        self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
+
+        for i, output in enumerate(self.lookup_output):
+            if output == "OK":
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill_Green
+            elif output == "NA":
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill_Grey             
+            else:
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill_Red
+
+
+        self.workbook.save(self.filename)

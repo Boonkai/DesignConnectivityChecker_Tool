@@ -44,7 +44,7 @@ class vlookupMem_BreakOutLgth_Gui:
         self.sheet1_lkupTbl_LineWdt_Col_Entry = Entry(self.Mem_BO_Lgth_sheet1,borderwidth=3,width=10,fg="black",background="white")
         self.sheet1_lkupTbl_LineWdt_Col_Entry.grid(row=2,column=1,padx=2,pady=2)
 
-        self.sheet1_result_Col_Label = Label(self.Mem_BO_Lgth_sheet1,text="Result\nCol").grid(row=3,column=0,padx=5,pady=5,sticky="n")
+        self.sheet1_result_Col_Label = Label(self.Mem_BO_Lgth_sheet1,text="Result Col").grid(row=3,column=0,padx=5,pady=5,sticky="n")
         self.sheet1_lkupTbl_result_Entry = Entry(self.Mem_BO_Lgth_sheet1,borderwidth=3,width=10,fg="black", background="white")
         self.sheet1_lkupTbl_result_Entry.grid(row=3,column=1,padx=2,pady=2)
 
@@ -79,7 +79,7 @@ class vlookupMem_BreakOutLgth_Gui:
         self.sheet2_BO_Lgth_col_entry.grid(row=1,column=1)
 
         # Result Col insert input entry
-        self.sheet2_lkup_result_Col = Label(self.Mem_BO_Lgth_sheet2,text="Result\nCol Insert").grid(row=2,column=0,sticky="n")
+        self.sheet2_lkup_result_Col = Label(self.Mem_BO_Lgth_sheet2,text="Breakout Length\nOutput Insert Col").grid(row=2,column=0,sticky="n")
         self.sheet2_result_insert_col_Entry = Entry(self.Mem_BO_Lgth_sheet2,border=3,width=10,fg="black",background="white")
         self.sheet2_result_insert_col_Entry.grid(row=2,column=1)
 
@@ -93,7 +93,7 @@ class vlookupMem_BreakOutLgth_Gui:
         self.sheet1_lkupTbl_LineWdt_Col_Entry.insert(0,"B")
         self.sheet1_lkupTbl_result_Entry.insert(0,"G")
         self.sheet2_BO_Lgth_col_entry.insert(0,"N")
-        self.sheet2_result_insert_col_Entry.insert(0,"R")
+        self.sheet2_result_insert_col_Entry.insert(0,"Q")
         self.sheet2_header_entry.insert(0,"Breakout Length")
 
     def run_vlookup_Mem_BoLength(self,fileName):

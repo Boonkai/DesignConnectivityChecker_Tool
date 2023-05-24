@@ -12,7 +12,7 @@ from tkinter import messagebox
 from HtmlDataExtraction.LayerStackup_GUI import LyrStack_Gui
 from RefDesignator.LayerTable import CreateChlTable
 from vlookup.vlookupMem_GUI import vlookup_gui
-from vlookup.DdrLength import DdrLength_val_insertTOexcel
+from RefDesignator.DdrLength import DdrLength_val_insertTOexcel
 
 class Background_GUI:
     def __init__(self):
@@ -231,12 +231,12 @@ class Background_GUI:
                                     header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
                 
                     
-            # vlookup_DdrLength.run_vloopup_DDRLength()
             self.vlookup_Gui_obj.run_vlookup_Mem_Netnm()
             self.vlookup_Gui_obj.run_vlookup_Mem_RoutLyr()
             self.vlookup_Gui_obj.run_vlookup_Mem_TtlLgth()
             self.vlookup_Gui_obj.run_vlookup_RoutePerMbdg()
             self.vlookup_Gui_obj.run_vlookup_Mem_BoLength()
+            self.vlookup_Gui_obj.run_vlookup_Impedance()
             
         else:
             for key, val in self.input_check.items():
