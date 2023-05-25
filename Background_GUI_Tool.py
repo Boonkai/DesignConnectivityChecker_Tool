@@ -141,7 +141,6 @@ class Background_GUI:
             self.DataConcat_Gui_obj.DataConcat_Execute()
             self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
             self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
-            self.vlookup_Gui_obj.run_LyrStackup_Tbl_vlookup()
 
             #------------------------------Create Memory Stackup Table------------------------------#
             self.Ch_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ","ChK","ChL"]
@@ -230,13 +229,26 @@ class Background_GUI:
                                     row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
                                     header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
                 
-                    
-            self.vlookup_Gui_obj.run_vlookup_Mem_Netnm()
-            self.vlookup_Gui_obj.run_vlookup_Mem_RoutLyr()
-            self.vlookup_Gui_obj.run_vlookup_Mem_TtlLgth()
+            self.vlookup_Gui_obj.run_MemCpu0_LyrStackup_Tbl_vlookup()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_Netnm()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutLyr()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_TtlLgth()
             self.vlookup_Gui_obj.run_vlookup_RoutePerMbdg()
             self.vlookup_Gui_obj.run_vlookup_Mem_BoLength()
             self.vlookup_Gui_obj.run_vlookup_Impedance()
+
+            """
+             The get() method of the Entry widget is returning a string 
+             with leading or trailing whitespace characters. 
+             
+             In such cases, using .strip() is a good practice to remove any 
+             leading or trailing whitespace characters from the user input 
+             before performing the comparison with an empty string ("").
+            """
+            if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].get().strip() != "":
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Netnm()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutLyr()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_TtlLgth()
             
         else:
             for key, val in self.input_check.items():

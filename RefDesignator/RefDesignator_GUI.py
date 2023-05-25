@@ -270,6 +270,7 @@ class RefDesignator_Gui:
             (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
         self.CPU_Ref_input_entry_widgets[0].insert(0,"J29")
+        self.CPU_Ref_input_entry_widgets[1].insert(0,"J29")
 
         #------------------------DDR Length Input GUI--------------------------------#
 
@@ -381,21 +382,31 @@ class RefDesignator_Gui:
 
     def Run_RefDesign_Concat(self):
         for i in range(0,4):
-            if self.CPU_Ref_input_entry_widgets[i].get() or self.CPU_Ref_header_entry_widgets[i].get():
+            if self.CPU_Ref_input_entry_widgets[i].get() != "":
                 for j in range(0,7):
                     # print((self.Ref_design_check_button_widgets[i][j]).get())
+                    # print(self.CPU_col_insert_entry_widgets[i][j].get())
+
+                    # Skip concat process if input entry is either "NA" nor empty:
                     if (self.Ref_design_check_button_widgets[i][j].get() != "0" and 
-                        self.CPU_col_insert_entry_widgets[i][j].get() != "0" and
-                        self.CPU_col_lookup_entry_widgets[i][j].get()!= "0"  and
-                        self.CPU_col_StartRow_entry_widgets[i][j].get()!= "0" ):
-                            RefDesig_Concat(fileName = self.fileName,
-                                            Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
-                                            concat_symbol=self.symbol_ref_drop_list[i].get(),
-                                            Insert_sheet_name=self.Ref_design_check_button_widgets[i][j].get(),
-                                            col_insert=self.CPU_col_insert_entry_widgets[i][j].get(),
-                                            col_lookup=self.CPU_col_lookup_entry_widgets[i][j].get(),
-                                            col_insert_start_row=self.CPU_col_StartRow_entry_widgets[i][j].get(),
-                                            header=self.CPU_Ref_header_entry_widgets[i].get()).data_concat()
+                        
+                        ((self.CPU_col_insert_entry_widgets[i][j].get().strip() != "NA")
+                         and (self.CPU_col_insert_entry_widgets[i][j].get().strip() != "")) and
+                         
+                        ((self.CPU_col_lookup_entry_widgets[i][j].get().strip() != "NA")
+                        and (self.CPU_col_lookup_entry_widgets[i][j].get().strip() != "")) and
+
+                        (self.CPU_col_StartRow_entry_widgets[i][j].get().strip() != "NA" )
+                        and (self.CPU_col_StartRow_entry_widgets[i][j].get().strip() != "") ):
+                            
+                        RefDesig_Concat(fileName = self.fileName,
+                                        Ref_value=self.CPU_Ref_input_entry_widgets[i].get(),
+                                        concat_symbol=self.symbol_ref_drop_list[i].get(),
+                                        Insert_sheet_name=self.Ref_design_check_button_widgets[i][j].get(),
+                                        col_insert=self.CPU_col_insert_entry_widgets[i][j].get(),
+                                        col_lookup=self.CPU_col_lookup_entry_widgets[i][j].get(),
+                                        col_insert_start_row=self.CPU_col_StartRow_entry_widgets[i][j].get(),
+                                        header=self.CPU_Ref_header_entry_widgets[i].get()).data_concat()
                     else:
                         continue
             else:
@@ -478,13 +489,13 @@ class RefDesignator_Gui:
 
         if Col_Insert == True:
             # --------------4. Configure Default Column Insert-------------------------
-            self.CPU_col_insert_entry_widgets[1][0].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][1].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][2].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][3].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][4].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][5].insert(0,"L")
-            self.CPU_col_insert_entry_widgets[1][6].insert(0,"L")
+            self.CPU_col_insert_entry_widgets[1][0].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][1].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][2].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][3].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][4].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][5].insert(0,"U")
+            self.CPU_col_insert_entry_widgets[1][6].insert(0,"U")
 
     def UsbHub_Default(self, SheetName,Col_Lookup,StartRowInsert,Col_Insert):
         if SheetName == True:

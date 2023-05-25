@@ -6,7 +6,7 @@ class vlookupMem_BreakOutLgth_Gui:
         self.rootframe = rootframe
 
         self.Mem_BO_Lgth_frame = LabelFrame(self.rootframe, text="Breakout length",labelanchor="n")
-        self.Mem_BO_Lgth_frame.grid(row=2,column=1,padx=10,pady=10)
+        self.Mem_BO_Lgth_frame.grid(row=1,column=1,padx=10,pady=10)
 
         #------------------------First Sheet Gui-----------------------# 
         self.Mem_BO_Lgth_sheet1 = LabelFrame(self.Mem_BO_Lgth_frame,text="First Sheet(Vlookup Table)",labelanchor="n")

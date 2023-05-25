@@ -1,10 +1,10 @@
 from tkinter import *
-from vlookup.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
-from vlookup.vlookupMem_NetName_GUI import vlookupMem_NetName_Gui
-from vlookup.vlookupMem_RoutLyr_TtlLength_Gui import vlookupMem_RoutLyr_TtlLength_Gui
-from vlookup.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
-from vlookup.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
-from vlookup.vlookup_Impedance_GUI import vlookupMem_Impedance_Gui
+from vlookup.Memory.vlookup_LyrStackup_GUI import vlookup_LyrStackup_Gui
+from vlookup.Memory.vlookup_NetName_GUI import vlookup_NetName_Gui
+from vlookup.Memory.vlookup_RoutLyr_TtlLength_Gui import vlookup_RoutLyr_TtlLength_Gui
+from vlookup.Memory.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
+from vlookup.Memory.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
+from vlookup.Memory.vlookup_Impedance_GUI import vlookupMem_Impedance_Gui
 
 
 class vlookup_gui:
@@ -20,16 +20,69 @@ class vlookup_gui:
         self.frame = Frame(self.canvas)
         self.frame.grid(row=0, column=0, sticky="nsew")
 
-        self.Memoey_Frame = LabelFrame(self.frame,text="MEMORY",labelanchor="n")
-        self.Memoey_Frame.grid(row=0,column=0)
 
-        self.vlookup_LyrStackup_Gui_obj = vlookup_LyrStackup_Gui(self.Memoey_Frame)
-        self.vlookup_Mem_NetName_Gui_obj =vlookupMem_NetName_Gui(self.Memoey_Frame)
-        self.vlookupMem_RoutLyr_TtlLength_Gui_obj = vlookupMem_RoutLyr_TtlLength_Gui(self.Memoey_Frame)
-        self.vlookupMem_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.Memoey_Frame)
-        self.vlookupMem_BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.Memoey_Frame)
-        self.vlookupMem_Impedance_Gui_obj = vlookupMem_Impedance_Gui(self.Memoey_Frame)
+        self.Mem_LyrStackup_Frame = LabelFrame(self.frame,text="MEMORY CPU0",labelanchor="n")
+        self.Mem_LyrStackup_Frame.grid(row=0,column=0)
+        self.MemCpu0_Frame = LabelFrame(self.frame,text="MEMORY CPU0",labelanchor="n")
+        self.MemCpu0_Frame.grid(row=1,column=0,pady=15,padx=60)
+        self.MemCpu1_Frame = LabelFrame(self.frame,text="MEMORY CPU1",labelanchor="n")
+        self.MemCpu1_Frame.grid(row=2,column=0,pady=15)
 
+        #---------------------------CPU0 Memory GUI Object--------------------------#
+        self.vlookup_MemCpu0_LyrStackup_Gui_obj = vlookup_LyrStackup_Gui(
+                                                rootframe = self.Mem_LyrStackup_Frame,
+                                                first_sheet = 4,
+                                                tabel_col= "A",
+                                                result_col= "B",
+                                                second_sheet = 5,
+                                                insert_col= "G")
+        self.vlookup_MemCpu0_NetName_Gui_obj =vlookup_NetName_Gui(
+                                            rootframe = self.MemCpu0_Frame,
+                                            first_sheet = 0,
+                                            tabel_col= "C",
+                                            result_col= "D",
+                                            second_sheet = 5,
+                                            value_col = "M",
+                                            insert_col= "N",
+                                            header= "NetName")
+        self.vlookup_MemCpu0_RoutLyr_TtlLength_Gui_obj = vlookup_RoutLyr_TtlLength_Gui(
+                                                        rootframe = self.MemCpu0_Frame,
+                                                        first_sheet = 3,
+                                                        tabel_col= "A",
+                                                        RouteLayer_result_col = "E",
+                                                        totalLength_result_col = "F",
+                                                        second_sheet = 5,
+                                                        value_col = "N",
+                                                        LayerName_insert_col = "O",
+                                                        TotalLength_insert_col = "R",
+                                                        LayerName_header = "Routing Layer",
+                                                        TotalLength_header = "Total Length")
+        self.vlookupMem_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.MemCpu0_Frame)
+        self.vlookupMem_BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.MemCpu0_Frame)
+        self.vlookupMem_Impedance_Gui_obj = vlookupMem_Impedance_Gui(self.MemCpu0_Frame)
+
+        #---------------------------CPU1 Memory GUI Object--------------------------#
+        self.vlookup_MemCpu1_NetName_Gui_obj =vlookup_NetName_Gui(
+                                                rootframe = self.MemCpu1_Frame,
+                                                first_sheet = 0,
+                                                tabel_col= "C",
+                                                result_col= "D",
+                                                second_sheet = 5,
+                                                value_col = "U",
+                                                insert_col= "V",
+                                                header= "NetName")
+        self.vlookup_MemCpu1_RoutLyr_TtlLength_Gui_obj = vlookup_RoutLyr_TtlLength_Gui(
+                                                        rootframe = self.MemCpu1_Frame,
+                                                        first_sheet = 3,
+                                                        tabel_col= "A",
+                                                        RouteLayer_result_col = "E",
+                                                        totalLength_result_col = "F",
+                                                        second_sheet = 5,
+                                                        value_col = "V",
+                                                        LayerName_insert_col = "W",
+                                                        TotalLength_insert_col = "Z",
+                                                        LayerName_header = "Routing Layer",
+                                                        TotalLength_header = "Total Length")
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
         self.scrollbar = Scrollbar(self.rootframe, orient="vertical", command=self.canvas.yview)
@@ -47,17 +100,18 @@ class vlookup_gui:
         self.frame.update_idletasks()
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-    def run_LyrStackup_Tbl_vlookup(self):
-        self.vlookup_LyrStackup_Gui_obj.run_LyrStackup_Tbl_vlookup(self.fileName)
+    #---------------------------CPU0 Memory method--------------------------#
+    def run_MemCpu0_LyrStackup_Tbl_vlookup(self):
+        self.vlookup_MemCpu0_LyrStackup_Gui_obj.run_LyrStackup_Tbl_vlookup(self.fileName)
 
-    def run_vlookup_Mem_Netnm(self):
-        self.vlookup_Mem_NetName_Gui_obj.run_vlookup_Mem_Netnm(self.fileName)
+    def run_MemCpu0_vlookup_Netnm(self):
+        self.vlookup_MemCpu0_NetName_Gui_obj.run_vlookup_NetName(self.fileName)
 
-    def run_vlookup_Mem_RoutLyr(self):
-        self.vlookupMem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_RoutLyr(self.fileName)
+    def run_MemCpu0_vlookup_RoutLyr(self):
+        self.vlookup_MemCpu0_RoutLyr_TtlLength_Gui_obj.run_vlookup_RoutLyr(self.fileName)
 
-    def run_vlookup_Mem_TtlLgth(self):
-        self.vlookupMem_RoutLyr_TtlLength_Gui_obj.run_vlookup_Mem_TtlLgth(self.fileName)
+    def run_MemCpu0_vlookup_TtlLgth(self):
+        self.vlookup_MemCpu0_RoutLyr_TtlLength_Gui_obj.run_vlookup_TtlLgth(self.fileName)
 
     def run_vlookup_RoutePerMbdg(self):
         self.vlookupMem_RoutrPerMbdg_Gui_obj.run_vlookup_RoutePerMbdg(self.fileName)
@@ -68,3 +122,12 @@ class vlookup_gui:
     def run_vlookup_Impedance(self):
         self.vlookupMem_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
 
+    #---------------------------CPU1 Memory method--------------------------#
+    def run_MemCpu1_vlookup_Netnm(self):
+        self.vlookup_MemCpu1_NetName_Gui_obj.run_vlookup_NetName(self.fileName)
+
+    def run_MemCpu1_vlookup_RoutLyr(self):
+        self.vlookup_MemCpu1_RoutLyr_TtlLength_Gui_obj.run_vlookup_RoutLyr(self.fileName)
+
+    def run_MemCpu1_vlookup_TtlLgth(self):
+        self.vlookup_MemCpu1_RoutLyr_TtlLength_Gui_obj.run_vlookup_TtlLgth(self.fileName)

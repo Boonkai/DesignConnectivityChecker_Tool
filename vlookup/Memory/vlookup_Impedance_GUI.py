@@ -6,7 +6,7 @@ class vlookupMem_Impedance_Gui:
         self.rootframe = rootframe
 
         self.Mem_Impdce_frame = LabelFrame(self.rootframe, text="Impedance",labelanchor="n")
-        self.Mem_Impdce_frame.grid(row=3,column=0,pady=10)
+        self.Mem_Impdce_frame.grid(row=2,column=0,pady=10)
 
 
         #------------------------First Sheet Gui-----------------------# 

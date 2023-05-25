@@ -6,7 +6,7 @@ class vlookupMem_RoutrPerMbdg_Gui:
         self.rootframe = rootframe
 
         self.Mem_RouteMBDG_frame = LabelFrame(self.rootframe, text="Route Per MBDG",labelanchor="n")
-        self.Mem_RouteMBDG_frame.grid(row=2,column=0,pady=10)
+        self.Mem_RouteMBDG_frame.grid(row=1,column=0,pady=10)
 
 
         #------------------------First Sheet Gui-----------------------# 
