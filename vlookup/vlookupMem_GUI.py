@@ -57,10 +57,33 @@ class vlookup_gui:
                                                         TotalLength_insert_col = "R",
                                                         LayerName_header = "Routing Layer",
                                                         TotalLength_header = "Total Length")
-        self.vlookupMem_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(self.MemCpu0_Frame)
-        self.vlookupMem_BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(self.MemCpu0_Frame)
-        self.vlookupMem_Impedance_Gui_obj = vlookupMem_Impedance_Gui(self.MemCpu0_Frame)
-
+        self.vlookup_MemCpu0_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(
+                                                    rootframe = self.MemCpu0_Frame,
+                                                    first_sheet = 5,
+                                                    tabel_col= "G",
+                                                    second_sheet = 5,
+                                                    value_col = "O",
+                                                    insert_col= "P",
+                                                    header= "Route Per MBDG")
+        self.vlookup_MemCpu0__BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(
+                                                    rootframe = self.MemCpu0_Frame,
+                                                    first_sheet = 3,
+                                                    NetName_table_col = "A",
+                                                    LineWidth_tabel_col = "B",
+                                                    result_col= "G",
+                                                    second_sheet = 5,
+                                                    value_col = "N",
+                                                    insert_col= "Q",
+                                                    header= "Breakout Length")
+        self.vlookup_MemCpu0_Impedance_Gui_obj = vlookupMem_Impedance_Gui(
+                                                rootframe = self.MemCpu0_Frame,
+                                                first_sheet = 5,
+                                                tabel_col= "F",
+                                                second_sheet = 5,
+                                                NetName_value_col = "N",
+                                                TotalLength_value_col = "R",
+                                                insert_col= "S",
+                                                header= "Impedance")
         #---------------------------CPU1 Memory GUI Object--------------------------#
         self.vlookup_MemCpu1_NetName_Gui_obj =vlookup_NetName_Gui(
                                                 rootframe = self.MemCpu1_Frame,
@@ -83,6 +106,33 @@ class vlookup_gui:
                                                         TotalLength_insert_col = "Z",
                                                         LayerName_header = "Routing Layer",
                                                         TotalLength_header = "Total Length")
+        self.vlookup_MemCpu1_RoutrPerMbdg_Gui_obj = vlookupMem_RoutrPerMbdg_Gui(
+                                                rootframe = self.MemCpu1_Frame,
+                                                first_sheet = 5,
+                                                tabel_col= "G",
+                                                second_sheet = 5,
+                                                value_col = "W",
+                                                insert_col= "X",
+                                                header= "Route Per MBDG")
+        self.vlookup_MemCpu1__BreakOutLgth_Gui_obj = vlookupMem_BreakOutLgth_Gui(
+                                                    rootframe = self.MemCpu1_Frame,
+                                                    first_sheet = 3,
+                                                    NetName_table_col = "A",
+                                                    LineWidth_tabel_col = "B",
+                                                    result_col= "G",
+                                                    second_sheet = 5,
+                                                    value_col = "V",
+                                                    insert_col= "Y",
+                                                    header= "Breakout Length")
+        self.vlookup_MemCpu1_Impedance_Gui_obj = vlookupMem_Impedance_Gui(
+                                                rootframe = self.MemCpu1_Frame,
+                                                first_sheet = 5,
+                                                tabel_col= "F",
+                                                second_sheet = 5,
+                                                NetName_value_col = "V",
+                                                TotalLength_value_col = "Z",
+                                                insert_col= "AA",
+                                                header= "Impedance")
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
         self.scrollbar = Scrollbar(self.rootframe, orient="vertical", command=self.canvas.yview)
@@ -113,14 +163,14 @@ class vlookup_gui:
     def run_MemCpu0_vlookup_TtlLgth(self):
         self.vlookup_MemCpu0_RoutLyr_TtlLength_Gui_obj.run_vlookup_TtlLgth(self.fileName)
 
-    def run_vlookup_RoutePerMbdg(self):
-        self.vlookupMem_RoutrPerMbdg_Gui_obj.run_vlookup_RoutePerMbdg(self.fileName)
+    def run_MemCpu0_vlookup_RoutePerMbdg(self):
+        self.vlookup_MemCpu0_RoutrPerMbdg_Gui_obj.run_vlookup_RoutePerMbdg(self.fileName)
 
-    def run_vlookup_Mem_BoLength(self):
-        self.vlookupMem_BreakOutLgth_Gui_obj.run_vlookup_Mem_BoLength(self.fileName)
+    def run_MemCpu0_vlookup_BoLength(self):
+        self.vlookup_MemCpu0__BreakOutLgth_Gui_obj.run_vlookup_BoLength(self.fileName)
 
-    def run_vlookup_Impedance(self):
-        self.vlookupMem_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
+    def run_MemCpu0_vlookup_Impedance(self):
+        self.vlookup_MemCpu0_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
 
     #---------------------------CPU1 Memory method--------------------------#
     def run_MemCpu1_vlookup_Netnm(self):
@@ -131,3 +181,12 @@ class vlookup_gui:
 
     def run_MemCpu1_vlookup_TtlLgth(self):
         self.vlookup_MemCpu1_RoutLyr_TtlLength_Gui_obj.run_vlookup_TtlLgth(self.fileName)
+
+    def run_MemCpu1_vlookup_RoutePerMbdg(self):
+        self.vlookup_MemCpu1_RoutrPerMbdg_Gui_obj.run_vlookup_RoutePerMbdg(self.fileName)
+
+    def run_MemCpu1_vlookup_BoLength(self):
+        self.vlookup_MemCpu1__BreakOutLgth_Gui_obj.run_vlookup_BoLength(self.fileName)
+
+    def run_MemCpu1_vlookup_Impedance(self):
+        self.vlookup_MemCpu1_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)

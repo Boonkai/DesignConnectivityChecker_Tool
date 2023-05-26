@@ -2,8 +2,23 @@ from tkinter import *
 from vlookup.run_vlookup import vlookup
 
 class vlookupMem_Impedance_Gui:
-    def __init__(self,rootframe):
+    def __init__(self,
+                 rootframe,
+                 first_sheet,
+                 tabel_col,
+                 second_sheet,
+                 NetName_value_col,
+                 TotalLength_value_col,
+                 insert_col,
+                 header):
         self.rootframe = rootframe
+        self.first_sheet = first_sheet
+        self.tabel_col = tabel_col
+        self.second_sheet = second_sheet
+        self.NetName_value_col = NetName_value_col
+        self.TotalLength_value_col = TotalLength_value_col
+        self.insert_col = insert_col
+        self.header = header
 
         self.Mem_Impdce_frame = LabelFrame(self.rootframe, text="Impedance",labelanchor="n")
         self.Mem_Impdce_frame.grid(row=2,column=0,pady=10)
@@ -31,7 +46,7 @@ class vlookupMem_Impedance_Gui:
 
         #Drop Down Boxes
         self.Sheet1_clicked = StringVar()
-        self.Sheet1_clicked.set(self.Sheet1_options[5])
+        self.Sheet1_clicked.set(self.Sheet1_options[int(self.first_sheet)])
         # self.Sheet1_drop_list.append(self.Sheet1_clicked)
 
         self.Sheet1_drop = OptionMenu(self.Mem_Impdce_frame_sheet1,self.Sheet1_clicked,*self.Sheet1_options)
@@ -61,7 +76,7 @@ class vlookupMem_Impedance_Gui:
                             "CLK"]
 
         self.Sheet2_clicked = StringVar()
-        self.Sheet2_clicked.set(self.Sheet2_options[5])
+        self.Sheet2_clicked.set(self.Sheet2_options[int(self.second_sheet)])
 
         self.Sheet2_drop = OptionMenu(self.Mem_Impdce_sheet2,self.Sheet2_clicked,*self.Sheet2_options)
         self.Sheet2_drop.grid(row=0,column=1)
@@ -87,11 +102,11 @@ class vlookupMem_Impedance_Gui:
         self.sheet2_Mem_Impdce_header_entry.grid(row=4,column=1,padx=3)
 
         #Set Default input
-        self.sheet1_lkupTbl_Col_Entry.insert(0,"F")
-        self.sheet2_vlookup_Mem_Impdce_col_entry.insert(0,"R")
-        self.sheet2_vlookup_Mem_NetName_col_entry.insert(0,"N")
-        self.sheet2_Mem_Impdceresult_insert_col_Entry.insert(0,"S")
-        self.sheet2_Mem_Impdce_header_entry.insert(0,"Impedance")
+        self.sheet1_lkupTbl_Col_Entry.insert(0,str(self.tabel_col))
+        self.sheet2_vlookup_Mem_NetName_col_entry.insert(0,str(self.NetName_value_col))
+        self.sheet2_vlookup_Mem_Impdce_col_entry.insert(0,str(self.TotalLength_value_col))
+        self.sheet2_Mem_Impdceresult_insert_col_Entry.insert(0,str(self.insert_col))
+        self.sheet2_Mem_Impdce_header_entry.insert(0,str(self.header))
 
     def run_vlookup_Impedance(self,fileName):
         self.fileName = fileName

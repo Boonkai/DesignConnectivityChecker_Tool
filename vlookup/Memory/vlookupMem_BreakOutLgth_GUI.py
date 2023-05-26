@@ -2,8 +2,25 @@ from tkinter import *
 from vlookup.run_vlookup import vlookup
 
 class vlookupMem_BreakOutLgth_Gui:
-    def __init__(self,rootframe):
+    def __init__(self,
+                 rootframe,
+                 first_sheet,
+                 NetName_table_col,
+                 LineWidth_tabel_col,
+                 result_col,
+                 second_sheet,
+                 value_col,
+                 insert_col,
+                 header):
         self.rootframe = rootframe
+        self.first_sheet = first_sheet
+        self.NetName_table_col = NetName_table_col
+        self.LineWidth_tabel_col = LineWidth_tabel_col
+        self.result_col = result_col
+        self.second_sheet = second_sheet
+        self.value_col = value_col
+        self.insert_col = insert_col
+        self.header = header
 
         self.Mem_BO_Lgth_frame = LabelFrame(self.rootframe, text="Breakout length",labelanchor="n")
         self.Mem_BO_Lgth_frame.grid(row=1,column=1,padx=10,pady=10)
@@ -30,7 +47,7 @@ class vlookupMem_BreakOutLgth_Gui:
 
         #Drop Down Boxes
         self.Sheet1_clicked = StringVar()
-        self.Sheet1_clicked.set(self.Sheet1_options[3])
+        self.Sheet1_clicked.set(self.Sheet1_options[int(self.first_sheet)])
         # self.Sheet1_drop_list.append(self.Sheet1_clicked)
 
         self.Sheet1_drop = OptionMenu(self.Mem_BO_Lgth_sheet1,self.Sheet1_clicked,*self.Sheet1_options)
@@ -68,7 +85,7 @@ class vlookupMem_BreakOutLgth_Gui:
                             "CLK"]
 
         self.Sheet2_clicked = StringVar()
-        self.Sheet2_clicked.set(self.Sheet2_options[5])
+        self.Sheet2_clicked.set(self.Sheet2_options[int(self.second_sheet)])
 
         self.Sheet2_drop = OptionMenu(self.Mem_BO_Lgth_sheet2,self.Sheet2_clicked,*self.Sheet2_options)
         self.Sheet2_drop.grid(row=0,column=1)
@@ -89,14 +106,14 @@ class vlookupMem_BreakOutLgth_Gui:
         self.sheet2_header_entry.grid(row=3,column=1)
 
         #Set Default input
-        self.sheet1_lkupTbl_NetName_Col_Entry.insert(0,"A")
-        self.sheet1_lkupTbl_LineWdt_Col_Entry.insert(0,"B")
-        self.sheet1_lkupTbl_result_Entry.insert(0,"G")
-        self.sheet2_BO_Lgth_col_entry.insert(0,"N")
-        self.sheet2_result_insert_col_Entry.insert(0,"Q")
-        self.sheet2_header_entry.insert(0,"Breakout Length")
+        self.sheet1_lkupTbl_NetName_Col_Entry.insert(0,str(self.NetName_table_col))
+        self.sheet1_lkupTbl_LineWdt_Col_Entry.insert(0,str(self.LineWidth_tabel_col))
+        self.sheet1_lkupTbl_result_Entry.insert(0,str(self.result_col))
+        self.sheet2_BO_Lgth_col_entry.insert(0,str(self.value_col))
+        self.sheet2_result_insert_col_Entry.insert(0,str(self.insert_col))
+        self.sheet2_header_entry.insert(0,str(self.header))
 
-    def run_vlookup_Mem_BoLength(self,fileName):
+    def run_vlookup_BoLength(self,fileName):
         self.fileName = fileName
         vlookup(filename= self.fileName,
                 sheet1=self.Sheet1_clicked.get(),

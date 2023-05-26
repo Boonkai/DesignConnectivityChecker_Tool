@@ -233,9 +233,9 @@ class Background_GUI:
             self.vlookup_Gui_obj.run_MemCpu0_vlookup_Netnm()
             self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutLyr()
             self.vlookup_Gui_obj.run_MemCpu0_vlookup_TtlLgth()
-            self.vlookup_Gui_obj.run_vlookup_RoutePerMbdg()
-            self.vlookup_Gui_obj.run_vlookup_Mem_BoLength()
-            self.vlookup_Gui_obj.run_vlookup_Impedance()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutePerMbdg()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
+            self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
 
             """
              The get() method of the Entry widget is returning a string 
@@ -249,7 +249,10 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_Netnm()
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutLyr()
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_TtlLgth()
-            
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutePerMbdg()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_BoLength()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Impedance()
+
         else:
             for key, val in self.input_check.items():
                 if not val:

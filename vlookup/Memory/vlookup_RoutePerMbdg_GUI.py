@@ -2,8 +2,21 @@ from tkinter import *
 from vlookup.run_vlookup import vlookup
 
 class vlookupMem_RoutrPerMbdg_Gui:
-    def __init__(self,rootframe):
+    def __init__(self,
+                 rootframe,
+                 first_sheet,
+                 tabel_col,
+                 second_sheet,
+                 value_col,
+                 insert_col,
+                 header):
         self.rootframe = rootframe
+        self.first_sheet = first_sheet
+        self.tabel_col = tabel_col
+        self.second_sheet = second_sheet
+        self.value_col = value_col
+        self.insert_col = insert_col
+        self.header = header
 
         self.Mem_RouteMBDG_frame = LabelFrame(self.rootframe, text="Route Per MBDG",labelanchor="n")
         self.Mem_RouteMBDG_frame.grid(row=1,column=0,pady=10)
@@ -31,7 +44,7 @@ class vlookupMem_RoutrPerMbdg_Gui:
 
         #Drop Down Boxes
         self.Sheet1_clicked = StringVar()
-        self.Sheet1_clicked.set(self.Sheet1_options[5])
+        self.Sheet1_clicked.set(self.Sheet1_options[int(self.first_sheet)])
         # self.Sheet1_drop_list.append(self.Sheet1_clicked)
 
         self.Sheet1_drop = OptionMenu(self.Mem_RouteMBDG_frame_sheet1,self.Sheet1_clicked,*self.Sheet1_options)
@@ -61,7 +74,7 @@ class vlookupMem_RoutrPerMbdg_Gui:
                             "CLK"]
 
         self.Sheet2_clicked = StringVar()
-        self.Sheet2_clicked.set(self.Sheet2_options[5])
+        self.Sheet2_clicked.set(self.Sheet2_options[int(self.second_sheet)])
 
         self.Sheet2_drop = OptionMenu(self.Mem_RouteMBDG_sheet2,self.Sheet2_clicked,*self.Sheet2_options)
         self.Sheet2_drop.grid(row=0,column=1)
@@ -82,10 +95,10 @@ class vlookupMem_RoutrPerMbdg_Gui:
         self.sheet2_Mem_RouteMBDG_header_entry.grid(row=3,column=1,padx=3)
 
         #Set Default input
-        self.sheet1_lkupTbl_Col_Entry.insert(0,"G")
-        self.sheet2_vlookup_Mem_RouteMBDG_col_entry.insert(0,"O")
-        self.sheet2_Mem_RouteMBDG_result_insert_col_Entry.insert(0,"P")
-        self.sheet2_Mem_RouteMBDG_header_entry.insert(0,"Route Per MBDG")
+        self.sheet1_lkupTbl_Col_Entry.insert(0,str(self.tabel_col))
+        self.sheet2_vlookup_Mem_RouteMBDG_col_entry.insert(0,str(self.value_col))
+        self.sheet2_Mem_RouteMBDG_result_insert_col_Entry.insert(0,str(self.insert_col))
+        self.sheet2_Mem_RouteMBDG_header_entry.insert(0,str(self.header))
 
     def run_vlookup_RoutePerMbdg(self,fileName):
         self.fileName = fileName

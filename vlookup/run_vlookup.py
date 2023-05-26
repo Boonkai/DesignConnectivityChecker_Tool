@@ -506,8 +506,11 @@ class vlookup:
         for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
             #Loop through Memory Sheet
             for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
-                if "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
-                    self.lookup_output.append("NA")
+                print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
+                if TotalLength[self.lkv_NetNm_Col-1] is None:
+                    self.lookup_output.append("#N/A")
+                elif "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
+                    self.lookup_output.append("#N/A")
                 elif int(DDRLength[self.lkv_Tbl_col-1]) >= int(TotalLength[self.lkv_val_col-1]):
                     self.lookup_output.append("OK")
                 else:
@@ -534,7 +537,7 @@ class vlookup:
                 cell.border = self.border
                 cell.alignment = self.center_alignment
                 cell.fill = self.col_fill_Green
-            elif output == "NA":
+            elif output == "#N/A":
                 cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
                 cell.value = output
                 cell.border = self.border
