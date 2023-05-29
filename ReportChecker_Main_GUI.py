@@ -184,7 +184,7 @@ class mainGUI:
         self.presshow.grid(row=1,column=0,pady=10)
 
         #-------------------Create the export button--------------------------#
-        self.export_button = Button(self.main_Gui_root, text="Generate Report", command=self.BackGui_obj.export_report)
+        self.export_button = Button(self.main_Gui_root, text="Generate Report", command=self.BackGui_obj.Generate_Report)
         self.export_button.grid(row=1,column=1,pady=10)
 
         #------------------Create Sync input Button--------------------------------#

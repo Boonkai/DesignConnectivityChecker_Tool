@@ -506,7 +506,7 @@ class vlookup:
         for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
             #Loop through Memory Sheet
             for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
-                print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
+                # print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
                 if TotalLength[self.lkv_NetNm_Col-1] is None:
                     self.lookup_output.append("#N/A")
                 elif "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
