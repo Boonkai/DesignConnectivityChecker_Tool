@@ -5,6 +5,7 @@ from vlookup.Memory.vlookup_RoutLyr_TtlLength_Gui import vlookup_RoutLyr_TtlLeng
 from vlookup.Memory.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
 from vlookup.Memory.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
 from vlookup.Memory.vlookup_Impedance_GUI import vlookupMem_Impedance_Gui
+from vlookup.CheckMinMax.Create_Channel_LayerTable import ChannelLayerName_Table_Gui
 
 
 class vlookup_gui:
@@ -23,8 +24,10 @@ class vlookup_gui:
 
         self.Mem_LyrStackup_Frame = LabelFrame(self.frame,text="MEMORY CPU0",labelanchor="n")
         self.Mem_LyrStackup_Frame.grid(row=0,column=0)
+
         self.MemCpu0_Frame = LabelFrame(self.frame,text="MEMORY CPU0",labelanchor="n")
         self.MemCpu0_Frame.grid(row=1,column=0,pady=15,padx=60)
+
         self.MemCpu1_Frame = LabelFrame(self.frame,text="MEMORY CPU1",labelanchor="n")
         self.MemCpu1_Frame.grid(row=2,column=0,pady=15)
 
@@ -35,7 +38,8 @@ class vlookup_gui:
                                                 tabel_col= "A",
                                                 result_col= "B",
                                                 second_sheet = 5,
-                                                insert_col= "G")
+                                                insert_col= "G",
+                                                insert_row= "2")
         self.vlookup_MemCpu0_NetName_Gui_obj =vlookup_NetName_Gui(
                                             rootframe = self.MemCpu0_Frame,
                                             first_sheet = 0,
@@ -133,6 +137,18 @@ class vlookup_gui:
                                                 TotalLength_value_col = "Z",
                                                 insert_col= "AA",
                                                 header= "Impedance")
+        #-------------------------CPU0 Check Breakout Min/Max Value-----------------------#
+        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj = ChannelLayerName_Table_Gui(
+                                                rootframe = self.MemCpu0_Frame,
+                                                first_sheet = 4,
+                                                tabel_col= "A",
+                                                result_col= "B",
+                                                second_sheet = 5,
+                                                insert_col_ChlNm= "F",
+                                                insert_col_LyrNm= "G",
+                                                insert_row= "19")
+
+
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
         self.scrollbar = Scrollbar(self.rootframe, orient="vertical", command=self.canvas.yview)
@@ -171,6 +187,11 @@ class vlookup_gui:
 
     def run_MemCpu0_vlookup_Impedance(self):
         self.vlookup_MemCpu0_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
+
+    #---------------------------CPU1 Check Breakout Min/Max Value--------------------------#
+    def run_MemCpu0_ChlLyrTbl_vlookup(self):
+        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_CreateChllNmTbl(self.fileName)
+        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_ChlLyrTbl_vlookup(self.fileName)
 
     #---------------------------CPU1 Memory method--------------------------#
     def run_MemCpu1_vlookup_Netnm(self):

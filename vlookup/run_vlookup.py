@@ -9,6 +9,7 @@ class vlookup:
                  sheet1,
                  sheet2,
                  lookup_out_insert = None,
+                 lookup_out_insert_row= None,
                  lookup_Tbl_column = None,
                  lookup_Tbl_output = None,
                  lookup_val_col=None,
@@ -39,6 +40,7 @@ class vlookup:
         self.header_LyrNm = header_LyrNm
         self.header_TtlLgth = header_TtlLgth
         self.lookup_val_col = lookup_val_col
+        self.lookup_out_insert_row = lookup_out_insert_row
 
         # Open the Excel file
         self.workbook = openpyxl.load_workbook(self.filename)
@@ -160,14 +162,17 @@ class vlookup:
 
         (self.head_fill, self.col_fill) =self.color_styling("92d050","fce4d6")
 
+        # Convert string entry inout to integer
+        insert_row = int(self.lookup_out_insert_row)
+
         for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+2, column= self.lkv_out_insert) 
+            cell = self.sheet2.cell(row=i+insert_row, column= self.lkv_out_insert) 
             cell.value = output
             cell.border = self.border
             cell.alignment = self.center_alignment
             cell.fill = self.col_fill
 
-        self.sheet2.cell(row=2,column= self.lkv_out_insert).fill = self.head_fill
+        self.sheet2.cell(row=insert_row,column= self.lkv_out_insert).fill = self.head_fill
 
         self.workbook.save(self.filename)
 

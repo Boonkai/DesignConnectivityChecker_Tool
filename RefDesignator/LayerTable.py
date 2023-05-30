@@ -1,5 +1,4 @@
 import openpyxl
-from HtmlDataExtraction import DataExtracT_Export
 from openpyxl.styles import Border, Side
 from openpyxl.styles import Alignment
 from openpyxl.styles import PatternFill

@@ -83,6 +83,7 @@ class Background_GUI:
         presshide = Button(self.BackGui_root, text="Close Development Tool",command=self.hidebackground)
         presshide.grid(row=4,column=1)
 
+        #-------------------Show report Generate Progress Status on Popup Message Box --------------------------#
         # Create a status bar label
         self.status_var = StringVar()
         self.status_label = ttk.Label(self.tab1, textvariable=self.status_var, anchor=W)
@@ -162,16 +163,17 @@ class Background_GUI:
         self.input_check["Layer Stackup"] = self.LayerStackup_Gui_obj.LyrStack_input_entry.get()
         if all(value for value in self.input_check.values()):
 
-            self.NetPin_Gui_obj.NetPinOutputData()
             self.progress_status(progress=10,status="Net Pin data")
-            self.Netlist_Gui_obj.NetlistOutputData()
+            self.NetPin_Gui_obj.NetPinOutputData()
             self.progress_status(progress=15,status="Net List data")
-            self.BOM_Gui_obj.BomOutputData()
+            self.Netlist_Gui_obj.NetlistOutputData()
             self.progress_status(progress=25,status="BOM data")
-            self.LenWidLayer_Gui_obj.LenWidLayerOutputData()
+            self.BOM_Gui_obj.BomOutputData()
             self.progress_status(progress=30,status="Length Width Layer data")
-            self.LayerStackup_Gui_obj.LyrStackupOutputData()
+            self.LenWidLayer_Gui_obj.LenWidLayerOutputData()
             self.progress_status(progress=40,status="Layer Stackup data")
+            self.LayerStackup_Gui_obj.LyrStackupOutputData()
+            
 
             if self.export_count == 0:
                 # Save the workbook
@@ -180,12 +182,11 @@ class Background_GUI:
                 # Save the workbook
                 self.workbook.save(self.New_fileName)
 
-            self.DataConcat_Gui_obj.DataConcat_Execute()
             self.progress_status(progress=45,status="Data Concatenation")
-            self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
+            self.DataConcat_Gui_obj.DataConcat_Execute()
             self.progress_status(progress=48,status="Copy Interface Memory Source data")
-            self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
-            self.progress_status(progress=53,status="Memory Referance Concat")
+            self.RefDesignator_Gui_obj.copy_InterfaceMmy_data_to_dst()
+            
 
             #------------------------------Create Memory Stackup Table------------------------------#
             self.Ch_Name =  ["Channel","ChA","ChB","ChC","ChD","ChE","CHF","ChG","ChH","ChI","ChJ","ChK","ChL"]
@@ -248,6 +249,7 @@ class Background_GUI:
 
 
             if self.export_count == 0:
+                self.progress_status(progress=53,status="Stackup Table data")
                 # Create  stackup on “MEMORY” tab
                 CreateChlTable(self.fileName,"MEMORY",self.Ch_Name,"F")
                 CreateChlTable(self.fileName,"MEMORY",self.BO_DQ,"H")
@@ -260,8 +262,9 @@ class Background_GUI:
                                     col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
                                     row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
                                     header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
-                self.progress_status(progress=58,status="Stackup Table data")
+                
             else:
+                self.progress_status(progress=53,status="Stackup Table data")
                 # Create  stackup on “MEMORY” tab
                 CreateChlTable(self.New_fileName,"MEMORY",self.Ch_Name,"F")
                 CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQ,"H")
@@ -274,24 +277,11 @@ class Background_GUI:
                                     col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
                                     row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
                                     header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
-                self.progress_status(progress=58,status="Stackup Table data")
-            
                 
+            
+            self.progress_status(progress=56,status="Memory Cpu0 Layer Stackup vlookup")
             self.vlookup_Gui_obj.run_MemCpu0_LyrStackup_Tbl_vlookup()
-            self.progress_status(progress=60,status="Memory Cpu0 Layer Stackup vlookup")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_Netnm()
-            self.progress_status(progress=63,status="Memory Cpu0 NetName vlookup")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutLyr()
-            self.progress_status(progress=66,status="Memory Cpu0 Routing Layer data")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_TtlLgth()
-            self.progress_status(progress=69,status="Memory Cpu0 Total Length data")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutePerMbdg()
-            self.progress_status(progress=72,status="Memory Cpu0 Route Per MBDG data")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
-            self.progress_status(progress=75,status="Memory Cpu0 Breakout Length data")
-            self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
-            self.progress_status(progress=78,status="Memory Cpu0 Impedance data")
-
+            
             """
              The get() method of the Entry widget is returning a string 
              with leading or trailing whitespace characters. 
@@ -300,19 +290,42 @@ class Background_GUI:
              leading or trailing whitespace characters from the user input 
              before performing the comparison with an empty string ("").
             """
+            if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].get().strip() != "":
+                self.progress_status(progress=59,status="Memory Referance Concat")
+                self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
+                self.progress_status(progress=62,status="Memory Cpu0 NetName vlookup")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_Netnm()
+                self.progress_status(progress=66,status="Memory Cpu0 Routing Layer data")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutLyr()
+                self.progress_status(progress=69,status="Memory Cpu0 Total Length data")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_TtlLgth()
+                self.progress_status(progress=72,status="Memory Cpu0 Route Per MBDG data")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutePerMbdg()
+                self.progress_status(progress=75,status="Memory Cpu0 Breakout Length data")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
+                self.progress_status(progress=78,status="Memory Cpu0 Impedance data")
+                self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
+                self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
+                self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
+
+                
+
             if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].get().strip() != "":
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Netnm()
+                self.progress_status(progress=80,status="Memory Referance Concat")
+                self.RefDesignator_Gui_obj.Run_RefDesign_Concat()
                 self.progress_status(progress=81,status="Memory Cpu1 NetName vlookup")
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutLyr()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Netnm()
                 self.progress_status(progress=84,status="Memory Cpu1 Routing Layer data")
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_TtlLgth()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutLyr()
                 self.progress_status(progress=87,status="Memory Cpu1 Total Length data")
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutePerMbdg()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_TtlLgth()
                 self.progress_status(progress=90,status="Memory Cpu1 Route Per MBDG data")
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_BoLength()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutePerMbdg()
                 self.progress_status(progress=93,status="Memory Cpu1 Breakout Length data")
-                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Impedance()
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_BoLength()
                 self.progress_status(progress=96,status="Memory Cpu1s Impedance data")
+                self.vlookup_Gui_obj.run_MemCpu1_vlookup_Impedance()
+                
 
         else:
             for key, val in self.input_check.items():
