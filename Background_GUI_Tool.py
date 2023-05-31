@@ -307,6 +307,8 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
                 self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
                 self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
+                self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
+                self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
 
                 
 

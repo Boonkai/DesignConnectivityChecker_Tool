@@ -8,16 +8,20 @@ class vlookup:
                  filename,
                  sheet1,
                  sheet2,
-                 lookup_out_insert = None,
-                 lookup_out_insert_row= None,
                  lookup_Tbl_column = None,
                  lookup_Tbl_output = None,
-                 lookup_val_col=None,
                  lookup_Tbl_LyrNm_out =None,
                  lookup_Tbl_TtlLgth_out = None,
+                 lookup_Tbl_col_LineWdt = None,
+                 lookup_val_col=None,
+                 lookup_out_insert = None,
+                 lookup_out_insert_row= None,
                  lookup_lyrNm_out_insert =None,
                  lookup_TtlLgth_out_insert =None,
-                 lookup_Tbl_col_LineWdt = None,
+                 lookup_Min_insert_col = None,
+                 lookup_Max_insert_col = None ,
+                 Min_header = None ,
+                 Max_header = None,
                  header_LyrNm =None,
                  header_TtlLgth =None,
                  header=None,
@@ -41,6 +45,11 @@ class vlookup:
         self.header_TtlLgth = header_TtlLgth
         self.lookup_val_col = lookup_val_col
         self.lookup_out_insert_row = lookup_out_insert_row
+        self.lookup_Min_insert_col = lookup_Min_insert_col
+        self.lookup_Max_insert_col = lookup_Max_insert_col
+        self.Min_header = Min_header
+        self.Max_header = Max_header
+
 
         # Open the Excel file
         self.workbook = openpyxl.load_workbook(self.filename)
@@ -186,7 +195,7 @@ class vlookup:
         # Define lookup list
         self.lookup_output = []
 
-        # Create empty lists for column 7 and column 8
+        # Create empty lists for Memory worksheet layer stackup column 7 and column 8
         LyrStack_values = []
         BO_DQ_values = []
         BO_DQS_values = []
@@ -198,7 +207,6 @@ class vlookup:
             LyrStack_values.append(row[0].value)
             BO_DQ_values.append(row[1].value)
             BO_DQS_values.append(row[2].value)
-
 
         self.LyrTable_data = [list(values) for values in zip(LyrStack_values, BO_DQ_values, BO_DQS_values)]
 
@@ -507,9 +515,9 @@ class vlookup:
         # Define lookup list
         self.lookup_output = []
 
-        #  Loop through Layer Table 
+        #  Loop through DDR Value 
         for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
-            #Loop through Memory Sheet
+            #Loop through Memory's Table
             for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
                 # print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
                 if TotalLength[self.lkv_NetNm_Col-1] is None:
@@ -557,3 +565,43 @@ class vlookup:
 
 
         self.workbook.save(self.filename)
+
+    def vlookup_BreakoutLength_MinMax(self):
+        #Character to Int Conversion
+        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+        self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
+        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+        self.lkv_min_insert_col = self.column_label_to_number(self.lookup_Min_insert_col.upper())
+        self.lkv_max_insert_col = self.column_label_to_number(self.lookup_Max_insert_col.upper())
+
+        # Define lookup list
+        self.lookup_output = []
+
+
+        for row in self.sheet1.iter_rows(min_row=20, max_row=31, min_col=7, max_col=7,values_only=True):
+            # print(row[0])
+            #  Loop through Routing Layer
+            for RoutLayer in self.sheet1.iter_rows(min_row=3, values_only=True):
+                # print( RoutLayer[self.lkv_Tbl_col-1])
+                if RoutLayer[self.lkv_Tbl_col-1] == row[0]:
+                    if RoutLayer[self.lkv_Tbl_out-1] == "#N/A":
+                        continue
+                    else:
+                        self.lookup_output.append(float(RoutLayer[self.lkv_Tbl_out-1]))
+        
+        for i in self.lookup_output:
+            print(i)
+        
+        print("Minimum value:", min(self.lookup_output ))
+        print("Minimum value:", max(self.lookup_output ))
+
+
+        # print(self.lkv_Tbl_col)
+        # print(self.lkv_Tbl_out)
+        # print(self.lkv_val_col)
+        # print(self.lkv_min_insert_col)
+        # print(self.lkv_max_insert_col)
+        # print(self.lookup_out_insert_row)
+        # print(self.Min_header)
+        # print(self.Max_header)
+

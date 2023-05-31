@@ -6,6 +6,7 @@ from vlookup.Memory.vlookup_RoutePerMbdg_GUI import vlookupMem_RoutrPerMbdg_Gui
 from vlookup.Memory.vlookupMem_BreakOutLgth_GUI import vlookupMem_BreakOutLgth_Gui
 from vlookup.Memory.vlookup_Impedance_GUI import vlookupMem_Impedance_Gui
 from vlookup.CheckMinMax.Create_Channel_LayerTable import ChannelLayerName_Table_Gui
+from vlookup.CheckMinMax.vlookup_BoMinMax_GUI import vlookup_Bo_MinMax_Gui
 
 
 class vlookup_gui:
@@ -147,7 +148,18 @@ class vlookup_gui:
                                                 insert_col_ChlNm= "F",
                                                 insert_col_LyrNm= "G",
                                                 insert_row= "19")
-
+        self.vlookup_MemCpu0_BoMinMax_Gui_obj = vlookup_Bo_MinMax_Gui(
+                                                rootframe = self.MemCpu0_Frame,
+                                                first_sheet = 5,
+                                                tabel_col= "O",
+                                                result_col="Q",
+                                                second_sheet = 5,
+                                                value_col = "G",
+                                                Min_insert_col= "I",
+                                                Max_insert_col="J",
+                                                insert_row= 19,
+                                                Min_header= "BO Length Min(mils/mm)",
+                                                Max_header = "BO Length Max(mils/mm)")
 
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
@@ -192,6 +204,9 @@ class vlookup_gui:
     def run_MemCpu0_ChlLyrTbl_vlookup(self):
         self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_CreateChllNmTbl(self.fileName)
         self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_ChlLyrTbl_vlookup(self.fileName)
+
+    def run_MemCpu0_BoMinMax_vlookup(self):
+        self.vlookup_MemCpu0_BoMinMax_Gui_obj.run_vlookup_BoMinMax(self.fileName)
 
     #---------------------------CPU1 Memory method--------------------------#
     def run_MemCpu1_vlookup_Netnm(self):
