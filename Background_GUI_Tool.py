@@ -48,7 +48,9 @@ class Background_GUI:
         #----------------Create New Report Workbook---------------#
         Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
         # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
-        self.fileName =str(Date_Time)+'.'+'xlsx'
+        # self.report_folder_path =  '/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/Report_Output'
+        self.report_folder_path =  'C:/DesignConnectivityChecker_Tool/Report_Output'
+        self.fileName =self.report_folder_path + "//"+ str(Date_Time)+'.'+'xlsx'
 
         # Create a new workbook
         self.workbook = openpyxl.Workbook()
@@ -127,7 +129,7 @@ class Background_GUI:
         else:
             #Re-Create A New Report Workbook for 2nd times button click to avoid reuse existing sheetname#
             Date_Time = datetime.now().strftime('%Y-%m-%d %H%M%S')
-            self.New_fileName =str(Date_Time)+'.'+'xlsx'
+            self.New_fileName = self.report_folder_path +"//"+ str(Date_Time)+'.'+'xlsx'
 
             # Create a new workbook
             self.workbook = openpyxl.Workbook()
@@ -305,10 +307,10 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
                 self.progress_status(progress=78,status="Memory Cpu0 Impedance data")
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
-                self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
-                self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
-                self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
-                self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
+                # self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
+                # self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
+                # self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
+                # self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
 
                 
 
@@ -327,23 +329,23 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_BoLength()
                 self.progress_status(progress=96,status="Memory Cpu1s Impedance data")
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_Impedance()
-                
 
+            self.progress_status(progress=100, status="Complete")
+            self.status_var.set("Generation complete!")
+
+            if self.export_count == 0:
+                # Task completed
+                messagebox.showinfo("Task Complete" ,"Report Generate Complete  " + self.fileName)
+            else:
+                # Task completed
+                messagebox.showinfo("Task Complete" ,"Report Generate Complete  " + self.New_fileName)
+
+            self.popup.destroy()  # Close the main window
+                
         else:
             for key, val in self.input_check.items():
                 if not val:
                     messagebox.showinfo("Popup!", "The "+ key + " file input cannot be empty\nPlease select " +key+ " html file")
-        self.progress_status(progress=100, status="Complete")
-        self.status_var.set("Generation complete!")
-
-        if self.export_count == 0:
-            # Task completed
-            messagebox.showinfo("Task Complete" ,"Report Generate Complete  " + self.fileName)
-        else:
-            # Task completed
-            messagebox.showinfo("Task Complete" ,"Report Generate Complete  " + self.New_fileName)
-
-        self.popup.destroy()  # Close the main window
         self.export_count = self.export_count +1
 
 

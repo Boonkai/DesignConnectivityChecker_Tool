@@ -8,7 +8,7 @@ class browser:
         pass
 
     def browse_file(self):
-        self.file_path =  filedialog.askopenfilename(initialdir="/Users/yeamboonkai/Desktop/AMD_Project/Input", 
+        self.file_path =  filedialog.askopenfilename(initialdir="/Input_Files", 
                                             title="Select a File", 
                                             filetypes=(("htm", "*.htm"), ("All files", "*.*")))
         return self.file_path

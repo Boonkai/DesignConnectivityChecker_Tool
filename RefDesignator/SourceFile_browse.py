@@ -5,9 +5,11 @@ from openpyxl.styles import Alignment
 
 def RefDesign_browse_file():
     # Select the source Excel file
-    src_file = filedialog.askopenfilename(title="Select Source File", filetypes=[("Excel files", "*.xlsx")])
-    if not src_file:
-        return
+    src_file = filedialog.askopenfilename(initialdir="C:/DesignConnectivityChecker_Tool/RefDesignator", 
+                                          title="Select Source File", 
+                                          filetypes=[("Excel files", "*.xlsx")])
+    # if not src_file:
+    #     return
     
     return src_file
 

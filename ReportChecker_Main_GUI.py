@@ -3,11 +3,12 @@ from tkinter import *
 from tkinter import ttk
 from HtmlDataExtraction import *
 from FileBrowser.FileBrowser import browser
-Netpin = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Component_Pin_Report.htm"
-Netlist = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Netlist.htm"
-BOMFile = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/BOM.htm"
-lenWid = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Etch_Length_Width_Layer.htm"
-LayerStack = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Layer_Stackup_report.htm"
+# Set folowwing directory to default path for debugging purpose
+# Netpin = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Component_Pin_Report.htm"
+# Netlist = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Netlist.htm"
+# BOMFile = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/BOM.htm"
+# lenWid = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Etch_Length_Width_Layer.htm"
+# LayerStack = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/Layer_Stackup_report.htm"
 
 class mainGUI:
     def __init__(self):
@@ -21,7 +22,7 @@ class mainGUI:
         # Create the first tab
         self.tab1 = ttk.Frame(self.notebook)
         self.notebook.add(self.tab1, text='HTML Data Extraction')
-        self.notebook.grid(columnspan=4)
+        self.notebook.grid(columnspan=3)
 
         # Create the second tab
         self.tab2 = ttk.Frame(self.notebook)
@@ -144,20 +145,20 @@ class mainGUI:
         self.LayerStackup_browser_button.grid(row=0, column=8)
 
     #--------------------Set Report Files input to default path-----------------------
-        self.NetPin_main_input_entry.insert(0, Netpin)
-        self.BackGui_obj.NetPin_Gui_obj.NetPin_input_entry.insert(0,Netpin)
+        # self.NetPin_main_input_entry.insert(0, Netpin)
+        # self.BackGui_obj.NetPin_Gui_obj.NetPin_input_entry.insert(0,Netpin)
 
-        self.Netlist_main_input_entry.insert(0, Netlist)
-        self.BackGui_obj.Netlist_Gui_obj.Netlist_input_entry.insert(0,Netlist)
+        # self.Netlist_main_input_entry.insert(0, Netlist)
+        # self.BackGui_obj.Netlist_Gui_obj.Netlist_input_entry.insert(0,Netlist)
 
-        self.BOM_main_input_entry.insert(0, BOMFile)
-        self.BackGui_obj.BOM_Gui_obj.BOM_input_entry.insert(0,BOMFile)
+        # self.BOM_main_input_entry.insert(0, BOMFile)
+        # self.BackGui_obj.BOM_Gui_obj.BOM_input_entry.insert(0,BOMFile)
 
-        self.LenWidLayer_main_input_entry.insert(0, lenWid)
-        self.BackGui_obj.LenWidLayer_Gui_obj.LenWidLayer_input_entry.insert(0,lenWid)
+        # self.LenWidLayer_main_input_entry.insert(0, lenWid)
+        # self.BackGui_obj.LenWidLayer_Gui_obj.LenWidLayer_input_entry.insert(0,lenWid)
 
-        self.LayerStackup_main_input_entry.insert(0, LayerStack)
-        self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_input_entry.insert(0,LayerStack)
+        # self.LayerStackup_main_input_entry.insert(0, LayerStack)
+        # self.BackGui_obj.LayerStackup_Gui_obj.LyrStack_input_entry.insert(0,LayerStack)
 
         # --------------------Memory, PCIe, XGMI, USB, SATA , MISC label and Checkbox-----------------#
         self.MmyIntf_Frame = LabelFrame(self.tab1, text="Memory Interface",padx=10, pady=10,labelanchor='n')
@@ -188,12 +189,12 @@ class mainGUI:
         self.export_button.grid(row=1,column=1,pady=10)
 
         #------------------Create Sync input Button--------------------------------#
-        self.sync_button = Button(self.main_Gui_root, text="Sync Input")
-        self.sync_button.grid(row=1,column=2,pady=20)
+        # self.sync_button = Button(self.main_Gui_root, text="Sync Input")
+        # self.sync_button.grid(row=1,column=2,pady=20)
 
         #----------------- Create Exit Button------------------------------------#
         self.pressexit = Button(self.main_Gui_root, text="Exit",command=self.pressExit)
-        self.pressexit.grid(row=1,column=3,pady=10)
+        self.pressexit.grid(row=1,column=2,pady=10)
 
         #-------------------------------Breakout/Bus Channel Width GUI---------------------------------------#
         self.Main_BO_Chnl_width = LabelFrame(self.tab2,text="Breakout width",labelanchor="n")
@@ -420,8 +421,10 @@ class mainGUI:
     #---------------------NetPin File Browser-----------------------------------
     # create a function to open the file browser and select a file
     def NetPin_browse_file(self):
-        # self.NetPin_file_Path = self.Browse_file.browse_file()
-        self.NetPin_file_Path = Netpin
+        self.NetPin_file_Path = self.Browse_file.browse_file()
+
+        # set default path for quick debugging 
+        # self.NetPin_file_Path = Netpin 
         
         # Update main input
         self.NetPin_main_input_entry.delete(0, END)
@@ -434,8 +437,10 @@ class mainGUI:
     #---------------------Netlist Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def Netlist_browse_file(self):
-        # self.Netlist_file_Path = self.Browse_file.browse_file()
-        self.Netlist_file_Path = Netlist
+        self.Netlist_file_Path = self.Browse_file.browse_file()
+
+        # set default path for quick debugging 
+        # self.Netlist_file_Path = Netlist
         
         # Update main input
         self.Netlist_main_input_entry.delete(0, END)
@@ -448,8 +453,10 @@ class mainGUI:
     #---------------------BOM Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def BOM_browse_file(self):
-        # self.BOM_file_Path = self.Browse_file.browse_file()
-        self.BOM_file_Path = BOMFile
+        self.BOM_file_Path = self.Browse_file.browse_file()
+
+        # set default path for quick debugging 
+        # self.BOM_file_Path = BOMFile
         
         # Update main input
         self.BOM_main_input_entry.delete(0, END)
@@ -462,8 +469,10 @@ class mainGUI:
     #---------------------Length Width Layer Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def LenWidLayer_browse_file(self):
-        # self.LenWidLayer_file_Path = self.Browse_file.browse_file()
-        self.LenWidLayer_file_Path = lenWid
+        self.LenWidLayer_file_Path = self.Browse_file.browse_file()
+        
+        # set default path for quick debugging 
+        # self.LenWidLayer_file_Path = lenWid
 
         # Update main input
         self.LenWidLayer_main_input_entry.delete(0, END)
@@ -476,8 +485,10 @@ class mainGUI:
     #---------------------Layer Stackup Browse File-----------------------------------
     # create a function to open the file browser and select a file
     def LyrStack_browse_file(self):
-        # self.LyrStack_file_Path = self.Browse_file.browse_file()
-        self.LyrStack_file_Path = LayerStack
+        self.LyrStack_file_Path = self.Browse_file.browse_file()
+
+        # set default path for quick debugging 
+        # self.LyrStack_file_Path = LayerStack
         
         # Update main input
         self.LayerStackup_main_input_entry.delete(0, END)

@@ -1,7 +1,13 @@
 from tkinter import *
 from RefDesignator.RefDesign_DataConcat import RefDesig_Concat
 from RefDesignator import SourceFile_browse
-InterfaceMmy_Src_file = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/RefDesignator/Interface.xlsx"
+"""
+Define Interface memory file path as a default file input entry
+This help user to skip the step to browse through the source file 
+As the source file given are always the same
+"""
+# InterfaceMmy_Src_file = "/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/RefDesignator/Interface.xlsx"
+InterfaceMmy_Src_file = "C:/DesignConnectivityChecker_Tool/RefDesignator/Interface.xlsx"
 
 
 class RefDesignator_Gui:
@@ -50,6 +56,10 @@ class RefDesignator_Gui:
         self.SourceFile_input_entry = Entry(self.SourceFile_Frame,width=70,background='white',fg="black",borderwidth=3)
         self.SourceFile_input_entry.grid(row=0, column=1,columnspan=9)
 
+
+        """
+        Set folowwing directory to default path for debugging purpose
+        """
         self.SourceFile_input_entry.delete(0,END) 
         self.SourceFile_input_entry.insert(0,InterfaceMmy_Src_file)
 
@@ -260,17 +270,20 @@ class RefDesignator_Gui:
             self.RefDsn_Bus_Chnl_width_DQS_entry.grid(row=bus_dqS_row+1,column=2,pady=5,padx=5)
             self.RefDsn_Bus_Chnl_width_DQS_entry_list.append(self.RefDsn_Bus_Chnl_width_DQS_entry)
 
-        # Set layer stackup value and cpu0 to default for development purpose
-        bodq_default = ["3.66","3.94","3.94","3.94","3.94","3.94","3.66","3.94","3.94","3.94","3.94","3.94"]
-        for num ,bodq_input in enumerate(bodq_default):
-            (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
-            (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
+        """
+        Set layer stackup value and cpu0 to default for development purpose
 
-            (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
-            (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
+        """
+        # bodq_default = ["3.66","3.94","3.94","3.94","3.94","3.94","3.66","3.94","3.94","3.94","3.94","3.94"]
+        # for num ,bodq_input in enumerate(bodq_default):
+        #     (self.RefDsn_BO_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
+        #     (self.RefDsn_BO_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
 
-        self.CPU_Ref_input_entry_widgets[0].insert(0,"J29")
-        self.CPU_Ref_input_entry_widgets[1].insert(0,"J29")
+        #     (self.RefDsn_Bus_Chnl_width_DQ_entry_list[num]).insert(0, bodq_input)
+        #     (self.RefDsn_Bus_Chnl_width_DQS_entry_list[num]).insert(0, bodq_input)
+
+        # self.CPU_Ref_input_entry_widgets[0].insert(0,"J29")
+        # self.CPU_Ref_input_entry_widgets[1].insert(0,"J29")
 
         #------------------------DDR Length Input GUI--------------------------------#
 
@@ -322,7 +335,7 @@ class RefDesignator_Gui:
         self.DDR_Length_header.grid(row=4,column=1,padx=5,pady=5)
 
         # Set DDR length value to default for development purpose
-        self.DDR_Length_val_entry.insert(0,"1574")
+        # self.DDR_Length_val_entry.insert(0,"1574")
         self.DDR_Length_col_insert.insert(0,"F")
         self.DDR_Length_row_insert.insert(0,"17")
         self.DDR_Length_header.insert(0,"DDR Length")
