@@ -48,8 +48,8 @@ class Background_GUI:
         #----------------Create New Report Workbook---------------#
         Date_Time=datetime.now().strftime('%Y-%m-%d %H%M%S')
         # y =str("Design Connectivity Checker_"+Date_Time)+'.'+'xlsx'
-        # self.report_folder_path =  '/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/Report_Output'
-        self.report_folder_path =  'C:/DesignConnectivityChecker_Tool/Report_Output'
+        self.report_folder_path =  '/Users/yeamboonkai/Desktop/AMD_Project/Input_Files/DesignConnectivityChecker_Tool/Report_Output'
+        # self.report_folder_path =  'C:/DesignConnectivityChecker_Tool/Report_Output'
         self.fileName =self.report_folder_path + "//"+ str(Date_Time)+'.'+'xlsx'
 
         # Create a new workbook
@@ -253,11 +253,44 @@ class Background_GUI:
             if self.export_count == 0:
                 self.progress_status(progress=53,status="Stackup Table data")
                 # Create  stackup on “MEMORY” tab
-                CreateChlTable(self.fileName,"MEMORY",self.Ch_Name,"F")
-                CreateChlTable(self.fileName,"MEMORY",self.BO_DQ,"H")
-                CreateChlTable(self.fileName,"MEMORY",self.BO_DQS,"I")
-                CreateChlTable(self.fileName,"MEMORY",self.Bus_DQ,"J")
-                CreateChlTable(self.fileName,"MEMORY",self.Bus_DQS,"K")
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Ch_Name,
+                               col_insert = "F",
+                               start_row_insert=2)
+
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQ,
+                               col_insert = "H",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQS,
+                               col_insert = "I",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Bus_DQ,
+                               col_insert = "J",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Bus_DQS,
+                               col_insert = "K",
+                               start_row_insert=2)
+
+                CreateChlTable(fileName= self.fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQ,
+                               col_insert = "H",
+                               merge_range= "F19:J19",
+                               merge_header = "CPU0 REFDES",
+                               start_row_insert=20,
+                               header = "Width")
                 DdrLength_val_insertTOexcel(fileName= self.fileName,
                                     Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
                                     sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
@@ -268,11 +301,44 @@ class Background_GUI:
             else:
                 self.progress_status(progress=53,status="Stackup Table data")
                 # Create  stackup on “MEMORY” tab
-                CreateChlTable(self.New_fileName,"MEMORY",self.Ch_Name,"F")
-                CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQ,"H")
-                CreateChlTable(self.New_fileName,"MEMORY",self.BO_DQS,"I")   
-                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQ,"J")
-                CreateChlTable(self.New_fileName,"MEMORY",self.Bus_DQS,"K")
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Ch_Name,
+                               col_insert = "F",
+                               start_row_insert=2)
+
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQ,
+                               col_insert = "H",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQS,
+                               col_insert = "I",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Bus_DQ,
+                               col_insert = "J",
+                               start_row_insert=2)
+                
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.Bus_DQS,
+                               col_insert = "K",
+                               start_row_insert=2)
+
+                CreateChlTable(fileName= self.New_fileName,
+                               sheet_name= "MEMORY",
+                               TableValue= self.BO_DQ,
+                               col_insert = "H",
+                               merge_range= "F19:J19",
+                               merge_header = "CPU0 REFDES",
+                               start_row_insert=20,
+                               header = "Width")
                 DdrLength_val_insertTOexcel(fileName= self.New_fileName,
                                     Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
                                     sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
@@ -307,10 +373,10 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
                 self.progress_status(progress=78,status="Memory Cpu0 Impedance data")
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
-                # self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
-                # self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
-                # self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
-                # self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
+                self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
+                self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
+                self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
+                self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
 
                 
 

@@ -147,7 +147,7 @@ class vlookup_gui:
                                                 second_sheet = 5,
                                                 insert_col_ChlNm= "F",
                                                 insert_col_LyrNm= "G",
-                                                insert_row= "19")
+                                                insert_row= "20")
         self.vlookup_MemCpu0_BoMinMax_Gui_obj = vlookup_Bo_MinMax_Gui(
                                                 rootframe = self.MemCpu0_Frame,
                                                 first_sheet = 5,
@@ -157,7 +157,7 @@ class vlookup_gui:
                                                 value_col = "G",
                                                 Min_insert_col= "I",
                                                 Max_insert_col="J",
-                                                insert_row= 19,
+                                                insert_row= 20,
                                                 Min_header= "BO Length Min(mils/mm)",
                                                 Max_header = "BO Length Max(mils/mm)")
 

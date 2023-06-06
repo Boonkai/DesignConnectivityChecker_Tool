@@ -573,14 +573,16 @@ class vlookup:
         self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
         self.lkv_min_insert_col = self.column_label_to_number(self.lookup_Min_insert_col.upper())
         self.lkv_max_insert_col = self.column_label_to_number(self.lookup_Max_insert_col.upper())
+        self.start_insert_row = int(self.lookup_out_insert_row)
 
         # Define lookup list
         self.lookup_output = []
+        self.BoLength_min= []
+        self.BoLength_max= []
 
-
-        for row in self.sheet1.iter_rows(min_row=20, max_row=31, min_col=7, max_col=7,values_only=True):
-            # print(row[0])
+        for row in self.sheet1.iter_rows(min_row=21, max_row=32, min_col=7, max_col=7,values_only=True):
             #  Loop through Routing Layer
+            self.lookup_output.clear()
             for RoutLayer in self.sheet1.iter_rows(min_row=3, values_only=True):
                 # print( RoutLayer[self.lkv_Tbl_col-1])
                 if RoutLayer[self.lkv_Tbl_col-1] == row[0]:
@@ -588,20 +590,49 @@ class vlookup:
                         continue
                     else:
                         self.lookup_output.append(float(RoutLayer[self.lkv_Tbl_out-1]))
-        
-        for i in self.lookup_output:
-            print(i)
-        
-        print("Minimum value:", min(self.lookup_output ))
-        print("Minimum value:", max(self.lookup_output ))
+            if self.lookup_output:
+                self.BoLength_min.append(min(self.lookup_output))
+                self.BoLength_max.append(max(self.lookup_output))
+            else:
+                self.BoLength_min.append("N/A")
+                self.BoLength_max.append("N/A")
 
+        # for i in self.BoLength_min:
+        #     print("min " ,i)
 
-        # print(self.lkv_Tbl_col)
-        # print(self.lkv_Tbl_out)
-        # print(self.lkv_val_col)
-        # print(self.lkv_min_insert_col)
-        # print(self.lkv_max_insert_col)
-        # print(self.lookup_out_insert_row)
-        # print(self.Min_header)
-        # print(self.Max_header)
+        # for j in self.BoLength_max:
+        #     print("max ",j)
+        
+        # print("Minimum value:", min(self.lookup_output ))
+        # print("Maximum value:", max(self.lookup_output ))
+
+        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+
+        # Insert min header with boarder and alignment styling
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).value = self.Min_header
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).border = self.border
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).alignment = self.center_alignment
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).fill = self.head_fill
+
+        # Insert max header with boarder and alignment styling
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).value = self.Max_header
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).border = self.border
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).alignment = self.center_alignment
+        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).fill = self.head_fill       
+
+        for i , Bomin in enumerate(self.BoLength_min):
+            cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_min_insert_col) 
+            cell.value = Bomin
+            cell.border = self.border
+            cell.alignment = self.center_alignment
+            cell.fill = self.col_fill
+
+        for i , Bomax in enumerate(self.BoLength_max):
+            cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_max_insert_col) 
+            cell.value = Bomax
+            cell.border = self.border
+            cell.alignment = self.center_alignment
+            cell.fill = self.col_fill
+
+        self.workbook.save(self.filename)
 
