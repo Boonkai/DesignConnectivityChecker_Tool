@@ -357,6 +357,43 @@ class Background_GUI:
                                col_insert = "K",
                                start_row_insert=2)
                 
+                # Check if DDR Length input is exist
+                if self.RefDesignator_Gui_obj.DDR_Length_val_entry.get().strip() != "":
+                    DdrLength_val_insertTOexcel(fileName= self.New_fileName,
+                                        Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
+                                        sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
+                                        col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
+                                        row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
+                                        header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
+                else:
+                    messagebox.showinfo("Popup!", "Please enter DDR Length Value.")
+                    self.popup.destroy()
+                    return
+                
+                # Check if "Reference Designator" CPU0 input is exist 
+                if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].get().strip() != "":
+                     # Create width column value for "CPU0 REFDES Breakout table" if RefDes input exist
+                    CreateChlTable(fileName= self.New_fileName,
+                                sheet_name= "MEMORY",
+                                TableValue= self.BO_DQ,
+                                col_insert = "H",
+                                merge_range= "F19:J19",
+                                merge_header = "CPU0 REFDES Breakout Length",
+                                start_row_insert=20,
+                                header = "Width")
+                
+                # Check if "Reference Designator" CPU1 input is exist 
+                if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].get().strip() != "":
+                    # Create width column value for "CPU1 REFDES Breakout table" if RefDes input exist
+                    CreateChlTable(fileName= self.New_fileName,
+                                sheet_name= "MEMORY",
+                                TableValue= self.BO_DQ,
+                                col_insert = "H",
+                                merge_range= "F34:J34",
+                                merge_header = "CPU1 REFDES Breakout Length ",
+                                start_row_insert=35,
+                                header = "Width")
+                    
             
             self.progress_status(progress=56,status="Memory Cpu0 Layer Stackup vlookup")
             self.vlookup_Gui_obj.run_MemCpu0_LyrStackup_Tbl_vlookup()
