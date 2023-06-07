@@ -191,15 +191,15 @@ class RefDesignator_Gui:
         self.Layer_Stackup_Frame.grid(padx=10,pady=10,row=1,column=0,sticky="w")
 
 
-        self.eighteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="PCIe Width",labelanchor='n')
-        self.eighteen_layer_Frame.grid(padx=10,pady=10,row=0,column=3)
+        # self.eighteen_layer_Frame = LabelFrame(self.Layer_Stackup_Frame ,text="PCIe Width",labelanchor='n')
+        # self.eighteen_layer_Frame.grid(padx=10,pady=10,row=0,column=3)
 
 
-        for eighteen_layer in range(1,19):
-            Label(self.eighteen_layer_Frame,text="Layer "+ str(eighteen_layer )).grid(row=eighteen_layer,column=0)
+        # for eighteen_layer in range(1,19):
+        #     Label(self.eighteen_layer_Frame,text="Layer "+ str(eighteen_layer )).grid(row=eighteen_layer,column=0)
 
-            self.eighteen_layer_entry = Entry(self.eighteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
-            self.eighteen_layer_entry.grid(row=eighteen_layer ,column=1)
+        #     self.eighteen_layer_entry = Entry(self.eighteen_layer_Frame,width=5,background='white',fg="black",borderwidth=3)
+        #     self.eighteen_layer_entry.grid(row=eighteen_layer ,column=1)
 
         #-------------------------------Breakout/Bus Channel Width GUI---------------------------------------#
         # Breakout Width

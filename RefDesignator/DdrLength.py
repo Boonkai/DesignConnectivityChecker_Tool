@@ -2,7 +2,6 @@ import openpyxl
 from openpyxl.styles import Border, Side
 from openpyxl.styles import Alignment
 from openpyxl.styles import PatternFill
-from vlookup.run_vlookup import vlookup
 
 class DdrLength_val_insertTOexcel:
     def __init__(self,

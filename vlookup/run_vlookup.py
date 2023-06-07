@@ -2,6 +2,7 @@ import openpyxl
 from openpyxl.styles import Border, Side
 from openpyxl.styles import Alignment
 from openpyxl.styles import PatternFill
+import traceback
 
 class vlookup:
     def __init__(self,
@@ -85,148 +86,232 @@ class vlookup:
 
     
     def vlookupTable(self):
-        #Character to Int Conversion 
-        self.lkvTbl_Col  = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkvTbl_Result_Col = self.column_label_to_number(self.lookup_Tbl_output.upper())
-        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
-        self.lkv_val_Col  = self.column_label_to_number(self.lookup_val_col.upper())
+        try:
+            #Character to Int Conversion 
+            self.lkvTbl_Col  = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkvTbl_Result_Col = self.column_label_to_number(self.lookup_Tbl_output.upper())
+            self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+            self.lkv_val_Col  = self.column_label_to_number(self.lookup_val_col.upper())
 
-        # Define lookup list
-        self.lookup_value = []
-        self.lookup_output = []
+            # Define lookup list
+            self.lookup_value = []
+            self.lookup_output = []
 
-        for row in self.sheet2.iter_rows(values_only=True):
-            self.lookup_value.append(row[self.lkv_val_Col -1])
-            
-        for value in self.lookup_value:
-            for vlook_row in self.sheet1.iter_rows(values_only=True):
-                if value == None:
-                    continue
-                if value == vlook_row[self.lkvTbl_Col - 1]:
-                    self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
-    
-        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+            for row in self.sheet2.iter_rows(values_only=True):
+                self.lookup_value.append(row[self.lkv_val_Col -1])
+                
+            for value in self.lookup_value:
+                for vlook_row in self.sheet1.iter_rows(values_only=True):
+                    if value == None:
+                        continue
+                    if value == vlook_row[self.lkvTbl_Col - 1]:
+                        self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+        
+            (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
 
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill
 
-        for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-            cell.value = output
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill =self.col_fill
+            for i, output in enumerate(self.lookup_output):
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill =self.col_fill
 
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
+
 
     def vlookup_Stackup_Table(self):
-        #Character to Int Conversion
-        self.lkvTbl_Col  = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkvTbl_Result_Col = self.column_label_to_number(self.lookup_Tbl_output.upper())
-        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+        try:
+            #Character to Int Conversion
+            self.lkvTbl_Col  = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkvTbl_Result_Col = self.column_label_to_number(self.lookup_Tbl_output.upper())
+            self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
 
-        # Define lookup list
-        self.lookup_value = ["Layer Name"]
-        self.lookup_output = ["Layer Name"]
+            # Define lookup list
+            self.lookup_value = ["Layer Name"]
+            self.lookup_output = ["Layer Name"]
 
-        self.DDR_14L = ["L1","L14","L3","L5","L10","L12","L1","L14","L3","L5","L10","L12"]
-        self.DDR_16L = ["L1","L14","L3","L5","L7","L12","L1","L14","L3","L5","L7","L12",]
-        self.DDR_18L = ["L1","L14","L3","L5","L7","L12","L1","L14","L3","L5","L7","L12",]
+            self.DDR_14L = ["L1","L14","L3","L5","L10","L12","L1","L14","L3","L5","L10","L12"]
+            self.DDR_16L = ["L1","L14","L3","L5","L7","L12","L1","L14","L3","L5","L7","L12",]
+            self.DDR_18L = ["L1","L14","L3","L5","L7","L12","L1","L14","L3","L5","L7","L12",]
 
-        # Retrive total layer and store into lookup_value list
-        for row in self.sheet1.iter_rows(values_only=True):
-            if row[self.lkvTbl_Col -1] == None:
-                continue
-            else:
-                self.lookup_value.append(row[self.lkvTbl_Col -1])
-        
-        # check the last index of a list 
-        if self.lookup_value[-1] == "L14":
-            # Perform Layer comparision 
-            for value in self.DDR_14L:
-                for vlook_row in self.sheet1.iter_rows(values_only=True):
-                    if value == vlook_row[self.lkvTbl_Col - 1]:
-                        self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+            # Retrive total layer and store into lookup_value list
+            for row in self.sheet1.iter_rows(values_only=True):
+                if row[self.lkvTbl_Col -1] == None:
+                    continue
+                else:
+                    self.lookup_value.append(row[self.lkvTbl_Col -1])
+            
+            # check the last index of a list 
+            if self.lookup_value[-1] == "L14":
+                # Perform Layer comparision 
+                for value in self.DDR_14L:
+                    for vlook_row in self.sheet1.iter_rows(values_only=True):
+                        if value == vlook_row[self.lkvTbl_Col - 1]:
+                            self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
 
-        # check the last index of a list 
-        if self.lookup_value[-1] == "L16":
-            # Perform Layer comparision 
-            for value in self.DDR_16L:
-                for vlook_row in self.sheet1.iter_rows(values_only=True):
-                    if value == vlook_row[self.lkvTbl_Col - 1]:
-                        self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+            # check the last index of a list 
+            if self.lookup_value[-1] == "L16":
+                # Perform Layer comparision 
+                for value in self.DDR_16L:
+                    for vlook_row in self.sheet1.iter_rows(values_only=True):
+                        if value == vlook_row[self.lkvTbl_Col - 1]:
+                            self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
 
-        # check the last index of a list 
-        if self.lookup_value[-1] == "L18":
-            # Perform Layer comparision 
-            for value in self.DDR_18L:
-                for vlook_row in self.sheet1.iter_rows(values_only=True):
-                    if value == vlook_row[self.lkvTbl_Col - 1]:
-                        self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
+            # check the last index of a list 
+            if self.lookup_value[-1] == "L18":
+                # Perform Layer comparision 
+                for value in self.DDR_18L:
+                    for vlook_row in self.sheet1.iter_rows(values_only=True):
+                        if value == vlook_row[self.lkvTbl_Col - 1]:
+                            self.lookup_output.append(vlook_row[self.lkvTbl_Result_Col -1])
 
-        # print(self.lookup_output)
+            # print(self.lookup_output)
 
-        (self.head_fill, self.col_fill) =self.color_styling("92d050","fce4d6")
+            (self.head_fill, self.col_fill) =self.color_styling("92d050","fce4d6")
 
-        # Convert string entry inout to integer
-        insert_row = int(self.lookup_out_insert_row)
+            # Convert string entry inout to integer
+            insert_row = int(self.lookup_out_insert_row)
 
-        for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+insert_row, column= self.lkv_out_insert) 
-            cell.value = output
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
+            for i, output in enumerate(self.lookup_output):
+                cell = self.sheet2.cell(row=i+insert_row, column= self.lkv_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
 
-        self.sheet2.cell(row=insert_row,column= self.lkv_out_insert).fill = self.head_fill
+            self.sheet2.cell(row=insert_row,column= self.lkv_out_insert).fill = self.head_fill
 
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 
     def vlookup_Routing_layer(self):
-        #Character to Int Conversion
-        self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
-        self.lkv_Tbl_LyrNm_out = self.column_label_to_number(self.lookup_Tbl_LyrNm_out.upper())
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_lyrNm_out_insert = self.column_label_to_number(self.lookup_lyrNm_out_insert.upper())
+        try:
+            #Character to Int Conversion
+            self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
+            self.lkv_Tbl_LyrNm_out = self.column_label_to_number(self.lookup_Tbl_LyrNm_out.upper())
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_lyrNm_out_insert = self.column_label_to_number(self.lookup_lyrNm_out_insert.upper())
 
-        # Define lookup list
-        self.lookup_output = []
+            # Define lookup list
+            self.lookup_output = []
 
-        # Create empty lists for Memory worksheet layer stackup column 7 and column 8
-        LyrStack_values = []
-        BO_DQ_values = []
-        BO_DQS_values = []
+            # Create empty lists for Memory worksheet layer stackup column 7 and column 8
+            LyrStack_values = []
+            BO_DQ_values = []
+            BO_DQS_values = []
 
-        # Iterate over the columns and append each column to the list
-        # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
-        # for debugging purpose )
-        for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=9):
-            LyrStack_values.append(row[0].value)
-            BO_DQ_values.append(row[1].value)
-            BO_DQS_values.append(row[2].value)
+            # Iterate over the columns and append each column to the list
+            # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
+            # for debugging purpose )
+            for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=9):
+                LyrStack_values.append(row[0].value)
+                BO_DQ_values.append(row[1].value)
+                BO_DQS_values.append(row[2].value)
 
-        self.LyrTable_data = [list(values) for values in zip(LyrStack_values, BO_DQ_values, BO_DQS_values)]
+            self.LyrTable_data = [list(values) for values in zip(LyrStack_values, BO_DQ_values, BO_DQS_values)]
 
-        self.table_data = []
-        self.repeat_Netname = []
-        self.routing_lyr = []
-
-
-        # Retrive "NetWidth" Table and store into list
-        for vlook_row in self.sheet1.iter_rows( values_only=True):
-            self.table_data.append(vlook_row)
+            self.table_data = []
+            self.repeat_Netname = []
+            self.routing_lyr = []
 
 
-        #  Loop through Layer Table 
-        for data in self.LyrTable_data:
+            # Retrive "NetWidth" Table and store into list
+            for vlook_row in self.sheet1.iter_rows( values_only=True):
+                self.table_data.append(vlook_row)
+
+
+            #  Loop through Layer Table 
+            for data in self.LyrTable_data:
+                #Loop through Memory Sheet
+                for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+                    # Clear/empty the list to store a new repeated NetName 
+                    self.repeat_Netname = []
+                    # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                    for row_data in self.table_data:
+                        if Netnm_val[self.lkv_NetNm_Col -1] == row_data[self.lkv_Tbl_col -1]:
+                            self.repeat_Netname.append(row_data)
+                        else:
+                            continue
+                    
+                    # Loop through self.repeat_Netname and then check against with 
+                    # NetName and break the loop if statement are true
+                    for i in self.repeat_Netname:
+                        # Clear/empty the list to store new routing results
+                        self.routing_lyr = []
+                        if data[0] == i[4]:
+                            # print(key, i[1],i[4],i[0])
+                            self.routing_lyr.append(i[self.lkv_Tbl_LyrNm_out-1])
+                            break
+                        else:
+                            continue
+
+                    # Check if self.routing_lyr list is not empty else append "#N\A"
+                    if len(self.routing_lyr)>0:
+                        self.lookup_output.append(self.routing_lyr[0])
+                        self.routing_lyr = []
+                        continue
+                    else:
+                        self.lookup_output.append("#N/A")
+                        continue
+        
+
+            # for i in self.lookup_output:
+            #     print(i)
+            
+            (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).value = self.header_LyrNm
+            self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).fill = self.head_fill        
+
+            for i, output in enumerate(self.lookup_output):
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_lyrNm_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
+
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
+
+    def vlookup_TotalLength(self):
+        try:
+            #Character to Int Conversion
+            self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
+            self.lkv_Tbl_TtlLgth_out = self.column_label_to_number(self.lookup_Tbl_TtlLgth_out.upper())
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_TtLgth_out_insert = self.column_label_to_number(self.lookup_TtlLgth_out_insert.upper())
+
+            # Define lookup list
+            self.lookup_output = []
+            self.table_data = []
+            self.repeat_Netname = []
+            self.Totallength = []
+
+            # Retrive "NetWidth" Table and store into list
+            for vlook_row in self.sheet1.iter_rows( values_only=True):
+                self.table_data.append(vlook_row)
+
             #Loop through Memory Sheet
             for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
                 # Clear/empty the list to store a new repeated NetName 
-                self.repeat_Netname = []
-                # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                self.repeat_Netname = [] 
+                #Loop Through NetWidth table and store entire row_data into self.repeat_Netname
                 for row_data in self.table_data:
                     if Netnm_val[self.lkv_NetNm_Col -1] == row_data[self.lkv_Tbl_col -1]:
                         self.repeat_Netname.append(row_data)
@@ -237,402 +322,351 @@ class vlookup:
                 # NetName and break the loop if statement are true
                 for i in self.repeat_Netname:
                     # Clear/empty the list to store new routing results
-                    self.routing_lyr = []
-                    if data[0] == i[4]:
-                        # print(key, i[1],i[4],i[0])
-                        self.routing_lyr.append(i[self.lkv_Tbl_LyrNm_out-1])
+                    self.Totallength = []
+                    if Netnm_val[self.lkv_NetNm_Col -1] == i[self.lkv_Tbl_col -1]:
+                        self.Totallength.append(i[self.lkv_Tbl_TtlLgth_out-1])
                         break
                     else:
                         continue
 
-                # Check if self.routing_lyr list is not empty else append "#N\A"
-                if len(self.routing_lyr)>0:
-                    self.lookup_output.append(self.routing_lyr[0])
-                    self.routing_lyr = []
+                # Check if self.Totallength list is not empty else append "#N\A"
+                if len(self.Totallength)>0:
+                    self.lookup_output.append(self.Totallength[0])
+                    self.Totallength = []
                     continue
                 else:
                     self.lookup_output.append("#N/A")
                     continue
-    
-
-        # for i in self.lookup_output:
-        #     print(i)
         
-        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+            # for i in self.lookup_output:
+            #     print(i)
 
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).value = self.header_LyrNm
-        self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_lyrNm_out_insert).fill = self.head_fill        
-
-        for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+3, column= self.lkv_lyrNm_out_insert) 
-            cell.value = output
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
-
-        self.workbook.save(self.filename)
-
-    def vlookup_TotalLength(self):
-        #Character to Int Conversion
-        self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
-        self.lkv_Tbl_TtlLgth_out = self.column_label_to_number(self.lookup_Tbl_TtlLgth_out.upper())
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_TtLgth_out_insert = self.column_label_to_number(self.lookup_TtlLgth_out_insert.upper())
-
-        # Define lookup list
-        self.lookup_output = []
-        self.table_data = []
-        self.repeat_Netname = []
-        self.Totallength = []
-
-        # Retrive "NetWidth" Table and store into list
-        for vlook_row in self.sheet1.iter_rows( values_only=True):
-            self.table_data.append(vlook_row)
-
-        #Loop through Memory Sheet
-        for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-            # Clear/empty the list to store a new repeated NetName 
-            self.repeat_Netname = [] 
-            #Loop Through NetWidth table and store entire row_data into self.repeat_Netname
-            for row_data in self.table_data:
-                if Netnm_val[self.lkv_NetNm_Col -1] == row_data[self.lkv_Tbl_col -1]:
-                    self.repeat_Netname.append(row_data)
-                else:
-                    continue
+            (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
             
-            # Loop through self.repeat_Netname and then check against with 
-            # NetName and break the loop if statement are true
-            for i in self.repeat_Netname:
-                # Clear/empty the list to store new routing results
-                self.Totallength = []
-                if Netnm_val[self.lkv_NetNm_Col -1] == i[self.lkv_Tbl_col -1]:
-                    self.Totallength.append(i[self.lkv_Tbl_TtlLgth_out-1])
-                    break
-                else:
-                    continue
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).value = self.header_TtlLgth
+            self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).fill = self.head_fill
 
-            # Check if self.Totallength list is not empty else append "#N\A"
-            if len(self.Totallength)>0:
-                self.lookup_output.append(self.Totallength[0])
-                self.Totallength = []
-                continue
-            else:
-                self.lookup_output.append("#N/A")
-                continue
-    
-        # for i in self.lookup_output:
-        #     print(i)
+            for i, output in enumerate(self.lookup_output):
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_TtLgth_out_insert) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
 
-        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
-        
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).value = self.header_TtlLgth
-        self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_TtLgth_out_insert).fill = self.head_fill
-
-        for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+3, column= self.lkv_TtLgth_out_insert) 
-            cell.value = output
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
-
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 
     def vlookup_RoutePerMbdg(self):
-        #Character to Int Conversion
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
-        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+        try:
+            #Character to Int Conversion
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+            self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
 
-        # Define lookup list
-        self.lookup_output = []
+            # Define lookup list
+            self.lookup_output = []
 
-        #  Loop through Layer Table 
-        for layerNm in self.sheet1.iter_rows(min_row=3, max_row=3, values_only=True):
-            #Loop through Memory Sheet
-            for RouteLyr in self.sheet2.iter_rows(min_row=3, values_only=True):
-                if layerNm[self.lkv_Tbl_col-1] == RouteLyr[self.lkv_val_col-1]:
-                    self.lookup_output.append("OK")
-                else:
-                    self.lookup_output.append("NO")
-    
-
-        # for i in self.lookup_output:
-        #     print(i)
+            #  Loop through Layer Table 
+            for layerNm in self.sheet1.iter_rows(min_row=3, max_row=3, values_only=True):
+                #Loop through Memory Sheet
+                for RouteLyr in self.sheet2.iter_rows(min_row=3, values_only=True):
+                    if layerNm[self.lkv_Tbl_col-1] == RouteLyr[self.lkv_val_col-1]:
+                        self.lookup_output.append("OK")
+                    else:
+                        self.lookup_output.append("NO")
         
-        (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
-        (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
 
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
+            # for i in self.lookup_output:
+            #     print(i)
+            
+            (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
+            (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
 
-        for i, output in enumerate(self.lookup_output):
-            if output == "OK":
-                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-                cell.value = output
-                cell.border = self.border
-                cell.alignment = self.center_alignment
-                cell.fill = self.col_fill_Green
-            else:
-                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-                cell.value = output
-                cell.border = self.border
-                cell.alignment = self.center_alignment
-                cell.fill = self.col_fill_Red
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
 
+            for i, output in enumerate(self.lookup_output):
+                if output == "OK":
+                    cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                    cell.value = output
+                    cell.border = self.border
+                    cell.alignment = self.center_alignment
+                    cell.fill = self.col_fill_Green
+                else:
+                    cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                    cell.value = output
+                    cell.border = self.border
+                    cell.alignment = self.center_alignment
+                    cell.fill = self.col_fill_Red
 
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 
     def vlookup_BreakoutLength(self):
-        #Character to Int Conversion
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_Tbl_linWdth_Col = self.column_label_to_number(self.lookup_Tbl_col_LineWdt.upper())
-        self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
-        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
-        self.lkv_out_insert_Col = self.column_label_to_number(self.lookup_out_insert.upper())
+        try:
+            #Character to Int Conversion
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_Tbl_linWdth_Col = self.column_label_to_number(self.lookup_Tbl_col_LineWdt.upper())
+            self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
+            self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+            self.lkv_out_insert_Col = self.column_label_to_number(self.lookup_out_insert.upper())
 
-        # Define lookup list
-        self.lookup_output = []
+            # Define lookup list
+            self.lookup_output = []
 
-        # Create empty lists for column 7 and column 8
-        LyrStack_values = []
-        BO_DQ_values = []
-        BO_DQS_values = []
-        Bus_DQ_values = []
-        Bus_DQS_values = []
+            # Create empty lists for column 7 and column 8
+            LyrStack_values = []
+            BO_DQ_values = []
+            BO_DQS_values = []
+            Bus_DQ_values = []
+            Bus_DQS_values = []
 
-        # Iterate over the columns and append each column to the list
-        # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
-        # for debugging purpose )
-        for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=11):
-            LyrStack_values.append(row[0].value)
-            BO_DQ_values.append(row[1].value)
-            BO_DQS_values.append(row[2].value)
-            Bus_DQ_values.append(row[3].value)
-            Bus_DQS_values.append(row[4].value)
+            # Iterate over the columns and append each column to the list
+            # Retrive stackup table DQ value start at row 3 and end at row 14 (currently change to max_row=3
+            # for debugging purpose )
+            for row in self.sheet2.iter_rows(min_row=3, max_row=3, min_col=7, max_col=11):
+                LyrStack_values.append(row[0].value)
+                BO_DQ_values.append(row[1].value)
+                BO_DQS_values.append(row[2].value)
+                Bus_DQ_values.append(row[3].value)
+                Bus_DQS_values.append(row[4].value)
 
 
-        self.LyrTable_data = [list(values) for values in zip(LyrStack_values, 
-                                                            BO_DQ_values, 
-                                                            BO_DQS_values,
-                                                            Bus_DQ_values,
-                                                            Bus_DQS_values)]
+            self.LyrTable_data = [list(values) for values in zip(LyrStack_values, 
+                                                                BO_DQ_values, 
+                                                                BO_DQS_values,
+                                                                Bus_DQ_values,
+                                                                Bus_DQS_values)]
 
-        self.table_data = []
-        self.repeat_Netname = []
-        self.BO_Length = []
+            self.table_data = []
+            self.repeat_Netname = []
+            self.BO_Length = []
 
-        # Retrive "NetWidth" Table and store into list
-        for vlook_row in self.sheet1.iter_rows( values_only=True):
-            self.table_data.append(vlook_row)
+            # Retrive "NetWidth" Table and store into list
+            for vlook_row in self.sheet1.iter_rows( values_only=True):
+                self.table_data.append(vlook_row)
 
-        #  Loop through Layer Table 
-        for data in self.LyrTable_data:
-            #Loop through Memory Sheet
-            for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
-                # Clear/empty the list to store a new repeated NetName 
-                self.repeat_Netname = []
-                # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
-                for row_data in self.table_data:
-                    if Netnm_val[self.lkv_val_col -1] == row_data[self.lkv_Tbl_col -1]:
-                        self.repeat_Netname.append(row_data)
-                    else:
+            #  Loop through Layer Table 
+            for data in self.LyrTable_data:
+                #Loop through Memory Sheet
+                for Netnm_val in self.sheet2.iter_rows(min_row=3, values_only=True):
+                    # Clear/empty the list to store a new repeated NetName 
+                    self.repeat_Netname = []
+                    # Loop Through NetWidth table and store entire row_data into self.repeat_Netname
+                    for row_data in self.table_data:
+                        if Netnm_val[self.lkv_val_col -1] == row_data[self.lkv_Tbl_col -1]:
+                            self.repeat_Netname.append(row_data)
+                        else:
+                            continue
+                    
+                    # Loop through self.repeat_Netname and then check against with 
+                    # layer name and DQ/DQS value and break the loop if data or value of
+                    # (DQ/DQS) statement are true
+                    # NOTE: e.g of data's list on channel A => ("TOP","3.66","3.66","4.3","5.0")
+                    for i in self.repeat_Netname:
+                        # Clear/empty the list to store new 
+                        self.BO_Length = []
+                        if "DQS" in i[0]:
+                            if data[2] == i[self.lkv_Tbl_linWdth_Col-1]:
+                                # print(value, i[1],i[0])
+                                self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                                break
+                            elif data[4] == i[self.lkv_Tbl_linWdth_Col-1]:
+                                self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                                break
+                            else:
+                                continue
+                        else:
+                            if data[1] == i[self.lkv_Tbl_linWdth_Col-1]:
+                                # print(value, i[1],i[0])
+                                self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                                break
+                            elif data[3] == i[self.lkv_Tbl_linWdth_Col-1]:
+                                self.BO_Length.append(i[self.lkv_Tbl_out-1])
+                                break
+                            else:
+                                continue
+
+                    # Check if self.BO_Length list is not empty else append "#N\A"
+                    if len(self.BO_Length)>0:
+                        self.lookup_output.append(self.BO_Length[0])
+                        self.BO_Length = []
                         continue
-                
-                # Loop through self.repeat_Netname and then check against with 
-                # layer name and DQ/DQS value and break the loop if data or value of
-                # (DQ/DQS) statement are true
-                # NOTE: e.g of data's list on channel A => ("TOP","3.66","3.66","4.3","5.0")
-                for i in self.repeat_Netname:
-                     # Clear/empty the list to store new 
-                    self.BO_Length = []
-                    if "DQS" in i[0]:
-                        if data[2] == i[self.lkv_Tbl_linWdth_Col-1]:
-                            # print(value, i[1],i[0])
-                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
-                            break
-                        elif data[4] == i[self.lkv_Tbl_linWdth_Col-1]:
-                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
-                            break
-                        else:
-                            continue
                     else:
-                        if data[1] == i[self.lkv_Tbl_linWdth_Col-1]:
-                            # print(value, i[1],i[0])
-                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
-                            break
-                        elif data[3] == i[self.lkv_Tbl_linWdth_Col-1]:
-                            self.BO_Length.append(i[self.lkv_Tbl_out-1])
-                            break
-                        else:
-                            continue
-
-                # Check if self.BO_Length list is not empty else append "#N\A"
-                if len(self.BO_Length)>0:
-                    self.lookup_output.append(self.BO_Length[0])
-                    self.BO_Length = []
-                    continue
-                else:
-                    self.lookup_output.append("#N/A")
-                    continue
-    
-
-        # for i in self.lookup_output:
-        #     print(i)
+                        self.lookup_output.append("#N/A")
+                        continue
         
-        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
 
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).value = self.header
-        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).fill = self.head_fill        
+            # for i in self.lookup_output:
+            #     print(i)
+            
+            (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
 
-        for i, output in enumerate(self.lookup_output):
-            cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert_Col) 
-            cell.value = output
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).value = self.header
+            self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_out_insert_Col).fill = self.head_fill        
 
-        self.workbook.save(self.filename)
+            for i, output in enumerate(self.lookup_output):
+                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert_Col) 
+                cell.value = output
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
+
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 
     def vlookup_impedance(self):
-        #Character to Int Conversion
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
-        self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
-        self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
+        try:
+            #Character to Int Conversion
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+            self.lkv_out_insert = self.column_label_to_number(self.lookup_out_insert.upper())
+            self.lkv_NetNm_Col = self.column_label_to_number(self.NetName_Col.upper())
 
-        # Define lookup list
-        self.lookup_output = []
+            # Define lookup list
+            self.lookup_output = []
 
-        #  Loop through DDR Value 
-        for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
-            #Loop through Memory's Table
-            for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
-                # print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
-                if TotalLength[self.lkv_NetNm_Col-1] is None:
-                    self.lookup_output.append("#N/A")
-                elif "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
-                    self.lookup_output.append("#N/A")
-                elif int(DDRLength[self.lkv_Tbl_col-1]) >= int(TotalLength[self.lkv_val_col-1]):
-                    self.lookup_output.append("OK")
-                else:
-                    self.lookup_output.append("40OHM")
-    
-
-        # for i in self.lookup_output:
-        #     print(i)
+            #  Loop through DDR Value 
+            for DDRLength in self.sheet1.iter_rows(min_row=17, max_row=17, values_only=True):
+                #Loop through Memory's Table
+                for TotalLength in self.sheet2.iter_rows(min_row=3, values_only=True):
+                    # print(TotalLength[self.lkv_NetNm_Col-1] ,"no")
+                    if TotalLength[self.lkv_NetNm_Col-1] is None:
+                        self.lookup_output.append("#N/A")
+                    elif "DQS" in TotalLength[self.lkv_NetNm_Col-1]:
+                        self.lookup_output.append("#N/A")
+                    elif int(DDRLength[self.lkv_Tbl_col-1]) >= int(TotalLength[self.lkv_val_col-1]):
+                        self.lookup_output.append("OK")
+                    else:
+                        self.lookup_output.append("40OHM")
         
-        (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
-        (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
-        (self.head_fill, self.col_fill_Grey) =self.color_styling("f2c43d","d0cece")
 
-        # Insert header with boarder and alignment styling
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
-        self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
+            # for i in self.lookup_output:
+            #     print(i)
+            
+            (self.head_fill, self.col_fill_Green) =self.color_styling("f2c43d","c6efce")
+            (self.head_fill, self.col_fill_Red) =self.color_styling("f2c43d","ff8172")
+            (self.head_fill, self.col_fill_Grey) =self.color_styling("f2c43d","d0cece")
 
-        for i, output in enumerate(self.lookup_output):
-            if output == "OK":
-                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-                cell.value = output
-                cell.border = self.border
-                cell.alignment = self.center_alignment
-                cell.fill = self.col_fill_Green
-            elif output == "#N/A":
-                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-                cell.value = output
-                cell.border = self.border
-                cell.alignment = self.center_alignment
-                cell.fill = self.col_fill_Grey             
-            else:
-                cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
-                cell.value = output
-                cell.border = self.border
-                cell.alignment = self.center_alignment
-                cell.fill = self.col_fill_Red
+            # Insert header with boarder and alignment styling
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).value = self.header
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).border = self.border
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).alignment = self.center_alignment
+            self.sheet2.cell(row=2, column= self.lkv_out_insert).fill = self.head_fill        
 
+            for i, output in enumerate(self.lookup_output):
+                if output == "OK":
+                    cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                    cell.value = output
+                    cell.border = self.border
+                    cell.alignment = self.center_alignment
+                    cell.fill = self.col_fill_Green
+                elif output == "#N/A":
+                    cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                    cell.value = output
+                    cell.border = self.border
+                    cell.alignment = self.center_alignment
+                    cell.fill = self.col_fill_Grey             
+                else:
+                    cell = self.sheet2.cell(row=i+3, column= self.lkv_out_insert) 
+                    cell.value = output
+                    cell.border = self.border
+                    cell.alignment = self.center_alignment
+                    cell.fill = self.col_fill_Red
 
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except Exception as e:
+            # Handle the exception
+            # print("Caught exception:", e)
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 
     def vlookup_BreakoutLength_MinMax(self):
-        #Character to Int Conversion
-        self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
-        self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
-        self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
-        self.lkv_min_insert_col = self.column_label_to_number(self.lookup_Min_insert_col.upper())
-        self.lkv_max_insert_col = self.column_label_to_number(self.lookup_Max_insert_col.upper())
-        self.start_insert_row = int(self.lookup_out_insert_row)
+        try:
+            #Character to Int Conversion
+            self.lkv_Tbl_col = self.column_label_to_number(self.lookup_Tbl_column.upper())
+            self.lkv_Tbl_out = self.column_label_to_number(self.lookup_Tbl_output.upper())
+            self.lkv_val_col = self.column_label_to_number(self.lookup_val_col.upper())
+            self.lkv_min_insert_col = self.column_label_to_number(self.lookup_Min_insert_col.upper())
+            self.lkv_max_insert_col = self.column_label_to_number(self.lookup_Max_insert_col.upper())
+            self.start_insert_row = int(self.lookup_out_insert_row)
 
-        # Define lookup list
-        self.lookup_output = []
-        self.BoLength_min= []
-        self.BoLength_max= []
+            # Define lookup list
+            self.lookup_output = []
+            self.BoLength_min= []
+            self.BoLength_max= []
 
-        for row in self.sheet1.iter_rows(min_row=21, max_row=32, min_col=7, max_col=7,values_only=True):
-            #  Loop through Routing Layer
-            self.lookup_output.clear()
-            for RoutLayer in self.sheet1.iter_rows(min_row=3, values_only=True):
-                # print( RoutLayer[self.lkv_Tbl_col-1])
-                if RoutLayer[self.lkv_Tbl_col-1] == row[0]:
-                    if RoutLayer[self.lkv_Tbl_out-1] == "#N/A":
-                        continue
-                    else:
-                        self.lookup_output.append(float(RoutLayer[self.lkv_Tbl_out-1]))
-            if self.lookup_output:
-                self.BoLength_min.append(min(self.lookup_output))
-                self.BoLength_max.append(max(self.lookup_output))
-            else:
-                self.BoLength_min.append("N/A")
-                self.BoLength_max.append("N/A")
+            for row in self.sheet1.iter_rows(min_row=21, max_row=32, min_col=7, max_col=7,values_only=True):
+                #  Loop through Routing Layer
+                self.lookup_output.clear()
+                for RoutLayer in self.sheet1.iter_rows(min_row=3, values_only=True):
+                    # print( RoutLayer[self.lkv_Tbl_col-1])
+                    if RoutLayer[self.lkv_Tbl_col-1] == row[0]:
+                        if RoutLayer[self.lkv_Tbl_out-1] == "#N/A":
+                            continue
+                        else:
+                            self.lookup_output.append(float(RoutLayer[self.lkv_Tbl_out-1]))
+                if self.lookup_output:
+                    self.BoLength_min.append(min(self.lookup_output))
+                    self.BoLength_max.append(max(self.lookup_output))
+                else:
+                    self.BoLength_min.append("N/A")
+                    self.BoLength_max.append("N/A")
 
-        # for i in self.BoLength_min:
-        #     print("min " ,i)
+            # for i in self.BoLength_min:
+            #     print("min " ,i)
 
-        # for j in self.BoLength_max:
-        #     print("max ",j)
-        
-        # print("Minimum value:", min(self.lookup_output ))
-        # print("Maximum value:", max(self.lookup_output ))
+            # for j in self.BoLength_max:
+            #     print("max ",j)
+            
+            # print("Minimum value:", min(self.lookup_output ))
+            # print("Maximum value:", max(self.lookup_output ))
 
-        (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
+            (self.head_fill, self.col_fill) =self.color_styling("f2c43d","fce4d6")
 
-        # Insert min header with boarder and alignment styling
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).value = self.Min_header
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).border = self.border
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).alignment = self.center_alignment
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).fill = self.head_fill
+            # Insert min header with boarder and alignment styling
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).value = self.Min_header
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).border = self.border
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).alignment = self.center_alignment
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_min_insert_col).fill = self.head_fill
 
-        # Insert max header with boarder and alignment styling
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).value = self.Max_header
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).border = self.border
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).alignment = self.center_alignment
-        self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).fill = self.head_fill       
+            # Insert max header with boarder and alignment styling
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).value = self.Max_header
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).border = self.border
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).alignment = self.center_alignment
+            self.sheet2.cell(row= self.start_insert_row, column= self.lkv_max_insert_col).fill = self.head_fill       
 
-        for i , Bomin in enumerate(self.BoLength_min):
-            cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_min_insert_col) 
-            cell.value = Bomin
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
+            for i , Bomin in enumerate(self.BoLength_min):
+                cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_min_insert_col) 
+                cell.value = Bomin
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
 
-        for i , Bomax in enumerate(self.BoLength_max):
-            cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_max_insert_col) 
-            cell.value = Bomax
-            cell.border = self.border
-            cell.alignment = self.center_alignment
-            cell.fill = self.col_fill
+            for i , Bomax in enumerate(self.BoLength_max):
+                cell = self.sheet2.cell(row=self.start_insert_row + 1 + i, column= self.lkv_max_insert_col) 
+                cell.value = Bomax
+                cell.border = self.border
+                cell.alignment = self.center_alignment
+                cell.fill = self.col_fill
 
-        self.workbook.save(self.filename)
+            self.workbook.save(self.filename)
+        except:
+            error_traceback = traceback.format_exc()
+            print(error_traceback)
 

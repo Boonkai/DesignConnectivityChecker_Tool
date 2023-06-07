@@ -158,8 +158,30 @@ class vlookup_gui:
                                                 Min_insert_col= "I",
                                                 Max_insert_col="J",
                                                 insert_row= 20,
-                                                Min_header= "BO Length Min(mils/mm)",
-                                                Max_header = "BO Length Max(mils/mm)")
+                                                Min_header= "Min(mils/mm)",
+                                                Max_header = "Max(mils/mm)")
+         #-------------------------CPU1 Check Breakout Min/Max Value-----------------------#
+        self.vlookup_MemCpu1_ChlLyrTbl_Gui_obj = ChannelLayerName_Table_Gui(
+                                                rootframe = self.MemCpu1_Frame,
+                                                first_sheet = 4,
+                                                tabel_col= "A",
+                                                result_col= "B",
+                                                second_sheet = 5,
+                                                insert_col_ChlNm= "F",
+                                                insert_col_LyrNm= "G",
+                                                insert_row= "35")
+        self.vlookup_MemCpu1_BoMinMax_Gui_obj = vlookup_Bo_MinMax_Gui(
+                                                rootframe = self.MemCpu1_Frame,
+                                                first_sheet = 5,
+                                                tabel_col= "W",
+                                                result_col="Y",
+                                                second_sheet = 5,
+                                                value_col = "G",
+                                                Min_insert_col= "I",
+                                                Max_insert_col="J",
+                                                insert_row= 35,
+                                                Min_header= "Min(mils/mm)",
+                                                Max_header = "Max(mils/mm)")
 
         #------------------------Canvas Scroll BarConfigure---------------------------#
         # Attach a scrollbar to the canvas
@@ -200,14 +222,6 @@ class vlookup_gui:
     def run_MemCpu0_vlookup_Impedance(self):
         self.vlookup_MemCpu0_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
 
-    #---------------------------CPU1 Check Breakout Min/Max Value--------------------------#
-    def run_MemCpu0_ChlLyrTbl_vlookup(self):
-        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_CreateChllNmTbl(self.fileName)
-        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_ChlLyrTbl_vlookup(self.fileName)
-
-    def run_MemCpu0_BoMinMax_vlookup(self):
-        self.vlookup_MemCpu0_BoMinMax_Gui_obj.run_vlookup_BoMinMax(self.fileName)
-
     #---------------------------CPU1 Memory method--------------------------#
     def run_MemCpu1_vlookup_Netnm(self):
         self.vlookup_MemCpu1_NetName_Gui_obj.run_vlookup_NetName(self.fileName)
@@ -226,3 +240,19 @@ class vlookup_gui:
 
     def run_MemCpu1_vlookup_Impedance(self):
         self.vlookup_MemCpu1_Impedance_Gui_obj.run_vlookup_Impedance(self.fileName)
+
+    #---------------------------CPU0 Check Breakout Min/Max Value--------------------------#
+    def run_MemCpu0_ChlLyrTbl_vlookup(self):
+        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_CreateChllNmTbl(self.fileName)
+        self.vlookup_MemCpu0_ChlLyrTbl_Gui_obj.run_ChlLyrTbl_vlookup(self.fileName)
+
+    def run_MemCpu0_BoMinMax_vlookup(self):
+        self.vlookup_MemCpu0_BoMinMax_Gui_obj.run_vlookup_BoMinMax(self.fileName)
+
+    #---------------------------CPU1 Check Breakout Min/Max Value--------------------------#
+    def run_MemCpu1_ChlLyrTbl_vlookup(self):
+        self.vlookup_MemCpu1_ChlLyrTbl_Gui_obj.run_CreateChllNmTbl(self.fileName)
+        self.vlookup_MemCpu1_ChlLyrTbl_Gui_obj.run_ChlLyrTbl_vlookup(self.fileName)
+
+    def run_MemCpu1_BoMinMax_vlookup(self):
+        self.vlookup_MemCpu1_BoMinMax_Gui_obj.run_vlookup_BoMinMax(self.fileName)

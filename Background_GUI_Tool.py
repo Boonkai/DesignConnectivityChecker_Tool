@@ -203,8 +203,9 @@ class Background_GUI:
                         self.float_convert = float(bodq_out.get())
                         self.BO_width_DQ_Output_list.append(self.float_convert)
                 except:
-                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
-                     break
+                     messagebox.showinfo("Popup!", "Please enter valid number for Breakout width DQ input Field.")
+                     self.popup.destroy()
+                     return
             self.BO_DQ = ["Breakout DQ"] + self.BO_width_DQ_Output_list
 
             # Get Breakout DQS input
@@ -217,8 +218,9 @@ class Background_GUI:
                         self.float_convert = float(bodqs_out.get())
                         self.BO_width_DQS_Output_list.append(self.float_convert)
                 except:
-                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
-                     break
+                     messagebox.showinfo("Popup!", "Please enter valid number for Breakout width DQS input Field.")
+                     self.popup.destroy()
+                     return
             self.BO_DQS = ["Breakout DQS"] + self.BO_width_DQS_Output_list
 
             # Get Bus Channel DQ input
@@ -231,8 +233,9 @@ class Background_GUI:
                         self.float_convert = float(busdq_out.get())
                         self.Bus_width_DQ_Output_list.append(self.float_convert)
                 except:
-                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
-                     break
+                     messagebox.showinfo("Popup!", "Please enter valid number for Bus Channel width DQ input Field.")
+                     self.popup.destroy()
+                     return
             self.Bus_DQ = ["Bus Channel DQ"] + self.Bus_width_DQ_Output_list
 
             # Get Bus Channel DQS input
@@ -245,8 +248,9 @@ class Background_GUI:
                         self.float_convert = float(busdqs_out.get())
                         self.Bus_width_DQS_Output_list.append(self.float_convert)
                 except:
-                     messagebox.showinfo("Popup!", "Please enter only a number in Breakout/Bus Channel DQ & DQS input Field.")
-                     break
+                     messagebox.showinfo("Popup!", "Please enter valid number for Bus Channel width DQS input Field.")
+                     self.popup.destroy()
+                     return
             self.Bus_DQS = ["Bus Channel DQ"] + self.Bus_width_DQS_Output_list
 
 
@@ -282,21 +286,43 @@ class Background_GUI:
                                TableValue= self.Bus_DQS,
                                col_insert = "K",
                                start_row_insert=2)
-
-                CreateChlTable(fileName= self.fileName,
-                               sheet_name= "MEMORY",
-                               TableValue= self.BO_DQ,
-                               col_insert = "H",
-                               merge_range= "F19:J19",
-                               merge_header = "CPU0 REFDES",
-                               start_row_insert=20,
-                               header = "Width")
-                DdrLength_val_insertTOexcel(fileName= self.fileName,
-                                    Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
-                                    sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
-                                    col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
-                                    row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
-                                    header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
+                
+                # Check if DDR Length input is exist  
+                if self.RefDesignator_Gui_obj.DDR_Length_val_entry.get().strip() != "":
+                    DdrLength_val_insertTOexcel(fileName= self.fileName,
+                                        Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
+                                        sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
+                                        col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
+                                        row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
+                                        header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
+                else:
+                    messagebox.showinfo("Popup!", "Please enter DDR Length Value.")
+                    self.popup.destroy()
+                    return
+ 
+                # Check if "Reference Designator" CPU0 input is exist 
+                if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[0].get().strip() != "":
+                    # Create width column value for "CPU0 REFDES Breakout table" if RefDes input exist
+                    CreateChlTable(fileName= self.fileName,
+                                sheet_name= "MEMORY",
+                                TableValue= self.BO_DQ,
+                                col_insert = "H",
+                                merge_range= "F19:J19",
+                                merge_header = "CPU0 REFDES Breakout Length",
+                                start_row_insert=20,
+                                header = "Width")
+                
+                # Check if "Reference Designator" CPU1 input is exist 
+                if self.RefDesignator_Gui_obj.CPU_Ref_input_entry_widgets[1].get().strip() != "":
+                    # Create width column value for "CPU1 REFDES Breakout table" if RefDes input exist
+                    CreateChlTable(fileName= self.fileName,
+                                sheet_name= "MEMORY",
+                                TableValue= self.BO_DQ,
+                                col_insert = "H",
+                                merge_range= "F34:J34",
+                                merge_header = "CPU1 REFDES Breakout Length ",
+                                start_row_insert=35,
+                                header = "Width")
                 
             else:
                 self.progress_status(progress=53,status="Stackup Table data")
@@ -330,21 +356,6 @@ class Background_GUI:
                                TableValue= self.Bus_DQS,
                                col_insert = "K",
                                start_row_insert=2)
-
-                CreateChlTable(fileName= self.New_fileName,
-                               sheet_name= "MEMORY",
-                               TableValue= self.BO_DQ,
-                               col_insert = "H",
-                               merge_range= "F19:J19",
-                               merge_header = "CPU0 REFDES",
-                               start_row_insert=20,
-                               header = "Width")
-                DdrLength_val_insertTOexcel(fileName= self.New_fileName,
-                                    Value= int(self.RefDesignator_Gui_obj.DDR_Length_val_entry.get()),
-                                    sheet_name= self.RefDesignator_Gui_obj.DdrLgth_drop_click.get(),
-                                    col_insert= self.RefDesignator_Gui_obj.DDR_Length_col_insert.get(),
-                                    row_insert= int(self.RefDesignator_Gui_obj.DDR_Length_row_insert.get()),
-                                    header= self.RefDesignator_Gui_obj.DDR_Length_header.get())
                 
             
             self.progress_status(progress=56,status="Memory Cpu0 Layer Stackup vlookup")
@@ -369,13 +380,13 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_TtlLgth()
                 self.progress_status(progress=72,status="Memory Cpu0 Route Per MBDG data")
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_RoutePerMbdg()
-                self.progress_status(progress=75,status="Memory Cpu0 Breakout Length data")
+                self.progress_status(progress=74,status="Memory Cpu0 Breakout Length data")
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_BoLength()
-                self.progress_status(progress=78,status="Memory Cpu0 Impedance data")
+                self.progress_status(progress=76,status="Memory Cpu0 Impedance data")
                 self.vlookup_Gui_obj.run_MemCpu0_vlookup_Impedance()
-                self.progress_status(progress=79,status="Memory Cpu0 Channel and Subclass Name")
+                self.progress_status(progress=78,status="Memory Cpu0 Channel and Subclass Name")
                 self.vlookup_Gui_obj.run_MemCpu0_ChlLyrTbl_vlookup()
-                self.progress_status(progress=79.5,status="Memory Cpu0 Getting Min and Max Breakout Length")
+                self.progress_status(progress=79,status="Memory Cpu0 Getting Min and Max Breakout Length")
                 self.vlookup_Gui_obj.run_MemCpu0_BoMinMax_vlookup()
 
                 
@@ -393,8 +404,12 @@ class Background_GUI:
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_RoutePerMbdg()
                 self.progress_status(progress=93,status="Memory Cpu1 Breakout Length data")
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_BoLength()
-                self.progress_status(progress=96,status="Memory Cpu1s Impedance data")
+                self.progress_status(progress=96,status="Memory Cpu1 Impedance data")
                 self.vlookup_Gui_obj.run_MemCpu1_vlookup_Impedance()
+                self.progress_status(progress=98,status="Memory Cpu1 Channel and Subclass Name")
+                self.vlookup_Gui_obj.run_MemCpu1_ChlLyrTbl_vlookup()
+                self.progress_status(progress=99,status="Memory Cpu1 Getting Min and Max Breakout Length")
+                self.vlookup_Gui_obj.run_MemCpu1_BoMinMax_vlookup()
 
             self.progress_status(progress=100, status="Complete")
             self.status_var.set("Generation complete!")
