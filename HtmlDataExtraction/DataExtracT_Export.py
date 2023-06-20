@@ -40,8 +40,25 @@ class DataExtraction:
         # Netlist empty list:
         self.col_data_Netlist_NetName = []
         self.col_data_Netlist_NetPins = []
+        self.col_data_Netlist_NetPins_split_list = []
         self.col_data_Netlist_NetPins_1st_data = []
-        self.col_data_Netlist_NetPins_2nd_data = [' ']
+        self.col_data_Netlist_NetPins_2nd_data = []
+        self.col_data_Netlist_NetPins_3rd_data = []
+        self.col_data_Netlist_NetPins_4th_data = []
+        self.col_data_Netlist_NetPins_5th_data = []
+        self.col_data_Netlist_NetPins_6th_data = []
+        self.col_data_Netlist_NetPins_7th_data = []
+
+        self.data = {
+            "col_data_Netlist_NetPins_1st_data": [],
+            "col_data_Netlist_NetPins_2nd_data": [],
+            "col_data_Netlist_NetPins_3rd_data": [],
+            "col_data_Netlist_NetPins_4th_data": [],
+            "col_data_Netlist_NetPins_5th_data": [],
+            "col_data_Netlist_NetPins_6th_data": [],
+            "col_data_Netlist_NetPins_7th_data": []
+        }
+
 
         # BOM Report empty list:
         self.col_data_BOM_SymName = []
@@ -114,16 +131,54 @@ class DataExtraction:
                         self.col_data_Netlist_NetName.append(columns[0].text.strip())
                     if i.get() == "Netlist_option2":
                         self.col_data_Netlist_NetPins.append(columns[1].text.strip())
-            
-            # Separate out 2nd data afater spacing
-            for index, separate in enumerate(self.col_data_Netlist_NetPins):
-                if index == 0:
-                    self.col_data_Netlist_NetPins_1st_data.append(separate)
-                else:
-                    atpos = separate.find(' ')
-                    self.col_data_Netlist_NetPins_1st_data.append(separate[:atpos ])
-                    self.col_data_Netlist_NetPins_2nd_data.append(separate[atpos: ])
-                    # print(separate[atpos: ])
+
+
+                # Split out NetPin data afater spacing
+                for data in self.col_data_Netlist_NetPins:
+                    split_list = data.split()
+
+
+                # Assign the split values to the dictionary keys
+                for i, key in enumerate(self.data.keys()):
+                    if i < len(split_list):
+                        self.data[key] = [split_list[i]]
+                    else:
+                        self.data[key] = [' ']
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_1st_data']):
+                    self.col_data_Netlist_NetPins_1st_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_2nd_data']):
+                    self.col_data_Netlist_NetPins_2nd_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_3rd_data']):
+                    self.col_data_Netlist_NetPins_3rd_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_4th_data']):
+                    self.col_data_Netlist_NetPins_4th_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_5th_data']):
+                    self.col_data_Netlist_NetPins_5th_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_6th_data']):
+                    self.col_data_Netlist_NetPins_6th_data.append(k)
+
+                for i,k in enumerate(self.data['col_data_Netlist_NetPins_7th_data']):
+                    self.col_data_Netlist_NetPins_7th_data.append(k)
+
+            self.col_data_Netlist_NetPins_1st_data[0] = "Net Pins"
+            self.col_data_Netlist_NetPins_2nd_data[0] = ' '
+                 
+
+            # # Separate out 2nd data afater spacing
+            # for index, separate in enumerate(self.col_data_Netlist_NetPins):
+            #     if index == 0:
+            #         self.col_data_Netlist_NetPins_1st_data.append(separate)
+            #     else:
+            #         atpos = separate.find(' ')
+            #         self.col_data_Netlist_NetPins_1st_data.append(separate[:atpos ])
+            #         self.col_data_Netlist_NetPins_2nd_data.append(separate[atpos: ])
+            #         # print(separate[atpos: ])
 
         #BOM Report data extract:
         if BOM_file in self.file:

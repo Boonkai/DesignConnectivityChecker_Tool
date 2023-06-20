@@ -56,8 +56,13 @@ class Netlist_Gui:
 
         Netlist_dict = {}
         Netlist_dict["Netlist_option1"] = self.Netlist_Extract_Obj.col_data_Netlist_NetName,self.sheet,int(0)
-        Netlist_dict["Netlist_option2"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_1st_data,self.sheet,int(1)
-        Netlist_dict["Netlist_option2_2nd_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_2nd_data,self.sheet,int(2) 
+        Netlist_dict["Netlist_option2_1st_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_1st_data,self.sheet,int(1)
+        Netlist_dict["Netlist_option2_2nd_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_2nd_data,self.sheet,int(2)
+        Netlist_dict["Netlist_option2_3rd_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_3rd_data,self.sheet,int(3)
+        Netlist_dict["Netlist_option2_4th_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_4th_data,self.sheet,int(4)
+        Netlist_dict["Netlist_option2_5th_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_5th_data,self.sheet,int(5)
+        Netlist_dict["Netlist_option2_6th_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_6th_data,self.sheet,int(6)
+        Netlist_dict["Netlist_option2_7th_data"] = self.Netlist_Extract_Obj.col_data_Netlist_NetPins_7th_data,self.sheet,int(7)  
 
 
         for key,value in Netlist_dict.items():
@@ -67,7 +72,17 @@ class Netlist_Gui:
 
         for key,value in Netlist_dict.items():
             for i in self.Netlist_vars:
-                if key == i.get():
+                if key == "Netlist_option2_1st_data":
                     DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
                 if key == "Netlist_option2_2nd_data":
+                    DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+                if key == "Netlist_option2_3rd_data":
+                    DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+                if key == "Netlist_option2_4th_data":
+                    DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+                if key == "Netlist_option2_5th_data":
+                    DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+                if key == "Netlist_option2_6th_data":
+                    DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
+                if key == "Netlist_option2_7th_data":
                     DataExtracT_Export.ExportTOexcel(value[0],value[1],column_num=value[2]).WriteTOexcel()
